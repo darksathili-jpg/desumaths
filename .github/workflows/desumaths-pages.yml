@@ -1,0 +1,68 @@
+name: Desumaths — publication Web manuelle
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: "Branche source vérifiée"
+        required: true
+        default: "audit/g0-foundation"
+        type: string
+      approval:
+        description: "Saisir PUBLIER pour confirmer la mise en ligne"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desumaths-pages
+  cancel-in-progress: false
+
+jobs:
+  validate-and-build:
+    if: ${{ inputs.source_ref == 'audit/g0-foundation' && inputs.approval == 'PUBLIER' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout approved source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_ref }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require complete sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f renderer/index.html
+          test -f renderer/Menus/rendu-menu.js
+          test -f scripts/build-web.cjs
+          test -f scripts/audit-web-links.py
+          test -f package.json
+      - name: Unit and structural tests
+        run: npm run check
+      - name: Build Web
+        run: npm run build:web
+      - name: Validate Web export
+        run: npm run check:web
+      - name: Audit local links
+        run: npm run audit:web
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+  deploy:
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
