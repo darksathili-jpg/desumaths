@@ -14,7 +14,7 @@ Dans un environnement propre, l'archive de référence `desumaths-g2-r9-github-p
 
 **Limites** : pas de recette navigateur visuelle, ni iOS, ni Linux ; tests Web sur les dépendances distantes non exécutés.
 
-**Attention publication** : le paquet comprend 113 PDF historiques et une adresse de contact `entrainmaths@free.fr` affichée dans `renderer/index.html`. Il faut vérifier la permission de les diffuser publiquement. Le scan rudimentaire des secrets ne remplace pas une revue des contenus et licences.
+**Droits des PDF — autorisation confirmée par l'auteur le 10 novembre 2026** : l'utilisateur déclare être l'auteur des 113 PDF historiques, constitués de ses propres exercices, et autorise leur diffusion dans Desumaths. Cela lève la réserve spécifique sur ces PDF ; ne présume pas des droits de composants tiers. Le paquet comprend également une adresse de contact `entrainmaths@free.fr` affichée dans `renderer/index.html`. L'adresse affichée et les composants tiers restent à vérifier avant publication. Le scan rudimentaire des secrets ne remplace pas une revue des contenus et licences.
 
 **Garde-fou Git** : branche `audit/g0-foundation` uniquement ; vérifier le dépôt cible, le diff, et conserver `main` stable. Le workflow `main/.github/workflows/desumaths-pages.yml` exige une saisie explicite de `PUBLIER` avant tout déploiement. Ne pas le déclencher avant inspection de la branche source et configuration de GitHub Pages.
 
