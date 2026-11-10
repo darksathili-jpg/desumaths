@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier LaTeX — Desumaths</title><link rel="stylesheet" href="../StylesIndex.css"><link rel="stylesheet" href="atelier.css">
+<script src="PdfTeXEngine.js" defer></script><script type="module" src="compilateur.js"></script></head>
+<body><div class="marge-rouge" aria-hidden="true"></div>
+<header class="entete"><a class="marque" href="../index.html">Desum@ths</a><nav class="nav-principale"><a href="../index.html">← Retour à l’accueil</a></nav></header>
+<main class="atelier"><div class="atelier-heading"><h1>Atelier LaTeX</h1><p>Modifier le document, lancer la compilation et consulter le PDF. Sous Electron, TeX Live installé sur Windows est utilisé ; dans un navigateur, SwiftLaTeX utilise Internet.</p></div>
+<div class="atelier-grille"><section class="panneau"><label for="latex-source"><strong>Source LaTeX</strong></label><textarea id="latex-source" spellcheck="false" aria-label="Code source LaTeX"></textarea><div class="actions"><button id="compilebtn" disabled>Initialisation…</button><button type="button" id="resetbtn">Rétablir l’exemple</button><a id="downloadbtn" hidden download="desumaths-document.pdf">Télécharger le PDF</a></div><p id="etat" role="status" aria-live="polite">Initialisation du compilateur…</p></section><section class="panneau"><h2>Document PDF</h2><iframe id="pdfbox" title="Prévisualisation du PDF produit"></iframe><details><summary>Journal de compilation</summary><pre id="console" aria-label="Journal de compilation"></pre></details></section></div></main>
+<footer class="pied-de-page">Desum@ths — entraînement en mathématiques</footer></body></html>

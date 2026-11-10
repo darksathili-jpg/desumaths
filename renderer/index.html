@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desum@ths — s'entraîner à l'infini, niveau lycée</title>
+    <meta name="description" content="Site amateur d'entraînement en mathématiques pour le lycée : exercices générés à volonté, avec solution et correction détaillée, du niveau Seconde à Terminale Spécialité.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        },
+        svg: { fontCache: 'global' },
+        startup: { typeset: false },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+
+    <link rel="stylesheet" href="StylesIndex.css">
+    <script src="script-index.js" defer></script>
+</head>
+
+<body>
+    <a class="lien-evitement" href="#niveaux">Aller directement aux niveaux</a>
+
+    <div class="marge-rouge" aria-hidden="true"></div>
+
+    <header class="entete">
+        <a href="#" class="marque">Desum@ths</a>
+        <nav class="nav-principale" aria-label="Niveaux">
+            <a href="Menus/MenuSeconde.html">Seconde</a>
+            <a href="Menus/Menu1ST.html">Première technologique</a>
+            <a href="Menus/MenuTaleSpe.html">Terminale spécialité</a>
+          <a href="Serveur%20Latex/latex_javascript.html" title="Compilateur LaTeX historique">Atelier LaTeX ↗</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-texte">
+                <h1 class="hero-titre">
+                    <span>Penser.</span> <span>Rechercher.</span> <span>Enseigner.</span>
+                    <span>Évoluer.</span> <span>S'améliorer.</span> <span>Progresser.</span>
+                </h1>
+                <p class="hero-soustitre">
+                    Un site amateur, entièrement dédié à l'entraînement en mathématiques, niveau lycée.
+                    Pas de cours ici : juste des exercices générés <strong>à volonté</strong>, corrigés en détail,
+                    pour progresser sur ce qui pose problème — autant de fois que nécessaire.
+                </p>
+                <a href="#niveaux" class="bouton-principal">Choisir mon niveau</a>
+            </div>
+
+            <div class="carte-demo" aria-live="polite">
+                <p class="carte-demo-etiquette">un exercice, à l'instant</p>
+                <div class="carte-demo-enonce" id="demo-enonce"></div>
+                <div class="carte-demo-solution" id="demo-solution">
+                    <svg class="tampon-correction" viewBox="0 0 60 60" aria-hidden="true">
+                        <path d="M14 32 L26 44 L48 16" />
+                    </svg>
+                    <span id="demo-reponse"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="niveaux" id="niveaux">
+            <h2 class="titre-section">Trois cahiers, trois niveaux</h2>
+            <div class="grille-niveaux">
+                <a class="cahier" href="Menus/MenuSeconde.html">
+                    <span class="cahier-etiquette">Seconde</span>
+                    <span class="cahier-legende">Les fondamentaux : fonctions, équations, géométrie repérée.</span>
+                </a>
+                <a class="cahier" href="Menus/Menu1ST.html">
+                    <span class="cahier-etiquette">Première technologique</span>
+                    <span class="cahier-legende">Dérivation, suites, statistiques — au rythme de la filière STI2D/STMG.</span>
+                </a>
+                <a class="cahier" href="Menus/MenuTaleSpe.html">
+                    <span class="cahier-etiquette">Terminale spécialité</span>
+                    <span class="cahier-legende">Vers le Bac : analyse, probabilités, exercices type épreuves.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="apropos">
+            <div class="post-it">
+                <p class="post-it-titre">Pourquoi ce site&nbsp;?</p>
+                <p>
+                    Comme son nom l'indique, ce site (optimisé pour le navigateur Chrome) est uniquement dédié à
+                    l'entraînement en mathématiques, niveau lycée. Site amateur, interface volontairement minimaliste :
+                    l'idée est que chacun puisse s'entraîner « à volonté » sur les notions qui posent problème, autant
+                    de fois que nécessaire pour progresser.
+                </p>
+                <p>
+                    Étant enseignant en mathématiques au lycée, certains niveaux sont moins fournis que d'autres :
+                    ce site s'adresse en priorité à mes élèves, et je ne suis pas en charge de tous les niveaux dans
+                    mon établissement. Je reste ouvert à toute demande ou suggestion d'amélioration.
+                </p>
+                <p>
+                    Un immense merci à Darksathi, sans qui ce site n'existerait tout simplement pas : tout ce qui
+                    fonctionne ici lui doit son aide et ses explications ; tout ce qui fonctionne mal m'est
+                    entièrement imputable.
+                </p>
+                <a href="mailto:entrainmaths@free.fr" class="lien-contact">Contactez-moi →</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pied-de-page">
+        <p>Desum@ths — site amateur d'entraînement, niveau lycée.</p>
+    </footer>
+<div style="font-size:.8rem;text-align:center;padding:1rem;color:#536078">Application Electron · Certaines fonctions LaTeX et polices utilisent une connexion Internet.</div>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terminale · Suites — Desumaths</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../StylesIndex.css">
+    <link rel="stylesheet" href="StyleMenus.css">
+
+    <script src="data-MenuTaleSuites.js" defer></script>
+    <script>
+      // MathJax lit les libelles TeX deja ajoutes par rendu-menu.js.
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script src="rendu-menu.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" defer></script>
+</head>
+
+<body>
+    <div class="marge-rouge" aria-hidden="true"></div>
+
+    <header class="entete">
+        <a href="../index.html" class="marque">entraîn<span class="marque-accent">'</span>maths</a>
+        <div class="liens-retour">
+            <a href="../index.html" class="bouton-retour">← Accueil</a>
+        </div>
+    </header>
+
+    <main class="menu-niveau">
+        <h1 class="titre-niveau" id="titre-menu"></h1>
+        <p class="sous-titre-niveau">Choisir un thème pour s'entraîner à volonté.</p>
+        <div id="sections"></div>
+    </main>
+
+    <footer class="pied-de-page">
+        <p>entraîn'maths — niveau lycée.</p>
+    </footer>
+</body>
+
+</html>

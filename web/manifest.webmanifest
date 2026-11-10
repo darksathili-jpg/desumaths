@@ -1,0 +1,11 @@
+{
+  "name": "Desumaths — Mathématiques au lycée",
+  "short_name": "Desumaths",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF6EE",
+  "theme_color": "#FAF6EE",
+  "lang": "fr",
+  "description": "Exercices de mathématiques pour le lycée"
+}

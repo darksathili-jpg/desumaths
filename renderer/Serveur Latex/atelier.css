@@ -1,0 +1,14 @@
+/* Surcouche atelier : conserve l’identité papier/encre du premier ZIP. */
+.atelier{max-width:1360px;margin:0 auto;padding:2rem 2.5rem 4rem;position:relative}
+.atelier-heading h1{color:#16223e;font-size:clamp(1.8rem,3vw,3rem);margin:0 0 .5rem}
+.atelier-heading p{color:#374761;line-height:1.5}
+.atelier-grille{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.25rem;margin-top:1.5rem}
+.panneau{background:#fff;border:1px solid #d7dce6;border-radius:18px;padding:1.2rem;min-width:0;box-shadow:0 8px 24px #16223e0e}
+.panneau h2{font-size:1.25rem;margin:0 0 1rem}
+#latex-source{width:100%;height:min(60vh,700px);min-height:320px;resize:vertical;border:1px solid #b5c0d3;border-radius:10px;padding:1rem;background:#faf6ee;color:#16223e;font:13px/1.55 Consolas,'Courier New',monospace;box-sizing:border-box}
+#pdfbox{width:100%;height:min(66vh,760px);min-height:370px;border:1px solid #d7dce6;border-radius:10px;background:#faf6ee}
+.actions{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.actions button,.actions a{font:inherit;padding:.65rem 1rem;border-radius:8px;border:1px solid #16223e;background:#16223e;color:#fff;cursor:pointer;text-decoration:none}
+.actions button:nth-child(2){color:#16223e;background:#faf6ee}.actions button:disabled{opacity:.55;cursor:wait}
+#etat{font-size:.9rem;color:#374761}#console{white-space:pre-wrap;overflow-wrap:anywhere;max-height:200px;overflow:auto;font:12px/1.4 monospace}
+@media(max-width:980px){.atelier-grille{grid-template-columns:1fr}.atelier{padding:1rem}#pdfbox{min-height:440px}}
