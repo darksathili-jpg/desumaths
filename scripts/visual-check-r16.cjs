@@ -44,13 +44,13 @@ async function inspect(browser, width) {
         correctionLeft:bounds.left, correctionRight:bounds.right,
         mathjax:document.querySelectorAll('#correctiond mjx-container').length,
         regions:viewports,
-        underbrace:document.querySelector('#correctiond').textContent.replace(/\\s+/g,'').toLowerCase().includes('facteurcommun'),
+        arrayCount:document.querySelectorAll('#correctiond .r16-math-region').length,
         explanation:document.querySelector('#correctiond').textContent.includes('les signes')
       };
     });
     assert.equal(exceptions.length, 0, 'JavaScript errors: ' + exceptions.join('; '));
     assert.ok(metrics.mathjax >= 3, 'MathJax: mathematical systems not rendered');
-    assert.ok(metrics.underbrace, 'Missing historical common-factor annotation');
+    assert.equal(metrics.arrayCount, 3, 'Only the three historical arrays should scroll; inline text must remain inline');
     assert.ok(metrics.explanation, 'Missing historical explanation');
     assert.ok(metrics.documentWidth <= width + 2, 'Page-wide horizontal overflow: ' + JSON.stringify(metrics));
     assert.ok(metrics.correctionLeft >= -2 && metrics.correctionRight <= width + 2,
@@ -76,6 +76,8 @@ async function inspect(browser, width) {
         assert.equal(region.controlsVisible, false, 'Unnecessary arrow controls');
       }
     }
+    await page.evaluate(() => window.scrollTo(0,0));
+    await page.waitForTimeout(100);
     await page.screenshot({path:path.join(evidence, 'r16-'+width+'.png'), fullPage:true});
     data.push({width, overflows, ...metrics});
     console.log('R16 VISUAL OK', width, 'pixels /',metrics.mathjax,'MathJax /',overflows,'scrollable arrays');
