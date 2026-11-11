@@ -1,0 +1,35 @@
+name: Desumaths S0 - controles sans publication
+on:
+  push:
+    branches: [stabilisation/s0-local]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Dependances
+        run: |
+          if test -f package-lock.json; then npm ci; else npm install --no-audit --no-fund; fi
+      - name: Tests JavaScript
+        run: npm run check
+      - name: Construire le site web
+        run: npm run build:web
+      - name: Tests de l'export
+        run: npm run check:web
+      - name: Audit des chemins HTML
+        run: npm run audit:web
+      - name: Verifier la sortie
+        run: test -f dist/web/index.html
+      - name: Conserver le site pour recette interne (sans deployer)
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-s0-web
+          path: dist/web
+          retention-days: 7
