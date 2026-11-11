@@ -24,7 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
 
     <link rel="stylesheet" href="StylesIndex.css">
+    <link rel="stylesheet" href="components/hero/hero.css">
     <script src="script-index.js" defer></script>
+    <script src="components/hero/hero.js" defer></script>
 </head>
 
 <body>
@@ -57,6 +59,7 @@
                 <a href="#niveaux" class="bouton-principal">Choisir mon niveau</a>
             </div>
 
+            <div class="hero-scene">
             <div class="carte-demo" aria-live="polite">
                 <p class="carte-demo-etiquette">un exercice, à l'instant</p>
                 <div class="carte-demo-enonce" id="demo-enonce"></div>
@@ -66,6 +69,28 @@
                     </svg>
                     <span id="demo-reponse"></span>
                 </div>
+            </div>
+              <aside class="hero-compagnon" id="hero-compagnon"
+                     data-pose="idle" data-motion="on"
+                     aria-label="Christophe, compagnon des exercices de mathématiques">
+                <div class="hero-compagnon-visuel" aria-hidden="true">
+                  <span class="hero-compagnon-sprite"></span>
+                </div>
+                <div class="hero-bulle">
+                  <span class="hero-bulle-kicker">Christophe · ton guide</span>
+                  <p class="hero-bulle-texte" data-hero-message aria-live="polite">
+                    Bienvenue dans Desumaths ! Choisis un niveau et avance à ton rythme.
+                  </p>
+                  <div class="hero-bulle-actions">
+                    <button type="button" data-hero-saluer>Me saluer</button>
+                    <button type="button" data-hero-motion aria-pressed="false">Réduire l'animation</button>
+                    <button type="button" data-hero-hide>Masquer</button>
+                  </div>
+                </div>
+              </aside>
+              <button type="button" class="hero-retour" data-hero-return hidden>
+                Afficher Christophe, mon guide
+              </button>
             </div>
         </section>
 
