@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Continuite",
+  "titre": "Terminale spécialité · Continuité",
   "sections": [
     {
       "titre": "Exercices et ressources",
