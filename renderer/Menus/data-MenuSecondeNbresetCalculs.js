@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · NbresetCalculs",
+  "titre": "Seconde · Nombres et calculs",
   "sections": [
     {
       "titre": "Exercices et ressources",
