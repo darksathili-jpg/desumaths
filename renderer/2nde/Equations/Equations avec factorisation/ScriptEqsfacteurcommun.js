@@ -276,11 +276,52 @@ function preparerScrollMathJax(element) {
   }
 }
 
+/* R16 : une longue equation dans l'enonce reste accessible sans zoom ou troncature. */
+function preparerDefilementEnonce(element) {
+  if (!element || element.id !== 'enonce' || typeof element.querySelector !== 'function') return;
+  const zone = element.querySelector('.enonce-expression');
+  if (!zone || zone.dataset.lectureHorizontale === 'oui') return;
+  zone.dataset.lectureHorizontale = 'oui';
+  zone.tabIndex = 0;
+  zone.setAttribute('role', 'region');
+  zone.setAttribute('aria-label', "Équation proposée, lecture horizontale possible");
+  const commandes = document.createElement('div');
+  commandes.className = 'enonce-controles';
+  commandes.hidden = true;
+  const gauche = document.createElement('button');
+  gauche.type = 'button'; gauche.textContent = '←';
+  gauche.setAttribute('aria-label', "Début de l'équation");
+  const indication = document.createElement('span');
+  indication.textContent = "Glisser pour lire toute l'équation";
+  const droite = document.createElement('button');
+  droite.type = 'button'; droite.textContent = '→';
+  droite.setAttribute('aria-label', "Fin de l'équation");
+  commandes.append(gauche, indication, droite);
+  zone.insertAdjacentElement('afterend', commandes);
+  const actualiser = () => {
+    const reste = Math.max(0, zone.scrollWidth - zone.clientWidth);
+    commandes.hidden = reste <= 4;
+    gauche.disabled = zone.scrollLeft <= 2;
+    droite.disabled = zone.scrollLeft >= reste - 2;
+  };
+  gauche.addEventListener('click', () => zone.scrollTo({left:0, behavior:'smooth'}));
+  droite.addEventListener('click', () => zone.scrollTo({left:zone.scrollWidth-zone.clientWidth, behavior:'smooth'}));
+  zone.addEventListener('scroll', actualiser, {passive:true});
+  if (typeof ResizeObserver !== 'undefined') {
+    const observer = new ResizeObserver(actualiser);
+    observer.observe(zone);
+    const formule = zone.querySelector('mjx-container');
+    if (formule) observer.observe(formule);
+  }
+  if (typeof requestAnimationFrame === 'function') requestAnimationFrame(actualiser);
+  else actualiser();
+}
+
 function demanderMathJax(element) {
   try {
     const mj=window.MathJax;
     if (mj && typeof mj.typesetPromise==='function') {
-      return mj.typesetPromise([element]).then(()=>preparerScrollMathJax(element)).catch(()=>undefined);
+      return mj.typesetPromise([element]).then(()=>{preparerScrollMathJax(element);preparerDefilementEnonce(element);}).catch(()=>undefined);
     }
   } catch { /* le panneau doit rester utilisable sans MathJax */ }
   return Promise.resolve();
