@@ -170,48 +170,42 @@ let reponsesimplifiee2 = solsimpfin(cetb2,bavecsigne);
 let sol1 = soluces(cetb1,aavecsigne);
 let sol2 = soluces(cetb2,bavecsigne);
 
-let enonce = document.getElementById('enonce');
-let correctiond = document.getElementById('correctiond');
-var correction = document.getElementById('correction');
-var solutions = document.getElementById('solutions');
-let solution = document.getElementById('solution');
+const enonce = document.getElementById('enonce');
+const correctiond = document.getElementById('correctiond');
+const correction = document.getElementById('correction');
+const solutions = document.getElementById('solutions');
+const solution = document.getElementById('solution');
+const recommencer = document.getElementById('recommencer');
+const accueil = document.getElementById('accueil');
+const MenuSeconde = document.getElementById('MenuSeconde');
+const MenuSecondeEquations = document.getElementById('MenuSecondeEquations');
 
-
-
-
-
-enonce.innerHTML = `Résoudre dans $\\mathbb{R}$ l'équation : $(${s1} ${a}x ${s2} ${b}) (${s3} ${c}x ${s4} ${d})= 0$`;
+// Enoncé et rédaction pédagogique repris sans modification du contenu mathématique.
+enonce.innerHTML = `<span class="enonce-texte">Résoudre dans $\\mathbb{R}$ l’équation :</span><span class="enonce-expression">$(${s1} ${a}x ${s2} ${b}) (${s3} ${c}x ${s4} ${d})= 0$</span>`;
 solution.innerHTML = `$S=\\left\\{${sol1} ~;~${sol2} \\right\\}$`;
 correctiond.innerHTML = `$\\begin{array}{rclcrcl}${s1} ${a}x ${s2} ${b} & = & 0 & \\text{ou} & ${s3} ${c}x ${s4} ${d} & = & 0 \\\\
 ${s1} ${a}x & = & 0 ${s_3} ${b} = ${cetb1} & \\text{ou} & ${s3} ${c}x & = & 0 ${s_4} ${d} = ${cetb2} \\\\
 x & = & \\dfrac{${cetb1}}{${aavecsigne}} ${reponsesimplifiee1} & \\text{ou} & x & = & \\dfrac{${cetb2}}{${bavecsigne}} ${reponsesimplifiee2} \\end{array}$ `;
 
-enonce.addEventListener("load", function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-})
-
-solutions.addEventListener('click', () => {
-    solution.style.display = "block";
-    })
-
-correction.addEventListener('click', () => {
-    correctiond.style.display = "block";
-    correctiond.innerHTML ;
-})
-
-recommencer.addEventListener('click', () => {
-    location.reload(true);
-})
-
-
-accueil.addEventListener('click', () => {
-    location.href = "../../../index.html";
-})
-
-MenuSeconde.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSeconde.html";
-})
-
-MenuSecondeEquations.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSecondeEquations.html";
-})
+// Les formules initiales sont composées par MathJax au chargement de la page.
+// Les sections cachées sont recomposées lors de leur première ouverture.
+function composerMaths(element) {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise([element]).catch(function (erreur) {
+            console.warn('MathJax :', erreur);
+        });
+    }
+}
+function basculer(bouton, panneau) {
+    const ouvrir = panneau.hidden;
+    panneau.hidden = !ouvrir;
+    bouton.setAttribute('aria-expanded', String(ouvrir));
+    bouton.textContent = ouvrir ? bouton.dataset.masquer : bouton.dataset.afficher;
+    if (ouvrir) composerMaths(panneau);
+}
+solutions.addEventListener('click', function () { basculer(solutions, solution); });
+correction.addEventListener('click', function () { basculer(correction, correctiond); });
+recommencer.addEventListener('click', function () { window.location.reload(); });
+accueil.addEventListener('click', function () { window.location.href = '../../../index.html'; });
+MenuSeconde.addEventListener('click', function () { window.location.href = '../../../Menus/MenuSeconde.html'; });
+MenuSecondeEquations.addEventListener('click', function () { window.location.href = '../../../Menus/MenuSecondeEquations.html'; });

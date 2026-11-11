@@ -1,56 +1,44 @@
-<!DOCTYPE html>
-<html lang='fr'>
-
-<script src="ScriptDifferencedecarre.js" defer></script>
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-       extensions: ["tex2jax.js"], jax: ["input/TeX", "output/HTML-CSS"],
-       TeX: { extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] },
-       tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          displayMath: [ ['$$','$$'], ["\\[","\\]"] ], processEscapes: true }
-    });
- </script>
-<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
-
-</script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="Styleexos.css">
-
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    
-    <title>Différence de carrés</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Différence de deux carrés — Desumaths</title>
+  <link rel="stylesheet" href="../../../StylesIndex.css">
+  <link rel="stylesheet" href="../Equationsdegre1/Styleexos-desumaths.css">
+  <link rel="stylesheet" href="Styleexos-r15.css">
+  <script defer src="ScriptDifferencedecarre.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
-
 <body>
-    <div class="container-fluid">
-        <div id="enonces" class="card" style="width: 30rem;" >
-            <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
-                class="card-img-top" alt="logo math">
-                
-            <div class="card-body">
-                <p class="card-text">
-                    <div id='enonce'></div>
-                </p>
-            </div>
-        </div>
-
-        <button id='solutions' type="button" class="btn">Cliquer pour voir la solution</button>
-        <div id="solution"></div>
-        <div></div>
-        <button id='correction' type="button" class="btn">Cliquer pour voir une correction détaillée</button>
-        <div id='correctiond'></div>
-        <div></div>
-        <button id="recommencer" class="btn">Recommencer</button>
-        <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
-        <div></div>
-        <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu Seconde</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>         
-    </div>    
-        
-</body>
-
-
-</html>
+  <a class="lien-evitement" href="#exercice">Aller à l'exercice</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete"><a class="marque" href="../../../index.html">Desum<span class="marque-accent">@</span>ths</a>
+    <nav class="nav-principale" aria-label="Navigation"><a href="../../../Menus/MenuSeconde.html">Seconde</a><a href="../../../Menus/MenuSecondeEquations.html">Équations</a><a href="../../../index.html">Accueil</a></nav></header>
+  <main id="exercice" class="exercice-layout">
+    <div class="fil-ariane">Seconde / Calcul littéral / Identité remarquable</div>
+    <header class="exercice-intro"><p class="sur-titre">Entraînement interactif · Seconde</p><h1>Différence de deux carrés</h1><p>Utiliser une identité remarquable pour factoriser une expression.</p></header>
+    <div class="exercice-colonnes">
+      <section class="exercice-feuille" aria-labelledby="titre-enonce">
+        <div class="feuille-titre"><span class="num-exercice">03</span><h2 id="titre-enonce">À toi de jouer</h2></div>
+        <p class="consigne">Factoriser l'expression suivante :</p>
+        <div id="enonce" class="formule-enonce" aria-live="polite"></div>
+        <div class="separateur-note"></div>
+        <p class="conseil"><strong>Indice :</strong> $A^2-B^2=(A+B)(A-B)$.</p>
+        <div class="actions-exercice"><button id="recommencer" type="button" class="action-principale">↻ Nouvel exercice</button></div>
+      </section>
+      <section class="exercice-aides" aria-label="Résultat et correction">
+        <article class="panneau-reponse"><h2>Expression factorisée</h2><p>Compare avec ton résultat.</p>
+          <button type="button" id="solutions" class="action-secondaire" data-afficher="Afficher la réponse" data-masquer="Masquer la réponse" aria-controls="solution" aria-expanded="false">Afficher la réponse</button>
+          <div id="solution" class="reponse-cachee" role="region" aria-label="Réponse factorisée" hidden></div>
+        </article>
+        <article class="panneau-reponse"><h2>Correction détaillée</h2><p>Retrouve la factorisation et les annotations de l'identité remarquable.</p>
+          <button type="button" id="correction" class="action-secondaire" data-afficher="Afficher la correction détaillée" data-masquer="Masquer la correction détaillée" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button>
+          <div id="correctiond" class="reponse-cachee correction-carres" role="region" aria-label="Correction détaillée" hidden></div>
+        </article>
+      </section>
+    </div>
+    <nav class="retour-exercice" aria-label="Retours"><button id="accueil" type="button">Accueil Desumaths</button><button id="MenuSeconde" type="button">Menu Seconde</button><button id="MenuSecondeEquations" type="button">Menu Équations</button></nav>
+  </main><footer class="pied-de-page">Desum@ths — le cahier de maths interactif</footer>
+</body></html>

@@ -1,0 +1,50 @@
+/* G2-R10 : déclinaison de la charte originale Desumaths pour un exercice pilote. */
+.exercice-layout{max-width:1240px;margin:0 auto;padding:30px clamp(18px,6vw,85px) 60px;position:relative;z-index:1}
+.fil-ariane{font-size:.85rem;font-weight:600;color:var(--encre-douce);display:flex;gap:12px}
+.exercice-intro{max-width:760px;margin:24px 0 30px}
+.sur-titre{font-family:var(--police-mono);color:var(--rouge);font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:.78rem}
+.exercice-intro h1{font-family:var(--police-affichage);font-size:clamp(2rem,4vw,3.2rem);line-height:1.12;letter-spacing:-.04em;margin:8px 0}
+.exercice-intro>p:last-child{color:var(--encre-douce);font-size:1.06rem}
+.exercice-colonnes{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+.exercice-feuille,.panneau-reponse{background:#fffdf8;border:1px solid var(--grille);border-radius:var(--rayon);box-shadow:var(--ombre-carte);padding:clamp(22px,3vw,38px);min-width:0}
+.exercice-feuille{position:relative;background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(215,220,230,.65) 31px 32px);}
+.feuille-titre{display:flex;gap:12px;align-items:center}
+.num-exercice{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--encre);color:white;font:700 1rem var(--police-mono)}
+.feuille-titre h2,.panneau-reponse h2{margin:0;font-family:var(--police-affichage);font-size:1.3rem}
+.consigne{margin:28px 0 20px;color:var(--encre-douce)}
+.formule-enonce{background:white;border-left:4px solid var(--rouge);border-radius:8px;min-height:110px;padding:25px 18px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.23rem;overflow:auto}
+.separateur-note{margin:24px 0;border-bottom:2px dashed var(--grille)}
+.conseil{background:var(--jaune-note);padding:16px;border-radius:8px;color:var(--encre);font-size:.95rem}
+.exercice-aides{display:grid;gap:20px}
+.panneau-reponse{background:white}
+.panneau-reponse p{color:var(--encre-douce);margin:10px 0 18px}
+.action-principale,.action-secondaire,.retour-exercice button{font:600 .95rem var(--police-texte);border-radius:10px;padding:12px 17px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.action-principale{background:var(--rouge);border:1px solid var(--rouge);color:white}
+.action-secondaire{background:var(--encre);border:1px solid var(--encre);color:white;width:100%;text-align:left}
+.action-principale:hover,.action-secondaire:hover{transform:translateY(-1px);box-shadow:0 5px 12px #16223e26}
+.reponse-cachee{display:none;overflow:auto;max-width:100%;margin-top:20px;padding:18px;border-radius:8px;background:var(--papier);border:1px solid var(--grille);color:var(--encre);line-height:1.9;font-size:.95rem}
+#solution{border-left:3px solid var(--rouge);color:var(--rouge)}
+#correctiond{max-height:none;overflow:visible}
+.reponse-cachee[hidden]{display:none!important}
+.reponse-cachee:not([hidden]){display:block}
+.formule-intro{margin:18px 0 8px;font-size:1rem;color:var(--encre)}
+.libelle-reponse{display:block;font-weight:700;color:var(--encre);margin:12px 0 8px}
+.saisie-reponse{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.saisie-reponse input{flex:1;min-width:145px;max-width:100%;border:1px solid var(--grille);border-radius:10px;padding:12px;font:1.04rem var(--police-texte);background:#fffdf8;color:var(--encre)}
+.saisie-reponse .action-principale{flex:0 0 auto}
+.aide-saisie{font-size:.82rem!important;line-height:1.45}
+.retour-verification:empty{display:none}
+.retour-verification{padding:12px 14px;border-radius:8px;line-height:1.5;border-left:4px solid var(--encre);background:var(--papier)}
+.retour-verification.succes{border-left-color:#23764a;background:#e9f6ed;color:#175734}
+.retour-verification.erreur,.retour-verification.avertissement{border-left-color:var(--rouge);background:#fff1ee;color:#82212a}
+.methode-correction+.methode-correction{border-top:1px solid var(--grille);margin-top:22px;padding-top:20px}
+.methode-correction h3{font-size:1rem;margin:0 0 12px}
+.etapes-correction{padding-left:2rem;margin:0}
+.etapes-correction li{margin:0 0 12px;overflow-x:auto;max-width:100%}
+.etape-maths{display:block;overflow-x:auto;margin:6px 0!important;color:var(--encre)!important}
+@media(max-width:500px){.saisie-reponse{display:block}.saisie-reponse input,.saisie-reponse .action-principale{width:100%;margin-bottom:10px}}
+.retour-exercice{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.retour-exercice button{background:#fffdf8;border:1px solid var(--grille);color:var(--encre)}
+:focus-visible{outline:3px solid var(--rouge);outline-offset:3px}
+@media(max-width:900px){.exercice-colonnes{grid-template-columns:1fr}.exercice-layout{padding:24px 18px 60px}.formule-enonce{font-size:1.05rem}}
+@media(prefers-reduced-motion:reduce){.action-principale,.action-secondaire{transition:none}}

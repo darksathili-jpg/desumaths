@@ -184,14 +184,15 @@ let negoupasneg = changeoupas(signeentreparentheses);
 
 
 
-let enonce = document.getElementById('enonce');
-let correctiond = document.getElementById('correctiond');
-var correction = document.getElementById('correction');
-var solutions = document.getElementById('solutions');
-let solution = document.getElementById('solution');
+const enonce = document.getElementById('enonce');
+const correctiond = document.getElementById('correctiond');
+const correction = document.getElementById('correction');
+const solutions = document.getElementById('solutions');
+const solution = document.getElementById('solution');
+const recommencer = document.getElementById('recommencer');
 
-
-enonce.innerHTML = `Résoudre dans $\\mathbb{R}$ l'équation : $(${aun} x ${sb} ${b}) (${cun} x ${sd} ${d}) ${signeentreparentheses} (${aun} x ${sb} ${b}) (${eun} x ${sf} ${f}) = 0$`;
+// Le gabarit de correction ci-dessous provient du site historique, sans réécriture.
+enonce.innerHTML = `<span class="enonce-texte">Résoudre dans $\\mathbb{R}$ l'équation :</span><span class="enonce-expression">$(${aun} x ${sb} ${b}) (${cun} x ${sd} ${d}) ${signeentreparentheses} (${aun} x ${sb} ${b}) (${eun} x ${sf} ${f}) = 0$</span>`;
 solution.innerHTML = `$S=\\left\\{${soluce1}~;${soluce2} \\right\\} $`;
 correctiond.innerHTML = `$\\begin{array}{lrcl}
 & \\underbrace{(${aun} x ${sb} ${b})}_{facteur~commun} (${cun} x ${sd} ${d}) ${signeentreparentheses} \\underbrace{(${aun} x ${sb} ${b})}_{facteur~commun} (${eun} x ${sf} ${f}) & = & 0 \\\\
@@ -209,32 +210,35 @@ $\\begin{array}{rclcrcl}
 \\end{array}$<br><br>
 $S=\\left\\{${soluce1}~;${soluce2} \\right\\}$`;
 
-enonce.addEventListener("load", function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-})
+function demanderMathJax(element) {
+  try {
+    const mj=window.MathJax;
+    if (mj && typeof mj.typesetPromise==='function') {
+      return mj.typesetPromise([element]).catch(()=>undefined);
+    }
+  } catch { /* le panneau doit rester utilisable sans MathJax */ }
+  return Promise.resolve();
+}
 
-solutions.addEventListener('click', () => {
-    solution.style.display = "block";
-    })
-
-correction.addEventListener('click', () => {
-    correctiond.style.display = "block";
-    correctiond.innerHTML ;
-})
-
-recommencer.addEventListener('click', () => {
-    location.reload(true);
-})
-
-
-accueil.addEventListener('click', () => {
-    location.href = "../../../index.html";
-})
-
-MenuSeconde.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSeconde.html";
-})
-
-MenuSecondeEquations.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSecondeEquations.html";
-})
+function basculer(bouton,panneau){
+  const ouvrir=panneau.hidden;
+  panneau.hidden=!ouvrir;
+  bouton.setAttribute('aria-expanded',String(ouvrir));
+  bouton.textContent=ouvrir?bouton.dataset.masquer:bouton.dataset.afficher;
+  if(ouvrir) demanderMathJax(panneau);
+}
+solutions.addEventListener('click',()=>basculer(solutions,solution));
+correction.addEventListener('click',()=>basculer(correction,correctiond));
+recommencer.addEventListener('click',()=>location.reload());
+for(const [id,href] of [
+  ['accueil','../../../index.html'],
+  ['MenuSeconde','../../../Menus/MenuSeconde.html'],
+  ['MenuSecondeEquations','../../../Menus/MenuSecondeEquations.html']
+]){
+  document.getElementById(id).addEventListener('click',()=>{location.href=href;});
+}
+if (document.readyState === 'complete') {
+  demanderMathJax(enonce);
+} else {
+  window.addEventListener('load',()=>demanderMathJax(enonce),{once:true});
+}
