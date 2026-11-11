@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "TSTInverse",
+  "titre": "Terminale technologique · Fonction inverse",
   "sections": [
     {
       "titre": "Exercices et ressources",
