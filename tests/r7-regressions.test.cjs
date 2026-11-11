@@ -12,10 +12,10 @@ test('R7: only one native compilation at a time, released even if failing',()=>{
 });
 test('R7: stale PDF revoked on retry or reset, error messages in French',()=>{
  const code=read('renderer/Serveur Latex/compilateur.js');
- assert.match(code,/releasePreviousPdf\(\); \/\/ Ne jamais présenter un ancien PDF/);
- assert.match(code,/editor.value = latex; releasePreviousPdf\(\)/);
- assert.match(code,/Temps maximal de compilation dépassé/);
- assert.match(code,/TeX Live est introuvable/);
+ assert.match(code,/releasePreviousPdf\(\); \/\/ No stale PDF/);
+ assert.match(code,/resetBtn.addEventListener\('click', \(\) => selectSample\(defaultSource/);
+ assert.match(code,/Délai de compilation dépassé/);
+ assert.match(code,/TeX Live natif est introuvable/);
 });
 test('R7: handles intentionally invalid LaTeX with failed status and log',async(t)=>{
  const binary=process.platform==='win32'?'C:\\texlive\\2024\\bin\\windows\\pdflatex.exe':'/usr/bin/pdflatex';
