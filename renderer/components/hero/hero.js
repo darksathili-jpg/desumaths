@@ -162,7 +162,7 @@
     });
     frame(1);position(0);setMotion(state.motion);show();
     // Animation d'accueil unique, jamais une animation de marche infinie.
-    if(state.motion && root.dataset.mode!=='menu')debut();
+    if(state.motion && !['menu','exercise'].includes(root.dataset.mode))debut();
     return {show,hide,setState,setDirection,frame,say,clearMessage:()=>say(''),setMotion,walk:marcher,turn:tourner,welcome:debut,state};
   }
   global.DesumathsHero={createHero,instance:null};
