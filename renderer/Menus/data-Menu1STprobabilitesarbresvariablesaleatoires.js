@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Première technologique · probabilitesarbresvariablesaleatoires",
+  "titre": "Première technologique · Probabilités et variables aléatoires",
   "sections": [
     {
       "titre": "Exercices et ressources",
