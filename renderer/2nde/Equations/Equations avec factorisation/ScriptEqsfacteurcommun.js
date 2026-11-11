@@ -210,11 +210,75 @@ $\\begin{array}{rclcrcl}
 \\end{array}$<br><br>
 $S=\\left\\{${soluce1}~;${soluce2} \\right\\}$`;
 
+/* R16 : adaptation de l'affichage, sans modification du gabarit historique.
+ * Chaque système MathJax reste entier; le défilement concerne ce système seul. */
+function preparerScrollMathJax(element) {
+  if (!element || element.id !== 'correctiond' || typeof element.querySelectorAll !== 'function') return;
+  for (const formule of Array.from(element.querySelectorAll('mjx-container'))) {
+    if (formule.closest('.r16-math-region')) continue;
+    const region = document.createElement('div');
+    region.className = 'r16-math-region';
+    const fenetre = document.createElement('div');
+    fenetre.className = 'r16-math-scroll';
+    fenetre.tabIndex = 0;
+    fenetre.setAttribute('role', 'region');
+    fenetre.setAttribute('aria-label', 'Étapes de calcul : utiliser les flèches pour faire défiler horizontalement');
+    const interieur = document.createElement('div');
+    interieur.className = 'r16-math-inner';
+    const commandes = document.createElement('div');
+    commandes.className = 'r16-math-controls';
+    commandes.hidden = true;
+    const gauche = document.createElement('button');
+    gauche.type = 'button';
+    gauche.textContent = '←';
+    gauche.setAttribute('aria-label', 'Début des calculs');
+    const aide = document.createElement('span');
+    aide.textContent = 'Suite des calculs : glisser ou utiliser les flèches';
+    const droite = document.createElement('button');
+    droite.type = 'button';
+    droite.textContent = '→';
+    droite.setAttribute('aria-label', 'Fin des calculs');
+    commandes.append(gauche, aide, droite);
+    formule.parentNode.insertBefore(region, formule);
+    region.append(fenetre, commandes);
+    fenetre.appendChild(interieur);
+    interieur.appendChild(formule);
+
+    const actualiser = () => {
+      const reste = Math.max(0, fenetre.scrollWidth - fenetre.clientWidth);
+      const depasse = reste > 4;
+      region.dataset.overflow = String(depasse);
+      commandes.hidden = !depasse;
+      gauche.disabled = fenetre.scrollLeft <= 2;
+      droite.disabled = fenetre.scrollLeft >= reste - 2;
+    };
+    const avancer = sens => {
+      const longueur = fenetre.scrollWidth - fenetre.clientWidth;
+      const pas = Math.max(140, fenetre.clientWidth * 0.75);
+      fenetre.scrollTo({ left: sens < 0 ? Math.max(0, fenetre.scrollLeft - pas) : Math.min(longueur, fenetre.scrollLeft + pas), behavior: 'smooth' });
+    };
+    gauche.addEventListener('click', () => avancer(-1));
+    droite.addEventListener('click', () => avancer(1));
+    fenetre.addEventListener('scroll', actualiser, { passive: true });
+    fenetre.addEventListener('keydown', evenement => {
+      if (evenement.key === 'Home') { fenetre.scrollLeft = 0; evenement.preventDefault(); }
+      if (evenement.key === 'End') { fenetre.scrollLeft = fenetre.scrollWidth; evenement.preventDefault(); }
+    });
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(actualiser);
+      observer.observe(fenetre);
+      observer.observe(interieur);
+    }
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(actualiser);
+    else actualiser();
+  }
+}
+
 function demanderMathJax(element) {
   try {
     const mj=window.MathJax;
     if (mj && typeof mj.typesetPromise==='function') {
-      return mj.typesetPromise([element]).catch(()=>undefined);
+      return mj.typesetPromise([element]).then(()=>preparerScrollMathJax(element)).catch(()=>undefined);
     }
   } catch { /* le panneau doit rester utilisable sans MathJax */ }
   return Promise.resolve();
