@@ -254,8 +254,8 @@ function preparerScrollMathJax(element) {
     };
     const avancer = sens => {
       const longueur = fenetre.scrollWidth - fenetre.clientWidth;
-      const pas = Math.max(140, fenetre.clientWidth * 0.75);
-      fenetre.scrollTo({ left: sens < 0 ? Math.max(0, fenetre.scrollLeft - pas) : Math.min(longueur, fenetre.scrollLeft + pas), behavior: 'smooth' });
+      // Une pression atteint le debut ou la derniere colonne sans etape manquante.
+      fenetre.scrollTo({ left: sens < 0 ? 0 : Math.max(0, longueur), behavior: 'smooth' });
     };
     gauche.addEventListener('click', () => avancer(-1));
     droite.addEventListener('click', () => avancer(1));
