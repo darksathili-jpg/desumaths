@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Techno",
+  "titre": "Terminale technologique",
   "sections": [
     {
       "titre": "Exercices et ressources",
