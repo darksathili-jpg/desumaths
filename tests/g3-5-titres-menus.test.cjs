@@ -75,7 +75,7 @@ test('G3.5 : 41 titres de menus lisibles, accentués et sans identifiants techni
 });
 test('G3.5 : titre des pages et onglet du navigateur tirés de la même donnée lisible',()=>{
  const renderer=fs.readFileSync(path.join(root,'renderer/Menus/rendu-menu.js'),'utf8');
- assert.match(renderer,/document\.title\s*=\s*`${MENU\.titre}/);
+ assert.ok(renderer.includes('document.title = ' + String.fromCharCode(96) + '${MENU.titre}'), 'Page tab must use the same human-readable menu title');
  assert.match(renderer,/elTitre\.textContent\s*=\s*MENU\.titre/);
  assert.match(renderer,/badge\.textContent\s*=\s*'PDF'/);
  assert.match(renderer,/a\.href\s*=\s*encodeURI\(href\)/);
