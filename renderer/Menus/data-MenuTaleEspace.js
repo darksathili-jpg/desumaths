@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Espace",
+  "titre": "Terminale spécialité · Géométrie dans l’espace",
   "sections": [
     {
       "titre": "Exercices et ressources",
