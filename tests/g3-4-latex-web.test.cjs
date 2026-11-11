@@ -32,7 +32,7 @@ test('G3.4: no arbitrary proxy or remote compiler; real PDF required before succ
 });
 test('G3.4: Web and historic samples, status and PDF controls exist',()=>{
   const html=read('renderer/Serveur Latex/latex_javascript.html');
-  for(const id of ['latex-source','compilebtn','resetbtn','exemple-web','exemple-historique','downloadbtn','etat','pdfbox','console','compatibilite'])
+  for(const id of ['latex-source','compilebtn','resetbtn','exemple-web','exemple-historique','downloadbtn','openpdfbtn','etat','pdfbox','console','compatibilite'])
     assert.ok(html.includes('id="'+id+'"'),id);
   const sample=read('renderer/Serveur Latex/latex-web-exemple.js');
   assert.match(sample,/String\.raw`/);
