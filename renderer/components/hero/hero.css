@@ -1,0 +1,83 @@
+/* Desumaths G3.1 — Le compagnon Christophe, dans le flux normal de l'accueil. */
+.hero-scene{display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px);min-width:0}
+.hero-compagnon{
+  display:grid;grid-template-columns:minmax(130px,190px) minmax(0,1fr);
+  align-items:end;gap:clamp(8px,2vw,20px);max-width:100%;
+  position:relative;margin:0;
+}
+.hero-compagnon-visuel{
+  height:clamp(145px,17vw,190px);
+  width:clamp(145px,17vw,190px);
+  align-self:end;justify-self:center;
+  display:grid;place-items:end center;
+  flex-shrink:0;max-width:100%;
+}
+.hero-compagnon-sprite{
+  --hero-frame:clamp(145px,17vw,190px);
+  display:block;width:var(--hero-frame);height:var(--hero-frame);
+  background-image:url("../../assets/mascotte/hero-front.webp");
+  background-repeat:no-repeat;
+  background-size:calc(var(--hero-frame) * 2) var(--hero-frame);
+  background-position:0 0;
+  image-rendering:auto;
+  filter:drop-shadow(0 9px 5px rgba(22,34,62,.14));
+  transform-origin:center bottom;
+  animation:hero-repos 3.2s ease-in-out infinite;
+}
+.hero-compagnon[data-pose="welcome"] .hero-compagnon-sprite{
+  background-position:calc(-1 * var(--hero-frame)) 0;
+  animation:hero-bonjour .55s ease-in-out 2;
+}
+.hero-bulle{
+  min-width:0;align-self:center;position:relative;
+  padding:16px 18px 14px;background:#fffdf8;
+  border:1px solid var(--grille);border-left:5px solid var(--rouge);
+  border-radius:15px 15px 15px 3px;
+  box-shadow:0 12px 26px -19px rgba(22,34,62,.5);
+}
+.hero-bulle:before{content:"";position:absolute;left:-12px;top:57%;width:13px;height:13px;background:#fffdf8;border-left:1px solid var(--grille);border-bottom:1px solid var(--grille);transform:rotate(45deg)}
+.hero-bulle-kicker{font:.72rem/1.2 var(--police-mono),monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--rouge);font-weight:700}
+.hero-bulle-texte{margin:8px 0 13px;color:var(--encre);font:600 clamp(.94rem,1.2vw,1.04rem)/1.4 var(--police-texte),sans-serif}
+.hero-bulle-actions{display:flex;flex-wrap:wrap;gap:8px}
+.hero-bulle button,.hero-retour{
+  min-height:36px;border:1px solid var(--grille);background:var(--papier);
+  color:var(--encre);border-radius:8px;padding:7px 10px;
+  font:600 .8rem/1.2 var(--police-texte),sans-serif;cursor:pointer;
+}
+.hero-bulle button:hover,.hero-retour:hover{border-color:var(--rouge);background:var(--jaune-note)}
+.hero-retour{align-self:center;justify-self:end}
+.hero-compagnon[hidden],.hero-retour[hidden]{display:none!important}
+.hero-sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@keyframes hero-repos{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-2px) scale(1.012)}
+}
+@keyframes hero-bonjour{
+  0%,100%{transform:translateY(0) rotate(0)}
+  45%{transform:translateY(-6px) rotate(-3deg)}
+}
+@media(max-width:1100px){
+  .hero-compagnon{grid-template-columns:130px minmax(0,1fr)}
+  .hero-compagnon-visuel{width:130px;height:130px}
+  .hero-compagnon-sprite{--hero-frame:130px}
+}
+@media(max-width:860px){
+  .hero-scene{max-width:650px;width:100%;margin-inline:auto}
+  .hero-compagnon{grid-template-columns:clamp(110px,24vw,170px) minmax(0,1fr)}
+  .hero-compagnon-visuel{height:clamp(110px,24vw,170px);width:clamp(110px,24vw,170px)}
+  .hero-compagnon-sprite{--hero-frame:clamp(110px,24vw,170px)}
+}
+@media(max-width:440px){
+  .hero-compagnon{grid-template-columns:100px minmax(0,1fr);gap:8px}
+  .hero-compagnon-visuel{height:100px;width:100px}
+  .hero-compagnon-sprite{--hero-frame:100px}
+  .hero-bulle{padding:12px 10px}
+  .hero-bulle-kicker{font-size:.62rem}
+  .hero-bulle-texte{font-size:.87rem;margin:5px 0 9px}
+  .hero-bulle button{font-size:.7rem;min-height:32px;padding:6px 7px}
+  .hero-bulle-actions{gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-compagnon-sprite,.hero-compagnon[data-pose="welcome"] .hero-compagnon-sprite{animation:none!important;transform:none!important}
+}
+.hero-compagnon[data-motion="off"] .hero-compagnon-sprite{animation:none!important;transform:none!important}
