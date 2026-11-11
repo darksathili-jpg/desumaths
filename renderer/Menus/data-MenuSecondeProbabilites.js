@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · Probabilites",
+  "titre": "Seconde · Probabilités",
   "sections": [
     {
       "titre": "Exercices et ressources",
