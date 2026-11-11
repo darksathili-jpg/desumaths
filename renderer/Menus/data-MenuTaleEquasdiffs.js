@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Equasdiffs",
+  "titre": "Terminale spécialité · Primitives et équations différentielles",
   "sections": [
     {
       "titre": "Exercices et ressources",
