@@ -44,8 +44,8 @@ test('G4: notebook style and accessible SVG feedback survive reduced screens',()
   assert.match(js,/svg\.tikzjax/);
   assert.match(js,/getBoundingClientRect/);
   assert.match(js,/getBBox/);
-  assert.match(js,/drawing\\.width > 20 && drawing\\.height > 20/);
-  assert.match(js,/if \\(complete\\)/);
+  assert.match(js,/drawing\.width > 20 && drawing\.height > 20/);
+  assert.match(js,/if \(complete\)/);
   assert.match(js,/querySelectorAll/);
   assert.match(js,/MutationObserver/);
   assert.match(js,/navigator\.clipboard\.writeText/);
