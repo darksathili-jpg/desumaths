@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Sujets",
+  "titre": "Terminale spécialité · Sujets de baccalauréat",
   "sections": [
     {
       "titre": "Exercices et ressources",
