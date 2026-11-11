@@ -76,6 +76,31 @@ jobs:
           grep -q 'Styleexos-r16.css' 'dist/web/2nde/Equations/Equations avec factorisation/EqsFacteurcommun.html'
           grep -q 'Styleexos-r14.css' 'dist/web/2nde/Equations/Equations produits/Equationsproduits.html'
           grep -q 'Styleexos-r15.css' 'dist/web/2nde/Equations/Difference de carres/Differencedecarres.html'
+      - name: Installer Chromium pour la recette visuelle
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix /tmp/desumaths-r16-pw --no-save --no-audit --no-fund playwright@1.65.0
+          /tmp/desumaths-r16-pw/node_modules/.bin/playwright install --with-deps chromium
+      - name: Recette MathJax reelle, de 375 a 1600 pixels
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-r16-pw/node_modules
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-r16-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 1
+          node scripts/visual-check-r16.cjs
+      - name: Captures de validation R16
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-r16-captures
+          path: artifacts/r16-layout
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Conserver les sources testees dans GitHub
         shell: bash
         run: |
