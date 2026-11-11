@@ -1,5 +1,5 @@
-$\begin{array}{rcl}
-\underbrace{(${a1} x ${sb} ${b})^2}_{a^2} - \underbrace{(${c1} x ${sd} ${d})^2}_{b^2} & = & [\underbrace{(${a1} x ${sb} ${b})}_a + \underbrace{(${c1} x ${sd} ${d})}_b] \times [\underbrace{(${a1} x ${sb} ${b})}_a - \underbrace{(${c1} x ${sd} ${d})}_b] \\
-& = & (${a1} x ${sb} ${b} ${sc} ${c1} x ${sd} ${d}) \times (${a1} x ${sb} ${b} ${sopc} ${opc1} x ${sopd} ${opd}) \\
-& = & (${aPlusc1} x ${sbPlusd} ${bPlusd})\times (${aMoinsc1} x ${sbMoinsd} ${bMoinsd})
-\end{array}$
+$\\begin{array}{rcl}
+\\underbrace{(${a1} x ${sb} ${b})^2}_{a^2} - \\underbrace{(${c1} x ${sd} ${d})^2}_{b^2} & = & [\\underbrace{(${a1} x ${sb} ${b})}_a + \\underbrace{(${c1} x ${sd} ${d})}_b] \\times [\\underbrace{(${a1} x ${sb} ${b})}_a - \\underbrace{(${c1} x ${sd} ${d})}_b] \\\\
+& = & (${a1} x ${sb} ${b} ${sc} ${c1} x ${sd} ${d}) \\times (${a1} x ${sb} ${b} ${sopc} ${opc1} x ${sopd} ${opd}) \\\\
+& = & (${aPlusc1} x ${sbPlusd} ${bPlusd})\\times (${aMoinsc1} x ${sbMoinsd} ${bMoinsd})
+\\end{array}$
