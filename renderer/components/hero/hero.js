@@ -54,16 +54,19 @@
     }
     function cancel() {
       generation++;
-      for(const timer of chronos)clearTimeout(timer);
+      for(const entry of chronos){clearTimeout(entry.timer);entry.resolve();}
       chronos.clear();
       state.busy=false;
       root.dataset.busy='false';
+      if(marche)marche.disabled=false;
+      if(tourne)tourne.disabled=false;
       position(0);
     }
     function wait(ms){
       return new Promise(resolve=>{
-        const timer=setTimeout(()=>{chronos.delete(timer);resolve();},ms);
-        chronos.add(timer);
+        const entry={timer:null,resolve};
+        entry.timer=setTimeout(()=>{chronos.delete(entry);resolve();},ms);
+        chronos.add(entry);
       });
     }
     function setState(mode) {
