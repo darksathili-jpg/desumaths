@@ -87,6 +87,14 @@ var PdfTeXEngine = /** @class */ (function () {
                         this.latexWorkerStatus = EngineStatus.Init;
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
                                 _this.latexWorker = new Worker(ENGINE_PATH);
+                                _this.latexWorker.onerror = function (event) {
+                                    _this.latexWorkerStatus = EngineStatus.Error;
+                                    reject(new Error('Erreur du moteur WebAssembly (chargement du worker).'));
+                                };
+                                _this.latexWorker.onmessageerror = function () {
+                                    _this.latexWorkerStatus = EngineStatus.Error;
+                                    reject(new Error('Réponse du moteur LaTeX illisible.'));
+                                };
                                 _this.latexWorker.onmessage = function (ev) {
                                     var data = ev['data'];
                                     var cmd = data['result'];
@@ -234,14 +242,14 @@ var PdfTeXEngine = /** @class */ (function () {
     PdfTeXEngine.prototype.setTexliveEndpoint = function (url) {
         if (this.latexWorker !== undefined) {
             this.latexWorker.postMessage({ 'cmd': 'settexliveurl', 'url': url });
-            this.latexWorker = undefined;
         }
     };
     PdfTeXEngine.prototype.closeWorker = function () {
         if (this.latexWorker !== undefined) {
-            this.latexWorker.postMessage({ 'cmd': 'grace' });
+            this.latexWorker.terminate();
             this.latexWorker = undefined;
         }
+        this.latexWorkerStatus = EngineStatus.Error;
     };
     return PdfTeXEngine;
 }());
