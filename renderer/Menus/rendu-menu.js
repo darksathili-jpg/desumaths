@@ -117,3 +117,12 @@ function construireMenu() {
 }
 
 construireMenu();
+
+// G3.3 : une seule integration commune a tous les menus (sans toucher
+// a leurs donnees, liens ni gabarits pedagogiques).
+if (document.querySelector('.menu-niveau')) {
+  const compagnon = document.createElement('script');
+  compagnon.src = 'compagnon-menu.js';
+  compagnon.async = false;
+  document.head.appendChild(compagnon);
+}
