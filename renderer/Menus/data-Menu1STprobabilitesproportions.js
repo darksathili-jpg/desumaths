@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Première technologique · probabilitesproportions",
+  "titre": "Première technologique · Probabilités et proportions",
   "sections": [
     {
       "titre": "Exercices et ressources",
