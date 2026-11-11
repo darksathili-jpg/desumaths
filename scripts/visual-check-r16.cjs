@@ -26,6 +26,7 @@ async function inspect(browser, width) {
       const mj = window.MathJax;
       return !!(mj && typeof mj.typesetPromise === 'function');
     }, null, {timeout:35000});
+    await page.waitForFunction(() => !!document.querySelector('.enonce-controles'), null, {timeout:10000});
     await page.locator('#correction').click();
     await page.waitForFunction(() => document.querySelectorAll('#correctiond .r16-math-region').length >= 3,
       null, {timeout:35000});
@@ -45,6 +46,12 @@ async function inspect(browser, width) {
         mathjax:document.querySelectorAll('#correctiond mjx-container').length,
         regions:viewports,
         arrayCount:document.querySelectorAll('#correctiond .r16-math-region').length,
+        enonce:(() => {
+          const zone=document.querySelector('.enonce-expression');
+          const ctrl=document.querySelector('.enonce-controles');
+          return {clientWidth:zone.clientWidth,scrollWidth:zone.scrollWidth,
+            controlsVisible:!!ctrl && !ctrl.hidden};
+        })(),
         explanation:document.querySelector('#correctiond').textContent.includes('les signes')
       };
     });
@@ -55,6 +62,19 @@ async function inspect(browser, width) {
     assert.ok(metrics.documentWidth <= width + 2, 'Page-wide horizontal overflow: ' + JSON.stringify(metrics));
     assert.ok(metrics.correctionLeft >= -2 && metrics.correctionRight <= width + 2,
       'Correction offscreen: ' + JSON.stringify(metrics));
+
+    if (metrics.enonce.scrollWidth > metrics.enonce.clientWidth + 4) {
+      assert.ok(metrics.enonce.controlsVisible, "Enonce tronque sans commandes visibles");
+      await page.getByRole('button', {name:"Fin de l'équation"}).click();
+      await page.waitForTimeout(450);
+      const p = await page.locator('.enonce-expression').evaluate(el => ({
+        left:el.scrollLeft, end:el.scrollWidth - el.clientWidth
+      }));
+      assert.ok(p.left >= p.end - 6, "Impossible de lire la fin de l'enonce : " + JSON.stringify(p));
+      await page.getByRole('button', {name:"Début de l'équation"}).click();
+    } else {
+      assert.ok(!metrics.enonce.controlsVisible, "Commandes inutiles sur une equation courte");
+    }
 
     let overflows = 0;
     for (let i=0; i<metrics.regions.length; i++) {
