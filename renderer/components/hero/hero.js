@@ -68,7 +68,7 @@
     welcome();
     return { show, hide, setState, say, clearMessage: () => say(''), setMotion, welcome, state };
   }
-  global.DesumathsHero = Object.freeze({createHero});
+  global.DesumathsHero = {createHero, instance: null};
   const init = () => {
     const root = document.querySelector('#hero-compagnon');
     if (root && !root.dataset.initialise) {
