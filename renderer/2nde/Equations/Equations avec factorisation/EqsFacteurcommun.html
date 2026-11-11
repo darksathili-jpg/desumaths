@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="../../../StylesIndex.css">
 <link rel="stylesheet" href="../Equationsdegre1/Styleexos-desumaths.css">
 <link rel="stylesheet" href="Styleexos-r16.css">
+<link rel="stylesheet" href="../../../components/hero/hero.css">
+<link rel="stylesheet" href="../../../components/hero/hero-exercice.css">
+<script defer src="../../../components/hero/hero.js"></script>
+<script defer src="../../../components/hero/hero-exercice.js"></script>
 <script defer src="ScriptEqsfacteurcommun.js"></script>
 <script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
@@ -19,7 +23,28 @@
 <div class="fil-ariane">Seconde / Calcul littéral / Équations</div>
 <header class="exercice-intro"><p class="sur-titre">Entraînement interactif · Seconde</p><h1>Équations avec facteur commun</h1><p>Factoriser pour résoudre une équation en utilisant la propriété du produit nul.</p></header>
 <div class="exercice-colonnes">
-<section class="exercice-feuille" aria-labelledby="titre-enonce"><div class="feuille-titre"><span class="num-exercice">04</span><h2 id="titre-enonce">À toi de jouer</h2></div><p class="consigne">Résous l'équation proposée sur ton cahier avant de dévoiler la correction.</p><div id="enonce" class="formule-enonce" aria-live="polite"></div><div class="separateur-note"></div><p class="conseil"><strong>Indice :</strong> repère le facteur commun, puis utilise la propriété du produit nul.</p><div class="actions-exercice"><button id="recommencer" type="button" class="action-principale">↻ Nouvel exercice</button></div></section>
+<section class="exercice-feuille" aria-labelledby="titre-enonce"><div class="feuille-titre"><span class="num-exercice">04</span><h2 id="titre-enonce">À toi de jouer</h2></div><p class="consigne">Résous l'équation proposée sur ton cahier avant de dévoiler la correction.</p><div id="enonce" class="formule-enonce" aria-live="polite"></div><div class="separateur-note"></div><p class="conseil"><strong>Indice :</strong> repère le facteur commun, puis utilise la propriété du produit nul.</p><aside id="hero-compagnon" class="hero-compagnon compagnon-exercice" data-mode="exercise"
+  data-pose="idle" data-motion="on" aria-label="Christophe, compagnon d'exercice">
+  <div class="hero-plateau">
+    <div class="hero-plateau-marque" aria-hidden="true"><span>CHRISTOPHE</span><span class="hero-plateau-separation"></span><span>π</span></div>
+    <div class="hero-compagnon-visuel" aria-hidden="true">
+      <span class="hero-compagnon-sprite" data-frame="1"></span><span class="hero-ombre"></span>
+    </div>
+  </div>
+  <div class="hero-bulle">
+    <span class="hero-bulle-kicker">Une aide à ton rythme</span>
+    <p class="hero-bulle-texte" data-hero-message aria-live="polite">Essaie d'abord sur ton cahier. Je peux te donner trois indices, sans dévoiler les réponses.</p>
+    <div class="hero-bulle-actions">
+      <button type="button" data-hero-tip>Indice suivant</button>
+      <button type="button" data-hero-turn>Changer de vue</button>
+      <button type="button" data-hero-motion aria-pressed="false">Réduire l'animation</button>
+      <button type="button" data-hero-hide>Masquer</button>
+    </div>
+    <span data-hero-step class="hero-bulle-kicker" aria-live="polite"></span>
+  </div>
+</aside>
+<button type="button" class="hero-retour compagnon-exercice-retour" data-hero-return hidden>Afficher Christophe</button>
+<div class="actions-exercice"><button id="recommencer" type="button" class="action-principale">↻ Nouvel exercice</button></div></section>
 <section class="exercice-aides" aria-label="Solution et correction"><article class="panneau-reponse"><h2>Ensemble des solutions</h2><p>Compare l'ensemble des solutions à celui que tu as trouvé.</p><button type="button" id="solutions" class="action-secondaire" data-afficher="Afficher les solutions" data-masquer="Masquer les solutions" aria-controls="solution" aria-expanded="false">Afficher les solutions</button><div id="solution" class="reponse-cachee" role="region" aria-label="Solutions" hidden></div></article><article class="panneau-reponse"><h2>Correction détaillée</h2><p>Retrouve la factorisation, l'explication des signes et les étapes historiques de résolution.</p><button type="button" id="correction" class="action-secondaire" data-afficher="Afficher la correction détaillée" data-masquer="Masquer la correction détaillée" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button><div id="correctiond" class="reponse-cachee correction-facteur" role="region" aria-label="Correction détaillée" hidden></div></article></section>
 </div>
 <nav class="retour-exercice" aria-label="Retours"><button id="accueil" type="button">Accueil Desumaths</button><button id="MenuSeconde" type="button">Menu Seconde</button><button id="MenuSecondeEquations" type="button">Menu Équations</button></nav></main><footer class="pied-de-page">Desum@ths — le cahier de maths interactif</footer></body></html>
