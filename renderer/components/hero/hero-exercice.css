@@ -1,0 +1,65 @@
+/* G3.4 — Christophe accompagne l'exercice, sans recouvrir le cahier. */
+.exercice-feuille > .compagnon-exercice{
+  display:grid;
+  grid-template-columns:clamp(126px,16vw,165px) minmax(0,1fr);
+  align-items:stretch;
+  max-width:100%;
+  min-width:0;
+  margin:20px 0 3px;
+  border-radius:16px;
+}
+.compagnon-exercice .hero-plateau{
+  --hero-frame:clamp(124px,16vw,164px);
+  height:clamp(157px,19vw,193px);
+  min-width:0;
+  border:1px solid var(--grille);
+  border-right:0;
+  border-radius:15px 0 0 15px;
+}
+.compagnon-exercice .hero-plateau:before{bottom:12px}
+.compagnon-exercice .hero-plateau-marque{
+  top:11px;left:12px;right:12px;font-size:.6rem;
+}
+.compagnon-exercice .hero-plateau-marque span:last-child{font-size:1.15rem}
+.compagnon-exercice .hero-compagnon-visuel{
+  height:var(--hero-frame);width:var(--hero-frame);bottom:8px;
+}
+.compagnon-exercice .hero-compagnon-sprite{animation:none}
+.compagnon-exercice .hero-bulle{
+  box-sizing:border-box;
+  border:1px solid var(--grille);
+  border-left:4px solid var(--rouge);
+  border-top:1px solid var(--grille);
+  border-radius:0 15px 15px 0;
+  padding:13px 15px;
+  display:flex;flex-direction:column;justify-content:center;
+  min-width:0;background:#fffdf8;
+}
+.compagnon-exercice .hero-bulle-kicker{font-size:.69rem}
+.compagnon-exercice .hero-bulle-texte{
+  margin:7px 0 10px;min-height:3.5em;
+  font:500 .9rem/1.5 var(--police-texte),system-ui,sans-serif;
+}
+.compagnon-exercice .hero-bulle-actions{gap:6px}
+.compagnon-exercice .hero-bulle-actions button{
+  font-size:.75rem;min-height:36px;padding:7px 9px;
+}
+.exercice-feuille .compagnon-exercice-retour{margin:10px 0}
+@media(max-width:570px){
+  .exercice-feuille > .compagnon-exercice{grid-template-columns:minmax(0,1fr)}
+  .compagnon-exercice .hero-plateau{
+    --hero-frame:175px;height:194px;
+    border-right:1px solid var(--grille);
+    border-bottom:0;
+    border-radius:15px 15px 0 0;
+  }
+  .compagnon-exercice .hero-bulle{
+    border:1px solid var(--grille);
+    border-top:3px solid var(--rouge);
+    border-radius:0 0 15px 15px;
+  }
+  .compagnon-exercice .hero-bulle-texte{min-height:2em}
+}
+@media(prefers-reduced-motion:reduce){
+  .compagnon-exercice .hero-compagnon-visuel{transition:none!important}
+}
