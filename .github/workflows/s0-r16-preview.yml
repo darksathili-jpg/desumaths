@@ -9,10 +9,10 @@ permissions:
   id-token: write
 concurrency:
   group: desumaths-preview-r16
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
         run: |
           set -euo pipefail
           npm install --prefix /tmp/desumaths-r16-pw --no-save --no-audit --no-fund playwright@1.65.0
-          /tmp/desumaths-r16-pw/node_modules/.bin/playwright install --with-deps chromium
+          command -v google-chrome  # navigateur deja installe sur l'image Ubuntu GitHub
       - name: Recette MathJax reelle, de 375 a 1600 pixels
         shell: bash
         env:
