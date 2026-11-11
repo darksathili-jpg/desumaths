@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · EqsDroites",
+  "titre": "Seconde · Équations de droites",
   "sections": [
     {
       "titre": "Exercices et ressources",
