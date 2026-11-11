@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · ValeurAbsolue",
+  "titre": "Seconde · Valeur absolue",
   "sections": [
     {
       "titre": "Exercices et ressources",
