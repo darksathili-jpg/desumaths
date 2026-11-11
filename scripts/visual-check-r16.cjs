@@ -44,7 +44,7 @@ async function inspect(browser, width) {
         correctionLeft:bounds.left, correctionRight:bounds.right,
         mathjax:document.querySelectorAll('#correctiond mjx-container').length,
         regions:viewports,
-        underbrace:document.querySelector('#correctiond').textContent.includes('facteur commun'),
+        underbrace:document.querySelector('#correctiond').textContent.replace(/\\s+/g,'').toLowerCase().includes('facteurcommun'),
         explanation:document.querySelector('#correctiond').textContent.includes('les signes')
       };
     });
