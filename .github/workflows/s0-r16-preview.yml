@@ -1,0 +1,43 @@
+name: Desumaths — prévisualisation web R16
+on:
+  push:
+    branches: [feature/s0-r16-responsive]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: desumaths-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Tests du socle
+        run: npm run check
+      - name: Export Web
+        run: npm run build:web
+      - name: Contrôle export
+        run: npm run check:web
+      - name: Vérifier la page R16
+        run: |
+          test -f 'dist/web/2nde/Equations/Equations avec factorisation/EqsFacteurcommun-S0.html'
+          test -f 'dist/web/2nde/Equations/Equations avec factorisation/ScriptEqsfacteurcommun-s0.js'
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
