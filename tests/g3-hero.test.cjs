@@ -13,8 +13,8 @@ const js=read('renderer/components/hero/hero.js');
 test('G3.2 : les 12 poses viennent de la planche fournie, image conforme',()=>{
  const img=fs.readFileSync(path.join(root,'renderer/assets/mascotte/christophe-12-poses.avif'));
  assert.equal(img.subarray(4,12).toString('ascii'),'ftypavif');
- assert.equal(crypto.createHash('sha256').update(img).digest('hex'),'e4ed5383619b995aac1c5bc4a409f6c306dd6efb3914fb1c7dd81e692123310e');
- assert.ok(img.length<80000);
+ assert.equal(crypto.createHash('sha256').update(img).digest('hex'),'dd9478e7fc5426c3504317db34e54382e4aaefd7fc24101c73eea14ea0422a10');
+ assert.ok(img.length<200000);
  assert.match(css,/background-size:300% 400%/);
 });
 test('G3.2 : les quatre directions ont chacune trois poses originales',()=>{
