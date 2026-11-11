@@ -103,7 +103,18 @@
 .titre-niveau {
   font-family: var(--police-affichage);
   font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.17;
+  text-wrap: balance;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
   margin: 0 0 8px;
+}
+@media (max-width: 600px) {
+  .titre-niveau {
+    font-size: clamp(1.8rem, 7vw, 2.25rem);
+    line-height: 1.2;
+  }
 }
 
 .sous-titre-niveau {
