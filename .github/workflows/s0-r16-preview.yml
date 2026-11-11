@@ -8,7 +8,7 @@ permissions:
   pages: write
   id-token: write
 concurrency:
-  group: desumaths-pages
+  group: desumaths-preview-r16
   cancel-in-progress: false
 jobs:
   build:
@@ -35,8 +35,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Preview uses its own environment, independent from main publication rules.
     environment:
-      name: github-pages
+      name: desumaths-preview-r16
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/deploy-pages@v4
