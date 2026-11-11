@@ -88,7 +88,7 @@ async function inspect(browser, width) {
 }
 
 (async () => {
-  const browser = await chromium.launch({headless:true});
+  const browser = await chromium.launch({channel:'chrome', headless:true});
   try {
     for (const width of [375,540,768,1280,1600]) await inspect(browser,width);
     fs.writeFileSync(path.join(evidence,'r16-metrics.json'),JSON.stringify(data,null,2));
