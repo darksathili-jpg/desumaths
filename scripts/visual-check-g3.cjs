@@ -24,8 +24,8 @@ async function inspect(browser,width) {
      catch(e){return {loaded:false,error:String(e)};}
    });
    assert.equal(picture.loaded,true,'The full 12-frame sprite must load');
-   assert.equal(picture.width,696,'Three columns at 232 px');
-   assert.equal(picture.height,928,'Four rows at 232 px');
+   assert.equal(picture.width,1086,'Three columns at original 362 px');
+   assert.equal(picture.height,1448,'Four rows at original 362 px');
    assert.equal(picture.cssSize,'300% 400%');
    await p.waitForFunction(()=>document.querySelector('#hero-compagnon').dataset.busy==='false',null,{timeout:5000});
    const metrics=await p.evaluate(()=>{
