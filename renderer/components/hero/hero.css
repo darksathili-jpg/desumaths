@@ -68,14 +68,16 @@
   .hero-compagnon-sprite{--hero-frame:clamp(110px,24vw,170px)}
 }
 @media(max-width:440px){
-  .hero-compagnon{grid-template-columns:100px minmax(0,1fr);gap:8px}
-  .hero-compagnon-visuel{height:100px;width:100px}
-  .hero-compagnon-sprite{--hero-frame:100px}
-  .hero-bulle{padding:12px 10px}
-  .hero-bulle-kicker{font-size:.62rem}
-  .hero-bulle-texte{font-size:.87rem;margin:5px 0 9px}
-  .hero-bulle button{font-size:.7rem;min-height:32px;padding:6px 7px}
-  .hero-bulle-actions{gap:5px}
+  /* A full, readable character and bubble — never cramped side-by-side. */
+  .hero-compagnon{grid-template-columns:minmax(0,1fr);justify-items:center;gap:0}
+  .hero-compagnon-visuel{height:175px;width:175px;justify-self:center}
+  .hero-compagnon-sprite{--hero-frame:175px}
+  .hero-bulle{width:100%;max-width:100%;padding:14px 15px;margin-top:-4px}
+  .hero-bulle:before{display:none}
+  .hero-bulle-kicker{font-size:.71rem}
+  .hero-bulle-texte{font-size:.98rem;margin:7px 0 10px}
+  .hero-bulle button{font-size:.78rem;min-height:36px;padding:7px 9px}
+  .hero-bulle-actions{gap:7px}
 }
 @media(prefers-reduced-motion:reduce){
   .hero-compagnon-sprite,.hero-compagnon[data-pose="welcome"] .hero-compagnon-sprite{animation:none!important;transform:none!important}
