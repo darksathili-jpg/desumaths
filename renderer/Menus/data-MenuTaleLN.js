@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · LN",
+  "titre": "Terminale spécialité · Fonction logarithme népérien",
   "sections": [
     {
       "titre": "Exercices et ressources",
