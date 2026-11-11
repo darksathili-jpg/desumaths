@@ -1,0 +1,90 @@
+--- a/renderer/2nde/Equations/Equations avec factorisation/Styleexos-r16.css
++++ b/renderer/2nde/Equations/Equations avec factorisation/Styleexos-r16.css
+@@ -10,3 +10,22 @@
+ .correction-facteur mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0;text-align:center}
+ @media(max-width:900px){.exercice-colonnes>.exercice-aides>.panneau-reponse:first-child,.exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1}}
+ @media(max-width:520px){.correction-facteur{padding:12px 8px;font-size:.91rem}.enonce-expression{font-size:.95rem}}
++
++/* S0 — correction du rendu des grands tableaux MathJax, sans modifier les gabarits. */
++.correction-facteur { width:100%; max-width:100%; min-width:0; box-sizing:border-box; overflow:hidden; }
++.correction-facteur .math-viewport { width:100%; max-width:100%; min-width:0; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:auto; scrollbar-color:#64748b #e7eaf0; margin:0 0 4px; padding:3px 0 9px; }
++.correction-facteur .math-viewport::-webkit-scrollbar { height:9px; }
++.correction-facteur .math-viewport::-webkit-scrollbar-thumb { background:#64748b; border-radius:8px; }
++.correction-facteur .math-viewport::-webkit-scrollbar-track { background:#e7eaf0; border-radius:8px; }
++.correction-facteur .math-viewport .math-inner { display:table; width:max-content; max-width:none; margin-left:auto; margin-right:auto; }
++.correction-facteur .math-viewport mjx-container { overflow:visible!important; max-width:none!important; white-space:nowrap; text-align:initial; padding:0; margin:0; }
++.correction-facteur .math-viewport[data-overflow="true"] .math-inner { margin-left:0; margin-right:0; }
++.math-deplacement { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:5px 2px 10px; color:#43516d; font-size:.8rem; }
++.math-deplacement[hidden] { display:none!important; }
++.math-deplacement button { border:1px solid #bcc6d6; border-radius:7px; padding:4px 12px; background:#fffdf8; color:#16223e; font-weight:700; cursor:pointer; }
++.math-deplacement button:disabled { opacity:.45; cursor:default; }
++@media(max-width:600px) {
++ .correction-facteur { padding:12px 8px; font-size:.95rem; }
++ .correction-facteur .math-viewport { margin-left:0; margin-right:0; }
++ .math-deplacement { font-size:.76rem; }
++}
+--- a/renderer/2nde/Equations/Equations avec factorisation/ScriptEqsfacteurcommun.js
++++ b/renderer/2nde/Equations/Equations avec factorisation/ScriptEqsfacteurcommun.js
+@@ -210,13 +210,59 @@
+ \\end{array}$<br><br>
+ $S=\\left\\{${soluce1}~;${soluce2} \\right\\}$`;
+ 
++// Une adaptation du conteneur uniquement. Le texte et le LaTeX historiques ne changent pas.
++function preparerTableauxMathJax(element) {
++  if (!element || element.id !== 'correctiond') return;
++  const tableaux = Array.from(element.querySelectorAll('mjx-container'));
++  for (const tableau of tableaux) {
++    if (tableau.closest('.math-viewport')) continue;
++    const zone = document.createElement('div');
++    zone.className = 'math-viewport';
++    zone.setAttribute('tabindex', '0');
++    zone.setAttribute('role', 'region');
++    zone.setAttribute('aria-label', 'Tableau de correction mathématique, défilement horizontal si nécessaire');
++    const interieur = document.createElement('div');
++    interieur.className = 'math-inner';
++    tableau.parentNode.insertBefore(zone, tableau);
++    zone.appendChild(interieur);
++    interieur.appendChild(tableau);
++    const commandes = document.createElement('div');
++    commandes.className = 'math-deplacement';
++    commandes.hidden = true;
++    const gauche = document.createElement('button');
++    gauche.type = 'button'; gauche.textContent = '←'; gauche.setAttribute('aria-label', 'Voir le début du tableau');
++    const notice = document.createElement('span');
++    notice.textContent = 'Faire glisser pour lire la suite';
++    const droite = document.createElement('button');
++    droite.type = 'button'; droite.textContent = '→'; droite.setAttribute('aria-label', 'Voir la suite du tableau');
++    commandes.append(gauche, notice, droite);
++    zone.insertAdjacentElement('afterend', commandes);
++    const actualiser = () => {
++      const surplus = zone.scrollWidth - zone.clientWidth;
++      const depasse = surplus > 3;
++      zone.dataset.overflow = String(depasse);
++      commandes.hidden = !depasse;
++      gauche.disabled = zone.scrollLeft <= 2;
++      droite.disabled = zone.scrollLeft >= surplus - 2;
++    };
++    gauche.addEventListener('click', () => zone.scrollBy({left:-Math.max(160, zone.clientWidth*.7),behavior:'smooth'}));
++    droite.addEventListener('click', () => zone.scrollBy({left:Math.max(160, zone.clientWidth*.7),behavior:'smooth'}));
++    zone.addEventListener('scroll',actualiser,{passive:true});
++    if (typeof ResizeObserver !== 'undefined') {
++      const observer = new ResizeObserver(actualiser);
++      observer.observe(zone); observer.observe(interieur);
++    }
++    requestAnimationFrame(actualiser);
++  }
++}
++
+ function demanderMathJax(element) {
+   try {
+-    const mj=window.MathJax;
+-    if (mj && typeof mj.typesetPromise==='function') {
+-      return mj.typesetPromise([element]).catch(()=>undefined);
++    const mj = window.MathJax;
++    if (mj && typeof mj.typesetPromise === 'function') {
++      return mj.typesetPromise([element]).then(() => preparerTableauxMathJax(element)).catch(() => undefined);
+     }
+-  } catch { /* le panneau doit rester utilisable sans MathJax */ }
++  } catch { /* la correction doit rester accessible sans MathJax */ }
+   return Promise.resolve();
+ }
