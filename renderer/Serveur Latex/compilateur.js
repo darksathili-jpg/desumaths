@@ -9,6 +9,7 @@ const historiqueBtn = document.getElementById('exemple-historique');
 const consoleOutput = document.getElementById('console');
 const pdfFrame = document.getElementById('pdfbox');
 const downloadBtn = document.getElementById('downloadbtn');
+const openPdfBtn = document.getElementById('openpdfbtn');
 const status = document.getElementById('etat');
 const info = document.getElementById('compatibilite');
 const nativeTex = Boolean(window.desumathsTeX?.compile);
@@ -24,6 +25,8 @@ const showLog = message => { consoleOutput.textContent = String(message || ''); 
 function releasePreviousPdf() {
   downloadBtn.hidden = true;
   downloadBtn.removeAttribute('href');
+  openPdfBtn.hidden = true;
+  openPdfBtn.removeAttribute('href');
   pdfFrame.removeAttribute('src');
   if (currentUrl) { URL.revokeObjectURL(currentUrl); currentUrl = null; }
 }
@@ -127,6 +130,8 @@ async function compile() {
     pdfFrame.src = currentUrl;
     downloadBtn.href = currentUrl;
     downloadBtn.hidden = false;
+    openPdfBtn.href = currentUrl;
+    openPdfBtn.hidden = false;
     showStatus('PDF créé avec succès (' + Math.ceil(blob.size / 1024) + ' Ko).');
   } catch (err) {
     const msg = String(err?.message || err);
