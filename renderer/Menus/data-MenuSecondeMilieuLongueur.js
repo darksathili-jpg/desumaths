@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · MilieuLongueur",
+  "titre": "Seconde · Milieux et longueurs",
   "sections": [
     {
       "titre": "Exercices et ressources",
