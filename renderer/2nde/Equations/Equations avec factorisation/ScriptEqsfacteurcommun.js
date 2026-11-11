@@ -216,6 +216,8 @@ function preparerScrollMathJax(element) {
   if (!element || element.id !== 'correctiond' || typeof element.querySelectorAll !== 'function') return;
   for (const formule of Array.from(element.querySelectorAll('mjx-container'))) {
     if (formule.closest('.r16-math-region')) continue;
+    // Important : ne jamais isoler les signes en ligne ni l'ensemble des solutions.
+    if (!formule.querySelector('mjx-mtable')) continue;
     const region = document.createElement('div');
     region.className = 'r16-math-region';
     const fenetre = document.createElement('div');
