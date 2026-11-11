@@ -19,6 +19,14 @@
  display:table!important;width:max-content!important;max-width:none!important;
  min-width:0!important;overflow:visible!important;margin:0 auto!important;padding:8px 0!important;
 }
+/* Visible touch/keyboard affordance when the question itself overflows. */
+.enonce-controles{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;font:500 .76rem/1.4 var(--police-texte),system-ui,sans-serif;color:#4a5b76;padding:3px 0 5px}
+.enonce-controles[hidden]{display:none!important}
+.enonce-controles span{text-align:center;flex:1}
+.enonce-controles button{min-height:36px;min-width:42px;padding:4px 11px;border-radius:8px;border:1px solid #aebbd0;background:#fffdf8;color:#16223e;font-size:1rem;cursor:pointer}
+.enonce-controles button:disabled{opacity:.4;cursor:default}
+.enonce-expression:focus-visible,.enonce-controles button:focus-visible{outline:3px solid #bd3042;outline-offset:2px}
+
 .exercice-colonnes>.exercice-aides{display:contents}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:first-child{grid-column:2}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1/-1}
