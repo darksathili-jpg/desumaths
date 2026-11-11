@@ -17,7 +17,7 @@
   display:block;width:var(--hero-frame);height:var(--hero-frame);
   background-image:url("../../assets/mascotte/hero-front.webp");
   background-repeat:no-repeat;
-  background-size:calc(var(--hero-frame) * 2) var(--hero-frame);
+  background-size:calc(var(--hero-frame) + var(--hero-frame)) var(--hero-frame);
   background-position:0 0;
   image-rendering:auto;
   filter:drop-shadow(0 9px 5px rgba(22,34,62,.14));
@@ -25,7 +25,7 @@
   animation:hero-repos 3.2s ease-in-out infinite;
 }
 .hero-compagnon[data-pose="welcome"] .hero-compagnon-sprite{
-  background-position:calc(-1 * var(--hero-frame)) 0;
+  background-position:calc(0px - var(--hero-frame)) 0;
   animation:hero-bonjour .55s ease-in-out 2;
 }
 .hero-bulle{
