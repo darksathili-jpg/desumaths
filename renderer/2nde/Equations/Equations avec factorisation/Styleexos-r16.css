@@ -2,7 +2,23 @@
 .formule-enonce{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:12px;text-align:center;min-width:0;overflow:visible}
 .enonce-texte,.enonce-expression{display:block;min-width:0;max-width:100%}
 .enonce-expression{font-size:clamp(.95rem,1.6vw,1.18rem)}
-.enonce-expression mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0}
+/* L'énoncé peut dépasser la largeur du téléphone : il se parcourt indépendamment. */
+.formule-enonce{overflow:hidden!important}
+.enonce-expression{
+ width:100%;max-width:100%;min-width:0;
+ overflow-x:auto;overflow-y:hidden;
+ overscroll-behavior-x:contain;
+ -webkit-overflow-scrolling:touch;
+ scrollbar-width:auto;scrollbar-color:#60718c #e8ecf4;
+ text-align:start;
+ padding-bottom:10px;
+}
+.enonce-expression::-webkit-scrollbar{height:9px}
+.enonce-expression::-webkit-scrollbar-thumb{background:#60718c;border-radius:8px}
+.enonce-expression mjx-container{
+ display:table!important;width:max-content!important;max-width:none!important;
+ min-width:0!important;overflow:visible!important;margin:0 auto!important;padding:8px 0!important;
+}
 .exercice-colonnes>.exercice-aides{display:contents}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:first-child{grid-column:2}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1/-1}
