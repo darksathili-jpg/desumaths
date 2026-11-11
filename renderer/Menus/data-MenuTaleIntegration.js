@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Integration",
+  "titre": "Terminale spécialité · Calcul intégral",
   "sections": [
     {
       "titre": "Exercices et ressources",
