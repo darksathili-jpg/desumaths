@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Terminale · Trigo",
+  "titre": "Terminale spécialité · Trigonométrie",
   "sections": [
     {
       "titre": "Exercices et ressources",
