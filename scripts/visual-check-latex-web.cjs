@@ -58,6 +58,12 @@ async function main() {
         assert.equal(buffer.subarray(0,5).toString('ascii'),'%PDF-','Not a real PDF file');
         assert.ok(buffer.length>1000,'Empty or truncated PDF');
         assert.equal(pdf.contentType,'application/pdf');
+        const openPdf = page.locator('#openpdfbtn');
+        assert.equal(await openPdf.isVisible(),true,'Open PDF fallback is not visible');
+        assert.equal(await openPdf.getAttribute('target'),'_blank');
+        assert.equal(await openPdf.getAttribute('rel'),'noopener');
+        assert.equal(await openPdf.getAttribute('href'),await page.locator('#downloadbtn').getAttribute('href'));
+
         fs.writeFileSync(path.join(out,'latex-exemple-'+width+'.pdf'),buffer);
 
         const widthMetrics=await page.evaluate(()=>({
@@ -68,6 +74,8 @@ async function main() {
         assert.ok(widthMetrics.documentWidth<=width+2,'Global overflow: '+JSON.stringify(widthMetrics));
         assert.ok(widthMetrics.previewSource.startsWith('blob:'),'PDF preview not linked');
 
+        await page.evaluate(() => window.scrollTo(0,0));
+        await page.waitForTimeout(120);
         await page.screenshot({path:path.join(out,'atelier-'+width+'.png'),fullPage:true});
         console.log('LATEX WEB REAL PDF OK',width,'px',buffer.length,'bytes / format and resources self-hosted');
 
@@ -77,6 +85,7 @@ async function main() {
           assert.ok((await page.locator('#etat').textContent()).includes('TikZ'));
           await page.locator('#exemple-web').click();
           assert.equal(await page.locator('#downloadbtn').isVisible(),false,'Stale PDF displayed after selecting an example');
+          assert.equal(await page.locator('#openpdfbtn').isVisible(),false,'Stale PDF opener remains visible');
         }
         assert.deepEqual(errors,[],'Unexpected browser JS exceptions');
       } catch(e) {
