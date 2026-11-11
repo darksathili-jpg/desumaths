@@ -1,4 +1,4 @@
-/* G2-R16 — Mise en page uniquement, gabarit pédagogique historique inchangé. */
+/* G2-R16 — uniquement disposition, gabarit LaTeX historique preserve. */
 .formule-enonce{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:12px;text-align:center;min-width:0;overflow:visible}
 .enonce-texte,.enonce-expression{display:block;min-width:0;max-width:100%}
 .enonce-expression{font-size:clamp(.95rem,1.6vw,1.18rem)}
@@ -6,7 +6,72 @@
 .exercice-colonnes>.exercice-aides{display:contents}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:first-child{grid-column:2}
 .exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1/-1}
-.correction-facteur{max-height:none;min-width:0;overflow:visible;padding:clamp(14px,2vw,24px);line-height:1.7}
-.correction-facteur mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0;text-align:center}
-@media(max-width:900px){.exercice-colonnes>.exercice-aides>.panneau-reponse:first-child,.exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1}}
-@media(max-width:520px){.correction-facteur{padding:12px 8px;font-size:.91rem}.enonce-expression{font-size:.95rem}}
+@media(max-width:900px){
+ .exercice-colonnes>.exercice-aides>.panneau-reponse:first-child,
+ .exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1}
+}
+/* The entire correction remains inside a fixed-width paper area, centred on desktop. */
+.exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{min-width:0;max-width:100%}
+.correction-facteur{
+ box-sizing:border-box;
+ width:100%;
+ max-width:880px!important;
+ min-width:0;
+ margin:20px auto 0;
+ max-height:none!important;
+ overflow:visible!important;
+ padding:clamp(14px,2.2vw,24px);
+ line-height:1.75;
+ overflow-wrap:break-word;
+}
+/* R16-MATH: each rendered array has an independently scrollable viewport. */
+.correction-facteur .r16-math-region{max-width:100%;min-width:0;margin:8px 0 10px}
+.correction-facteur .r16-math-scroll{
+ box-sizing:border-box;display:block;width:100%;max-width:100%;min-width:0;
+ overflow-x:auto!important;overflow-y:hidden!important;
+ overscroll-behavior-x:contain;
+ -webkit-overflow-scrolling:touch;
+ scrollbar-width:auto;
+ scrollbar-color:#60718c #e8ecf4;
+ padding:8px 2px 12px;
+ border-radius:5px;
+}
+.correction-facteur .r16-math-scroll:focus-visible{outline:3px solid #bd3042;outline-offset:2px}
+.correction-facteur .r16-math-scroll::-webkit-scrollbar{height:10px}
+.correction-facteur .r16-math-scroll::-webkit-scrollbar-thumb{background:#60718c;border-radius:8px}
+.correction-facteur .r16-math-scroll::-webkit-scrollbar-track{background:#e8ecf4;border-radius:8px}
+/* Using a table keeps the natural MathJax intrinsic width rather than clipping it. */
+.correction-facteur .r16-math-inner{display:table;width:max-content;min-width:0;max-width:none;margin-left:auto;margin-right:auto}
+.correction-facteur .r16-math-region[data-overflow="true"] .r16-math-inner{margin-left:0;margin-right:0}
+.correction-facteur .r16-math-scroll mjx-container{
+ display:block!important;
+ width:max-content!important;
+ min-width:0!important;
+ max-width:none!important;
+ overflow:visible!important;
+ white-space:nowrap;
+ padding:0!important;
+ margin:0!important;
+ text-align:left!important;
+}
+.correction-facteur .r16-math-controls{display:flex;align-items:center;gap:8px;justify-content:space-between;font:500 .8rem/1.4 var(--police-texte),system-ui,sans-serif;color:#4a5b76;padding:4px 0 9px}
+.correction-facteur .r16-math-controls[hidden]{display:none!important}
+.correction-facteur .r16-math-controls button{
+ background:#fffdf8; color:#16223e;
+ border:1px solid #aebbd0;
+ border-radius:8px;
+ font:700 1.05rem var(--police-texte),system-ui,sans-serif;
+ padding:7px 13px;
+ min-width:44px;
+ min-height:40px;
+ cursor:pointer;
+}
+.correction-facteur .r16-math-controls button:focus-visible{outline:3px solid #bd3042}
+.correction-facteur .r16-math-controls button:disabled{opacity:.35;cursor:default}
+.correction-facteur .r16-math-controls span{text-align:center}
+@media(max-width:520px){
+ .correction-facteur{padding:12px 8px;font-size:.95rem}
+ .enonce-expression{font-size:.95rem}
+ .correction-facteur .r16-math-scroll{padding-bottom:13px}
+ .correction-facteur .r16-math-controls{font-size:.78rem}
+}
