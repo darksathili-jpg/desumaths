@@ -32,7 +32,21 @@
       const container = card.querySelector('.g4-figure');
       const svg = container?.querySelector('svg.tikzjax');
       const message = card.querySelector('[data-figure-status]');
+      // Un conteneur SVG seul ne prouve pas que TikZ a produit une figure.
+      // Attendre une taille utilisable et une géométrie réellement dessinée.
+      let complete = false;
       if (svg) {
+        try {
+          const visible = svg.getBoundingClientRect();
+          const drawing = svg.getBBox();
+          complete = visible.width > 80 && visible.height > 60 &&
+            drawing.width > 20 && drawing.height > 20 &&
+            svg.querySelectorAll('path,line,rect,circle,text,polyline,polygon').length > 5;
+        } catch (_) {
+          // Le SVG peut encore être en cours de construction.
+        }
+      }
+      if (complete) {
         if (!svg.querySelector('title')) {
           const title = document.createElementNS('http://www.w3.org/2000/svg','title');
           title.textContent = key === 'variations'
