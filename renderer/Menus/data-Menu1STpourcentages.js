@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Première technologique · pourcentages",
+  "titre": "Première technologique · Pourcentages",
   "sections": [
     {
       "titre": "Exercices et ressources",
