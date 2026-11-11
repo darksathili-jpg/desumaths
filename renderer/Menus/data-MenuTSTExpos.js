@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "TSTExpos",
+  "titre": "Terminale technologique · Fonctions exponentielles et logarithmes",
   "sections": [
     {
       "titre": "Exercices et ressources",
