@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "TSTVariablesAleatoires",
+  "titre": "Terminale technologique · Variables aléatoires discrètes",
   "sections": [
     {
       "titre": "Exercices et ressources",
