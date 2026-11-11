@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "Seconde · Systemes",
+  "titre": "Seconde · Systèmes",
   "sections": [
     {
       "titre": "Exercices et ressources",
