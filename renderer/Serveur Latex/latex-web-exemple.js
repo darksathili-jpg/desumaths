@@ -7,10 +7,10 @@ export const latexWeb = String.raw`
 \usepackage{amsmath,amssymb,xcolor}
 \begin{document}
 \begin{center}
-{\Large \textbf{Desumaths : un exercice corrige}}
+{\Large \textbf{Desumaths : un exercice corrigé}}
 \end{center}
-\section*{Equation du premier degre}
-Resoudre :
+\section*{Équation du premier degré}
+Résoudre :
 \[
   2x+3=11.
 \]
