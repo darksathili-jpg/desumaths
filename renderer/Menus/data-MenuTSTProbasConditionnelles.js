@@ -1,5 +1,5 @@
 const MENU = {
-  "titre": "TSTProbasConditionnelles",
+  "titre": "Terminale technologique · Probabilités conditionnelles",
   "sections": [
     {
       "titre": "Exercices et ressources",
