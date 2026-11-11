@@ -45,6 +45,7 @@ async function examine(browser,width) {
     assert.ok(metrics.pageWidth<=width+2,'Global horizontal overflow: '+JSON.stringify(metrics));
     assert.ok(metrics.bubble.left>=-2&&metrics.bubble.right<=width+2,'Bubble offscreen: '+JSON.stringify(metrics));
     assert.ok(metrics.frame.width>0&&metrics.frame.height>0,'Sprite has no visible dimensions');
+    if (width <= 440) assert.ok(metrics.frame.height>=160, 'Companion too small on phone');
     assert.ok(metrics.demo.bottom <= metrics.compagnon.top+2,'Sprite overlays the live exercise');
     assert.ok(metrics.pages===3,'The historical three-level navigation is missing');
     const companion=page.locator('#hero-compagnon');
@@ -62,6 +63,8 @@ async function examine(browser,width) {
     assert.ok(await companion.evaluate(el=>el.hidden),'Hero could not be hidden');
     await page.getByRole('button',{name:'Afficher Christophe, mon guide'}).click();
     assert.ok(!(await companion.evaluate(el=>el.hidden)),'Hero could not be restored');
+    await page.evaluate(() => window.scrollTo(0,0));
+    await page.waitForTimeout(120);
     await page.screenshot({path:path.join(evidence,'g3-hero-'+width+'.png'),fullPage:true});
     report.push({width,...metrics,imageWidth:image.width,imageHeight:image.height});
     console.log('G3 HERO VISUAL OK',width,'px; asset loaded; controls working; no overflow');
