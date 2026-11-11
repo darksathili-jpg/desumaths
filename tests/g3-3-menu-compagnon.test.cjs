@@ -40,7 +40,7 @@ test('G3.3 - same 12-frame sprite and a discreet responsive layout',()=>{
  assert.match(css,/grid-template-columns/);
  assert.match(css,/@media\(max-width:620px\)/);
  assert.doesNotMatch(css,/position:\s*fixed/);
- assert.match(hero,/root\.dataset\.mode!=='menu'/);
+ assert.match(hero,/\['menu','exercise'\]\.includes\(root\.dataset\.mode\)/);
  assert.match(companion,/data-hero|heroTip/);
  assert.match(companion,/aria-pressed/);
  assert.match(companion,/aria-live/);
