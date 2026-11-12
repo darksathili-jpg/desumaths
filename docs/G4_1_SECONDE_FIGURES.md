@@ -50,3 +50,11 @@ node scripts/visual-check-g4-1-seconde.cjs
 ```
 
 État : workflow et script committés ; aucune réussite d'exécution distante ou visuelle n'est déclarée à ce stade.
+
+## Durcissement de la recette
+
+- Le workflow enregistre `artifacts/g4-1-seconde/revision.txt` avec le commit exact (`GITHUB_SHA`) et refuse une divergence entre ce SHA et la copie de travail.
+- Le navigateur ouvre aussi le thème historique **Fonctions** depuis le menu Seconde, puis vérifie le titre obtenu avant de tester les deux raccourcis TikZ.
+- Le test statique vérifie la présence de ces deux nouveaux garde-fous.
+
+**Réserve de preuve :** la lecture des statuts du dernier commit via le connecteur ne renvoyait aucun statut ni exécution de demande de fusion. Cela ne prouve ni succès ni absence de workflow push ; consulter les runs Actions et les artefacts avant toute conclusion. Le dépôt ne pouvait pas être cloné depuis l'environnement de contrôle (résolution DNS indisponible). Aucune exécution locale des tests n'est revendiquée.
