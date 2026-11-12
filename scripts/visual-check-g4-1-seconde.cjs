@@ -72,7 +72,7 @@ async function inspect(browser,width){
       const link=page.locator('.g41-links a[href$="'+scenario.file+'"]');
       assert.equal(await link.count(),1,'Lien manquant '+scenario.id);
       await link.click();
-      await page.waitForURL(new RegExp('/Laboratoire/FiguresTikZ/'+scenario.file.replace('.','\\.')+'
+      await page.waitForURL(url => url.pathname.endsWith('/Laboratoire/FiguresTikZ/'+scenario.file),{timeout:30000});
       assert.equal(await page.locator('[data-tikz-example]').count(),1,'La page doit montrer une seule figure');
       assert.equal(await page.locator('a[href="'+(scenario.id==='variations'?'parabole.html':'variations.html')+'"]').count(),2,'Lien vers la figure complémentaire manquant');
       const card=page.locator('#'+scenario.id);
