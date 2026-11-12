@@ -58,3 +58,19 @@ test('G4.1 : automated browser recipe preserves evidence and never deploys', () 
   assert.doesNotMatch(workflow,/actions\/deploy-pages/);
   assert.doesNotMatch(workflow,/pages: write/);
 });
+
+test('G4.1: downloadable site artifact is gated by browser checks', () => {
+  const workflow=read('.github/workflows/g4-1-seconde.yml');
+  const exportCheck=read('scripts/check-g4-1-web.cjs');
+  assert.match(workflow,/node scripts\/check-g4-1-web\.cjs/);
+  assert.match(workflow,/name: desumaths-g4-1-site-preview/);
+  const chrome=workflow.indexOf('node scripts/visual-check-g4-1-seconde.cjs');
+  const preview=workflow.indexOf('name: desumaths-g4-1-site-preview');
+  assert.ok(chrome>=0 && preview>chrome,'Preview must only run after browser recipe');
+  assert.match(workflow,/dist\/web\/g4-1-build\.json/);
+  assert.doesNotMatch(workflow,/actions\/deploy-pages/);
+  for(const id of ['variations','courbe']) {
+    assert.ok(exportCheck.includes(id),'Missing exported anchor validation: '+id);
+  }
+  assert.match(exportCheck,/MenuSecondeFonctions\.html/);
+});
