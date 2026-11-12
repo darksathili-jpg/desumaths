@@ -87,3 +87,13 @@ L'étape finale de déploiement vérifie sur l'URL fournie par GitHub Pages que 
 - Figures : https://darksathili-jpg.github.io/desumaths/Laboratoire/FiguresTikZ/index.html
 
 **Attention :** la présence du commit sur GitHub n'établit pas que l'exécution GitHub Actions a réussi. Le workflow G4.1 doit afficher un succès du job `deploy`, et la ressource publique `g4-1-build.json` doit correspondre à la révision courante. Un workflow plus ancien de publication GitHub Pages peut ultérieurement remplacer le site : ne pas confondre la branche de dépôt avec la version actuellement servie.
+
+## G4.1-R5 — audit de la capture réelle
+
+La capture transmise montre bien les cartes des thèmes, mais la section « Laboratoire graphique » reste visuellement non stylisée (absence de panneau et de boutons distincts). Le dépôt contient pourtant les règles `.g41-figures` et `.g41-links a` dans `StyleMenus.css` : un décalage de cache entre HTML et CSS est une explication plausible, non une preuve définitive.
+
+Correction préventive : la page Seconde référence `StyleMenus.css?v=g41-r5` pour forcer une nouvelle URL de feuille de style. La recette Chrome vérifie désormais les styles **calculés** de la section et des boutons à 375 et 1280 pixels, et échoue si le panneau est non stylisé, indépendamment de la présence des sélecteurs dans les sources.
+
+Critère de validation humaine : panneau clair distinct avec bordure latérale rouge, titre lisible et deux boutons espacés, contrastés, faciles à utiliser. Vérifier aussi la navigation vers les deux figures réelles et les anciennes pages de fonctions.
+
+Aucune recette distante réussie ni mise en ligne du correctif R5 n'est confirmée par cet enregistrement seul.
