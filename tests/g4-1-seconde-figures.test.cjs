@@ -98,4 +98,7 @@ test('G4.1-R5 : Seconde always loads a versioned stylesheet and Chrome checks re
   assert.match(browser,/graphicStyle\.border/);
   assert.match(browser,/graphicStyle\.buttonBackground/);
   assert.match(browser,/graphicStyle\.buttonHeight/);
+  assert.match(browser,/\['flex','inline-flex'\]\.includes\(graphicStyle\.display\)/);
+  assert.doesNotMatch(browser,/assert\.equal\(graphicStyle\.display,'inline-flex'/);
+
 });
