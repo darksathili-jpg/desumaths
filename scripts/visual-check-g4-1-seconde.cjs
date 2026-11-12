@@ -36,6 +36,25 @@ async function inspect(browser,width){
     assert.ok(menu.documentWidth<=width+2,'Débordement horizontal menu');
     assert.ok(menu.x>=-2 && menu.x+menu.width<=width+2,'Passerelle hors écran');
     observations.menu=menu;
+    // G4.1-R5 : le HTML peut etre recent tandis que StyleMenus.css reste en cache.
+    // Refuser un bloc laboratoire sans fond, bordure ni vrais boutons.
+    const graphicStyle=await page.evaluate(()=>{
+      const section=document.querySelector('.g41-figures');
+      const button=document.querySelector('.g41-links a');
+      const panel=getComputedStyle(section);
+      const link=getComputedStyle(button);
+      const rect=button.getBoundingClientRect();
+      return {background:panel.backgroundColor,border:panel.borderLeftWidth,
+        display:link.display,buttonBackground:link.backgroundColor,
+        buttonHeight:rect.height,stylesheet:[...document.styleSheets].some(s=>
+          s.href?.includes('StyleMenus.css?v=g41-r5'))};
+    });
+    assert.ok(graphicStyle.stylesheet,'Version CSS G4.1 non chargee');
+    assert.ok(parseFloat(graphicStyle.border)>=4,'Bordure du laboratoire absente');
+    assert.equal(graphicStyle.display,'inline-flex','Liens du laboratoire sans style');
+    assert.ok(graphicStyle.buttonHeight>=40,'Boutons du laboratoire trop petits');
+    assert.notEqual(graphicStyle.buttonBackground,'rgba(0, 0, 0, 0)','Boutons sans fond');
+    observations.graphicStyle=graphicStyle;
     await page.screenshot({path:path.join(output,'seconde-'+width+'.png'),fullPage:true});
     // Regression : un theme historique doit toujours rester accessible.
     const legacy=page.locator('#themes a[href*="MenuSecondeFonctions.html"]');
