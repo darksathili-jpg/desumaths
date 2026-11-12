@@ -48,6 +48,13 @@ test('G4.1 : automated browser recipe preserves evidence and never deploys', () 
   assert.match(workflow,/artifacts\/g4-1-seconde/);
   assert.match(workflow,/revision\.txt/);
   assert.match(workflow,/git rev-parse HEAD/);
+  assert.match(workflow,/GITHUB_STEP_SUMMARY/);
+  assert.match(workflow,/Resume de la recette/);
+  const revisionLine = workflow.split('\n').find(line => line.includes("printf 'commit="));
+  assert.ok(revisionLine,'Missing provenance output');
+  assert.ok(revisionLine.includes(String.raw`\n`),'Missing printf line delimiter');
+  assert.ok(!revisionLine.includes(String.raw`\\n`),'Escaped literal newlines in provenance');
+
   assert.doesNotMatch(workflow,/actions\/deploy-pages/);
   assert.doesNotMatch(workflow,/pages: write/);
 });
