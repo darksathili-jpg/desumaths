@@ -74,3 +74,16 @@ Pour le consulter, ouvrir l'exécution réussie du workflow **Desumaths G4.1 - r
 Le paquet n'est pas mis en ligne sur GitHub Pages et n'affecte pas la version publique. **S'il manque, considérer la prévisualisation comme non validée** et examiner d'abord le rapport `desumaths-g4-1-seconde-preuves`.
 
 La recette contrôle également les chemins exportés par `scripts/check-g4-1-web.cjs`, y compris les deux ancres et le thème Fonctions historique. Ne pas assimiler la création du workflow à sa réussite.
+
+## G4.1-R4 — publication conditionnelle sur le site officiel
+
+Après autorisation humaine, le workflow `.github/workflows/g4-1-seconde.yml` comporte maintenant un job `deploy` qui n'est exécuté **que si le job complet `build` réussit**. L'artefact GitHub Pages contient la copie complète de `dist/web`, y compris les pages existantes et les moteurs LaTeX et TikZ récupérés à leurs révisions figées. La publication cible l'environnement `github-pages`.
+
+L'étape finale de déploiement vérifie sur l'URL fournie par GitHub Pages que `g4-1-build.json` contient exactement le commit testé (`GITHUB_SHA`). Cette vérification peut échouer même après un transfert Pages réussi : en pareil cas, ne pas déclarer la version visible avant vérification réelle.
+
+**Accès attendus après succès complet :**
+- Accueil : https://darksathili-jpg.github.io/desumaths/
+- Parcours Seconde : https://darksathili-jpg.github.io/desumaths/Menus/MenuSeconde.html
+- Figures : https://darksathili-jpg.github.io/desumaths/Laboratoire/FiguresTikZ/index.html
+
+**Attention :** la présence du commit sur GitHub n'établit pas que l'exécution GitHub Actions a réussi. Le workflow G4.1 doit afficher un succès du job `deploy`, et la ressource publique `g4-1-build.json` doit correspondre à la révision courante. Un workflow plus ancien de publication GitHub Pages peut ultérieurement remplacer le site : ne pas confondre la branche de dépôt avec la version actuellement servie.
