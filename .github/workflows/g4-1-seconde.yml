@@ -22,7 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts/g4-1-seconde
-          printf 'commit=%s\\nbranch=%s\\nworkflow=%s\\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_WORKFLOW" > artifacts/g4-1-seconde/revision.txt
+          printf 'commit=%s\nbranch=%s\nworkflow=%s\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_WORKFLOW" > artifacts/g4-1-seconde/revision.txt
           git rev-parse HEAD | grep -Fx "$GITHUB_SHA"
       - name: Tests mathematiques et protection des gabarits
         run: npm run check
@@ -94,6 +94,20 @@ jobs:
           node scripts/visual-check-g3-5-menu-titres.cjs
           node scripts/visual-check-g4-tikz.cjs
           node scripts/visual-check-g4-1-seconde.cjs
+      - name: Resume de la recette
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## Desumaths G4.1 — compte rendu de recette'
+            echo
+            echo "- Branche : \`$GITHUB_REF_NAME\`"
+            echo "- Commit : \`$GITHUB_SHA\`"
+            echo "- Résultat du job jusqu'ici : \`${{ job.status }}\`"
+            echo "- Captures : artefact \`desumaths-g4-1-seconde-preuves\` (s'il est produit)"
+            echo
+            echo 'Une publication ne doit pas être déduite de ce test : déploiement absent.'
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Captures et PDFs de preuve (y compris en cas d'echec)
         if: always()
         uses: actions/upload-artifact@v4
