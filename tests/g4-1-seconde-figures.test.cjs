@@ -39,11 +39,15 @@ test('G4.1 : automated browser recipe preserves evidence and never deploys', () 
   assert.match(script,/1280/);
   assert.match(script,/getBBox/);
   assert.match(script,/waitForURL/);
+  assert.match(script,/historicalFunctionRoute/);
+  assert.match(script,/MenuSecondeFonctions/);
   assert.match(script,/page\.screenshot/);
   assert.match(workflow,/node scripts\/visual-check-g4-1-seconde\.cjs/);
   assert.match(workflow,/npm run check/);
   assert.match(workflow,/npm run build:web/);
   assert.match(workflow,/artifacts\/g4-1-seconde/);
+  assert.match(workflow,/revision\.txt/);
+  assert.match(workflow,/git rev-parse HEAD/);
   assert.doesNotMatch(workflow,/actions\/deploy-pages/);
   assert.doesNotMatch(workflow,/pages: write/);
 });
