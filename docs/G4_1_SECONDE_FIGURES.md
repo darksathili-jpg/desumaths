@@ -64,3 +64,13 @@ node scripts/visual-check-g4-1-seconde.cjs
 Le fichier `revision.txt` utilise désormais les sauts de ligne effectifs de `printf` : chaque champ (`commit`, `branch`, `workflow`) est sur sa propre ligne. Le job écrit aussi son état dans le résumé natif GitHub Actions (`GITHUB_STEP_SUMMARY`). Un test statique protège ces deux dispositifs contre une régression.
 
 L'exécution réelle du workflow, les rapports de Chrome et les captures de figures ne sont pas confirmés depuis cette session. Aucun feu vert de publication n'en découle.
+
+## G4.1-R3 — paquet de prévisualisation téléchargeable
+
+Après réussite de toutes les étapes du job (tests mathématiques, build, navigation historique, compilation PDF et figures TikZ réelles en navigateur), la chaîne doit publier un **artefact GitHub Actions**, `desumaths-g4-1-site-preview`. Il contient le dossier `dist/web` complet avec les moteurs LaTeX et TikZ embarqués ainsi que `g4-1-build.json`, qui identifie la branche et le commit testés.
+
+Pour le consulter, ouvrir l'exécution réussie du workflow **Desumaths G4.1 - recette Seconde et figures TikZ** dans Actions, télécharger `desumaths-g4-1-site-preview`, extraire l'archive et démarrer un serveur HTTP depuis le dossier extrait (`python -m http.server 8765`). Ouvrir ensuite `http://localhost:8765/Menus/MenuSeconde.html`. Le serveur HTTP est nécessaire aux moteurs WebAssembly ; l'ouverture directe en `file://` n'est pas une preuve de fonctionnement.
+
+Le paquet n'est pas mis en ligne sur GitHub Pages et n'affecte pas la version publique. **S'il manque, considérer la prévisualisation comme non validée** et examiner d'abord le rapport `desumaths-g4-1-seconde-preuves`.
+
+La recette contrôle également les chemins exportés par `scripts/check-g4-1-web.cjs`, y compris les deux ancres et le thème Fonctions historique. Ne pas assimiler la création du workflow à sa réussite.
