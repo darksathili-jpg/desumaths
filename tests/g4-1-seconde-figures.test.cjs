@@ -86,3 +86,16 @@ test('G4.1: downloadable site artifact is gated by browser checks', () => {
   }
   assert.match(exportCheck,/MenuSecondeFonctions\.html/);
 });
+
+test('G4.1-R5 : Seconde always loads a versioned stylesheet and Chrome checks real design', () => {
+  const menu=read('renderer/Menus/MenuSeconde.html');
+  const css=read('renderer/Menus/StyleMenus.css');
+  const browser=read('scripts/visual-check-g4-1-seconde.cjs');
+  assert.match(menu,/StyleMenus\.css\?v=g41-r5/);
+  assert.match(css,/\.g41-figures\{/);
+  assert.match(css,/\.g41-links a\{/);
+  assert.match(browser,/graphicStyle\.stylesheet/);
+  assert.match(browser,/graphicStyle\.border/);
+  assert.match(browser,/graphicStyle\.buttonBackground/);
+  assert.match(browser,/graphicStyle\.buttonHeight/);
+});
