@@ -137,3 +137,28 @@ jobs:
             artifacts/g4-1-seconde
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Préparer la publication GitHub Pages après recette complète
+        uses: actions/configure-pages@v5
+      - name: Charger le site complet et vérifié pour GitHub Pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+
+  deploy:
+    needs: build
+    if: ${{ needs.build.result == 'success' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: desumaths-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier le site testé
+        id: deployment
+        uses: actions/deploy-pages@v4
