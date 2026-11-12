@@ -50,3 +50,10 @@
 }
 /* Exclusion de tout décor animé pour une séance de lecture. */
 @media(prefers-reduced-motion:reduce){.g4-figure,.g4-source{scroll-behavior:auto}}
+
+/* G4.1 : chaque page d'apprentissage a une seule figure, en pleine largeur. */
+.g41-single .g4-gallery{grid-template-columns:minmax(0,1fr);max-width:920px}
+.g41-single .g4-figure-shell{min-height:220px}
+.g41-single-next{margin:25px 0 0;display:flex;flex-wrap:wrap;gap:9px 18px;font-size:.92rem;line-height:1.6}
+.g41-single-next a{color:#a5253a;font-weight:700;text-underline-offset:3px}
+.g41-single-next a:focus-visible{outline:3px solid #a5253a;outline-offset:4px}
