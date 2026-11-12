@@ -61,8 +61,8 @@ test('G4.1 : automated browser recipe preserves evidence and gates publication',
   const deployment=workflow.slice(deployJob);
   assert.match(deployment,/pages: write/);
   assert.match(deployment,/id-token: write/);
-  assert.match(deployment,/g4-1-build\\.json/);
-  assert.match(deployment,/x\\["commit"\\]==os\\.environ\\["GITHUB_SHA"\\]/);
+  assert.match(deployment,/g4-1-build\.json/);
+  assert.match(deployment,/x\["commit"\]==os\.environ\["GITHUB_SHA"\]/);
 
 
   const revisionLine = workflow.split('\n').find(line => line.includes("printf 'commit="));
