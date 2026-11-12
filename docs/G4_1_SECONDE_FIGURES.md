@@ -97,3 +97,11 @@ Correction préventive : la page Seconde référence `StyleMenus.css?v=g41-r5` p
 Critère de validation humaine : panneau clair distinct avec bordure latérale rouge, titre lisible et deux boutons espacés, contrastés, faciles à utiliser. Vérifier aussi la navigation vers les deux figures réelles et les anciennes pages de fonctions.
 
 Aucune recette distante réussie ni mise en ligne du correctif R5 n'est confirmée par cet enregistrement seul.
+
+## G4.1-R6 — correction du faux échec des boutons
+
+Le journal Chromium transmis pour le commit `f1cff3a` confirme le succès du compilateur PDF, des tests R16, de la navigation G3.3, des contrôles G3.4 et des 82 affichages des menus G3.5, ainsi que des deux SVG TikZ réels à deux largeurs. L'échec restant était l'assertion trop stricte `display === 'inline-flex'` alors que Chrome renvoyait `display: flex`.
+
+Le test accepte désormais `flex` **ou** `inline-flex`, deux dispositions adaptées aux boutons. Les autres conditions de recette (CSS versionné, bordure, fond non transparent, hauteur, navigation, figures SVG et absence de débordement) restent obligatoires.
+
+Ce correctif ne modifie ni les fichiers d'exercices ni les règles CSS visibles. Son effet sur le prochain workflow et la disponibilité publique n'est pas encore vérifié.
