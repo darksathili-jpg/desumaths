@@ -17,7 +17,9 @@
       if (!globalStatus) return;
       const finished = done.size + failed.size;
       if (finished === cards.length && failed.size === 0) {
-        globalStatus.textContent = '2 figures SVG générées dans le navigateur. MathJax et TikZJax sont opérationnels.';
+        globalStatus.textContent = cards.length === 1
+          ? 'Figure SVG générée dans le navigateur. MathJax et TikZJax sont opérationnels.'
+          : '2 figures SVG générées dans le navigateur. MathJax et TikZJax sont opérationnels.';
         if (globalLine) globalLine.dataset.state = 'ok';
       } else if (failed.size) {
         globalStatus.textContent = failed.size + ' figure(s) non générée(s). Voir le code LaTeX et le diagnostic.';
