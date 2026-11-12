@@ -113,3 +113,13 @@ test('G4.1-R5 : Seconde always loads a versioned stylesheet and Chrome checks re
   assert.doesNotMatch(browser,/assert\.equal\(graphicStyle\.display,'inline-flex'/);
 
 });
+
+test('G4.1: single-figure pages have a one-figure status and wide responsive layout', () => {
+  const script=read('renderer/Laboratoire/FiguresTikZ/figures-tikz.js');
+  const css=read('renderer/Laboratoire/FiguresTikZ/figures-tikz.css');
+  assert.match(script,/cards\.length === 1/);
+  assert.match(script,/Figure SVG générée/);
+  assert.match(script,/2 figures SVG générées/);
+  assert.match(css,/\.g41-single \.g4-gallery/);
+  assert.match(css,/grid-template-columns:minmax\(0,1fr\)/);
+});
