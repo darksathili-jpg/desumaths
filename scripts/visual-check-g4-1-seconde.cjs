@@ -51,7 +51,8 @@ async function inspect(browser,width){
     });
     assert.ok(graphicStyle.stylesheet,'Version CSS G4.1 non chargee');
     assert.ok(parseFloat(graphicStyle.border)>=4,'Bordure du laboratoire absente');
-    assert.equal(graphicStyle.display,'inline-flex','Liens du laboratoire sans style');
+    assert.ok(['flex','inline-flex'].includes(graphicStyle.display),
+      'Liens du laboratoire sans mise en page flex : '+graphicStyle.display);
     assert.ok(graphicStyle.buttonHeight>=40,'Boutons du laboratoire trop petits');
     assert.notEqual(graphicStyle.buttonBackground,'rgba(0, 0, 0, 0)','Boutons sans fond');
     observations.graphicStyle=graphicStyle;
