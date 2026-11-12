@@ -58,3 +58,9 @@ node scripts/visual-check-g4-1-seconde.cjs
 - Le test statique vérifie la présence de ces deux nouveaux garde-fous.
 
 **Réserve de preuve :** la lecture des statuts du dernier commit via le connecteur ne renvoyait aucun statut ni exécution de demande de fusion. Cela ne prouve ni succès ni absence de workflow push ; consulter les runs Actions et les artefacts avant toute conclusion. Le dépôt ne pouvait pas être cloné depuis l'environnement de contrôle (résolution DNS indisponible). Aucune exécution locale des tests n'est revendiquée.
+
+## Correction du suivi des preuves (G4.1-R2)
+
+Le fichier `revision.txt` utilise désormais les sauts de ligne effectifs de `printf` : chaque champ (`commit`, `branch`, `workflow`) est sur sa propre ligne. Le job écrit aussi son état dans le résumé natif GitHub Actions (`GITHUB_STEP_SUMMARY`). Un test statique protège ces deux dispositifs contre une régression.
+
+L'exécution réelle du workflow, les rapports de Chrome et les captures de figures ne sont pas confirmés depuis cette session. Aucun feu vert de publication n'en découle.
