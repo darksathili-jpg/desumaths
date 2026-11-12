@@ -32,7 +32,7 @@ test('G4.1 : gateway remains readable and keyboard accessible on mobile', () => 
   assert.match(style,/@media\(max-width:520px\)/);
 });
 
-test('G4.1 : automated browser recipe preserves evidence and never deploys', () => {
+test('G4.1 : automated browser recipe preserves evidence and gates publication', () => {
   const script = read('scripts/visual-check-g4-1-seconde.cjs');
   const workflow = read('.github/workflows/g4-1-seconde.yml');
   assert.match(script,/375/);
@@ -50,13 +50,23 @@ test('G4.1 : automated browser recipe preserves evidence and never deploys', () 
   assert.match(workflow,/git rev-parse HEAD/);
   assert.match(workflow,/GITHUB_STEP_SUMMARY/);
   assert.match(workflow,/Resume de la recette/);
+  assert.match(workflow,/needs: build/);
+  assert.match(workflow,/needs\.build\.result == 'success'/);
+  assert.match(workflow,/actions\/upload-pages-artifact@v4/);
+  assert.match(workflow,/actions\/deploy-pages@v4/);
+  assert.match(workflow,/name: github-pages/);
+  const deployJob=workflow.indexOf('\n  deploy:');
+  const browserCheck=workflow.indexOf('node scripts/visual-check-g4-1-seconde.cjs');
+  assert.ok(deployJob>browserCheck,'Publishing must depend on browser verification');
+  const deployment=workflow.slice(deployJob);
+  assert.match(deployment,/pages: write/);
+  assert.match(deployment,/id-token: write/);
+
   const revisionLine = workflow.split('\n').find(line => line.includes("printf 'commit="));
   assert.ok(revisionLine,'Missing provenance output');
   assert.ok(revisionLine.includes(String.raw`\n`),'Missing printf line delimiter');
   assert.ok(!revisionLine.includes(String.raw`\\n`),'Escaped literal newlines in provenance');
 
-  assert.doesNotMatch(workflow,/actions\/deploy-pages/);
-  assert.doesNotMatch(workflow,/pages: write/);
 });
 
 test('G4.1: downloadable site artifact is gated by browser checks', () => {
@@ -68,7 +78,6 @@ test('G4.1: downloadable site artifact is gated by browser checks', () => {
   const preview=workflow.indexOf('name: desumaths-g4-1-site-preview');
   assert.ok(chrome>=0 && preview>chrome,'Preview must only run after browser recipe');
   assert.match(workflow,/dist\/web\/g4-1-build\.json/);
-  assert.doesNotMatch(workflow,/actions\/deploy-pages/);
   for(const id of ['variations','courbe']) {
     assert.ok(exportCheck.includes(id),'Missing exported anchor validation: '+id);
   }
