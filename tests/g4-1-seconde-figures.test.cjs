@@ -31,3 +31,19 @@ test('G4.1 : gateway remains readable and keyboard accessible on mobile', () => 
   assert.match(style,/min-height:44px/);
   assert.match(style,/@media\(max-width:520px\)/);
 });
+
+test('G4.1 : automated browser recipe preserves evidence and never deploys', () => {
+  const script = read('scripts/visual-check-g4-1-seconde.cjs');
+  const workflow = read('.github/workflows/g4-1-seconde.yml');
+  assert.match(script,/375/);
+  assert.match(script,/1280/);
+  assert.match(script,/getBBox/);
+  assert.match(script,/waitForURL/);
+  assert.match(script,/page\.screenshot/);
+  assert.match(workflow,/node scripts\/visual-check-g4-1-seconde\.cjs/);
+  assert.match(workflow,/npm run check/);
+  assert.match(workflow,/npm run build:web/);
+  assert.match(workflow,/artifacts\/g4-1-seconde/);
+  assert.doesNotMatch(workflow,/actions\/deploy-pages/);
+  assert.doesNotMatch(workflow,/pages: write/);
+});
