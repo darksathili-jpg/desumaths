@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Étudier les variations de la fonction f(x) = x² − 4 à partir d’un tableau calculé dans le navigateur.">
+  <title>Tableau de variations — Desumaths Seconde</title>
+  <link rel="stylesheet" href="../../StylesIndex.css">
+  <link rel="stylesheet" href="figures-tikz.css">
+  <link rel="stylesheet" href="../../vendor/tikzjax/fonts.css">
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},startup:{typeset:true}};</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+  <script src="figures-tikz.js" defer></script>
+  <script src="../../vendor/tikzjax/tikzjax.js" defer></script>
+</head>
+<body>
+  <a class="lien-evitement" href="#experiences">Accéder à la figure</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete">
+    <a class="marque" href="../../index.html">Desum@ths</a>
+    <nav class="nav-principale" aria-label="Navigation">
+      <a href="../../Menus/MenuSeconde.html">Seconde</a>
+      <a href="index.html">Laboratoire complet</a>
+      <a href="courbe.html">Découvrir la parabole</a>
+    </nav>
+  </header>
+  <main class="g4-main g41-single">
+    <section class="g4-intro">
+      <p class="g4-eyebrow">DESUMATHS <span aria-hidden="true">/</span> SECONDE · FIGURE</p>
+      <h1>Tableau de variations</h1>
+      <p class="g4-lead">Étudier les variations de la fonction f(x) = x² − 4 à partir d’un tableau calculé dans le navigateur.</p>
+      <div class="g4-statusline" role="status" aria-live="polite"><span class="g4-status-dot" aria-hidden="true"></span><span id="g4-global-status">Chargement de la figure…</span></div>
+    </section>
+    <section class="g4-gallery" id="experiences" aria-label="Tableau de variations">
+      <article class="g4-card" id="variations" data-tikz-example="variations">
+        <div class="g4-card-top">
+          <span class="g4-index">01 / TKZ-TAB</span>
+          <h2>Comprendre une variation</h2>
+          <p>Pour \(f(x)=x^2-4\), on obtient \(f'(x)=2x\). Le minimum vaut \(-4\), atteint en \(x=0\).</p>
+        </div>
+        <div class="g4-figure-shell">
+          <div class="g4-figure" tabindex="0" aria-label="Zone de rendu du tableau de variations ; faire défiler horizontalement si nécessaire">
+            <script type="text/tikz" data-tex-packages='{"tkz-tab":""}'
+              data-aria-label="Tableau de variations de x au carré moins quatre : décroissante jusqu'à x égal zéro puis croissante">
+\begin{tikzpicture}
+  \tkzTabInit[lgt=3, espcl=2.5]
+    {$x$ / 1,
+     $f'(x)=2x$ / 1,
+     $f(x)$ / 2}
+    {$-\infty$, $0$, $+\infty$}
+  \tkzTabLine{, -, z, +, }
+  \tkzTabVar{+/$+\infty$, -/$-4$, +/$+\infty$}
+\end{tikzpicture}
+            </script>
+          </div>
+        </div>
+        <p class="g4-figure-status" data-figure-status role="status">Calcul de la figure…</p>
+        <details class="g4-source">
+          <summary>Afficher le code LaTeX</summary>
+          <div class="g4-source-header">
+            <span>Source originale, conservée à l'identique</span>
+            <button type="button" data-copy-source>Copier le code</button>
+          </div>
+          <pre tabindex="0"><code data-source-code></code></pre>
+        </details>
+      </article>
+    </section>
+    <p class="g41-single-next"><a href="courbe.html">Découvrir la parabole</a> · <a href="index.html">Voir les deux figures ensemble</a> · <a href="../../Menus/MenuSeconde.html">Retour au menu Seconde</a></p>
+  </main>
+  <footer class="pied-de-page">Desum@ths · Tableau de variations</footer>
+</body>
+</html>
