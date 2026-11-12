@@ -37,6 +37,15 @@ async function inspect(browser,width){
     assert.ok(menu.x>=-2 && menu.x+menu.width<=width+2,'Passerelle hors écran');
     observations.menu=menu;
     await page.screenshot({path:path.join(output,'seconde-'+width+'.png'),fullPage:true});
+    // Regression : un theme historique doit toujours rester accessible.
+    const legacy=page.locator('#themes a[href*="MenuSecondeFonctions.html"]');
+    assert.equal(await legacy.count(),1,'Lien historique Fonctions absent');
+    await legacy.click();
+    await page.waitForURL(/\/Menus\/MenuSecondeFonctions\.html$/,{timeout:30000});
+    const legacyHeading=page.locator('#titre-menu');
+    await legacyHeading.waitFor({state:'visible'});
+    assert.ok((await legacyHeading.textContent()).trim().length>0,'Titre du theme historique vide');
+    observations.historicalFunctionRoute=page.url();
     for(const scenario of scenarios){
       await page.goto(base+'/Menus/MenuSeconde.html',{waitUntil:'domcontentloaded'});
       await page.locator('#themes a').first().waitFor({state:'visible'});
