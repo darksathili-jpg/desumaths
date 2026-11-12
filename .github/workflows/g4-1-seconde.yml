@@ -99,7 +99,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          printf '{"branch":"%s","commit":"%s","status":"tested"}\\n' "$GITHUB_REF_NAME" "$GITHUB_SHA" > dist/web/g4-1-build.json
+          printf '{"branch":"%s","commit":"%s","status":"tested"}\n' "$GITHUB_REF_NAME" "$GITHUB_SHA" > dist/web/g4-1-build.json
       - name: Paquet de previsualisation G4.1 (apres succes seulement)
         uses: actions/upload-artifact@v4
         with:
