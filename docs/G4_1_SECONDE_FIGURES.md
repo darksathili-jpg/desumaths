@@ -105,3 +105,16 @@ Le journal Chromium transmis pour le commit `f1cff3a` confirme le succès du com
 Le test accepte désormais `flex` **ou** `inline-flex`, deux dispositions adaptées aux boutons. Les autres conditions de recette (CSS versionné, bordure, fond non transparent, hauteur, navigation, figures SVG et absence de débordement) restent obligatoires.
 
 Ce correctif ne modifie ni les fichiers d'exercices ni les règles CSS visibles. Son effet sur le prochain workflow et la disponibilité publique n'est pas encore vérifié.
+
+## G4.1-R7 — navigation pédagogique clarifiée
+
+À la suite du retour de recette, les deux boutons du menu Seconde n'ouvrent plus la même page avec deux ancres. Ils pointent vers **deux documents différents** :
+
+- `Laboratoire/FiguresTikZ/variations.html` : uniquement le tableau de variations, son contexte, son code LaTeX et un accès à la parabole ;
+- `Laboratoire/FiguresTikZ/parabole.html` : uniquement la représentation graphique, son contexte, son code LaTeX et un accès au tableau.
+
+La page `Laboratoire/FiguresTikZ/index.html` reste le laboratoire comparatif avec ses deux figures. Les deux nouvelles pages conservent l'accès au menu Seconde, au laboratoire complet et à l'autre figure. Le moteur partagé `figures-tikz.js` sait maintenant annoncer le succès pour une ou deux figures, sans affirmer que deux figures ont été produites lorsqu'une seule est attendue.
+
+Le contrôle du site exporté vérifie les deux destinations réelles. La recette Chrome clique chacun des deux boutons et exige que **la page cible ne contienne qu'un seul exercice graphique** et que son SVG soit réellement rendu, à 375 et 1280 pixels.
+
+Les générateurs et les corrections historiques sont inchangés. La réussite de cette nouvelle recette et la mise en ligne R7 restent à confirmer dans GitHub Actions.
