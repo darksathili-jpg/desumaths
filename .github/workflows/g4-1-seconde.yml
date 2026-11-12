@@ -17,6 +17,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Identifier exactement la revision testee
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/g4-1-seconde
+          printf 'commit=%s\\nbranch=%s\\nworkflow=%s\\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_WORKFLOW" > artifacts/g4-1-seconde/revision.txt
+          git rev-parse HEAD | grep -Fx "$GITHUB_SHA"
       - name: Tests mathematiques et protection des gabarits
         run: npm run check
       - name: Construction des pages du site
