@@ -162,3 +162,21 @@ jobs:
       - name: Publier le site testé
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Vérifier la révision réellement visible sur le site public
+        shell: bash
+        env:
+          DEPLOYMENT_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOYMENT_URL"
+          for attempt in $(seq 1 12); do
+            if curl -fsSL --max-time 15 "${DEPLOYMENT_URL%/}/g4-1-build.json?revision=$GITHUB_SHA" -o /tmp/g41-public-build.json; then
+              if python3 -c 'import json,os; x=json.load(open("/tmp/g41-public-build.json")); assert x["commit"]==os.environ["GITHUB_SHA"] and x["status"]=="tested"'; then
+                echo "Version publique G4.1 vérifiée : $GITHUB_SHA"
+                exit 0
+              fi
+            fi
+            sleep 10
+          done
+          echo 'ERREUR : revision publiee non confirmee, controler GitHub Pages.' >&2
+          exit 1
