@@ -6,13 +6,24 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root,file),'utf8');
 
-test('G4.1 : Seconde links directly to the two matching lab examples', () => {
+test('G4.1 : Seconde offers two distinct and focused teaching pages', () => {
   const menu = read('renderer/Menus/MenuSeconde.html');
   const lab = read('renderer/Laboratoire/FiguresTikZ/index.html');
-  for (const id of ['variations','courbe']) {
-    assert.ok(menu.includes('../Laboratoire/FiguresTikZ/index.html#'+id));
+  const cases = [
+    {file:'variations.html', id:'variations', other:'courbe'},
+    {file:'parabole.html', id:'courbe', other:'variations'}
+  ];
+  for (const {file,id,other} of cases) {
+    const page = read('renderer/Laboratoire/FiguresTikZ/'+file);
+    assert.ok(menu.includes('../Laboratoire/FiguresTikZ/'+file));
+    assert.match(page,new RegExp('id="'+id+'" data-tikz-example="'+id+'"'));
+    assert.ok(!page.includes('data-tikz-example="'+other+'"'));
+    assert.ok(page.includes('figures-tikz.js'));
+    assert.ok(page.includes('vendor/tikzjax/tikzjax.js'));
     assert.match(lab,new RegExp('id="'+id+'" data-tikz-example="'+id+'"'));
   }
+  assert.ok(!menu.includes('index.html#variations'));
+  assert.ok(!menu.includes('index.html#courbe'));
   assert.match(menu,/id="themes"/);
   assert.match(menu,/rendu-menu\.js/);
   assert.match(menu,/Activité facultative/);
