@@ -149,3 +149,15 @@
   transform: translateX(4px);
   box-shadow: 0 14px 26px -14px rgba(22, 34, 62, 0.45);
 }
+
+/* G4.1 — passerelle optionnelle du niveau Seconde vers les figures TikZ. */
+.g41-figures{margin:clamp(26px,4vw,50px) auto 0;max-width:950px;padding:clamp(19px,3vw,30px);background:#fffdf8;border:1px solid #d8dce5;border-left:5px solid #b4283d;border-radius:14px;box-sizing:border-box}
+.g41-kicker{font-weight:800;font-size:.75rem;letter-spacing:.08em;color:#a5253a}
+.g41-figures h2{font-size:clamp(1.3rem,2.5vw,1.9rem);line-height:1.2;margin:7px 0 10px;color:#172239}
+.g41-figures p{line-height:1.6;color:#34415a}
+.g41-formule{white-space:nowrap;font-weight:700}
+.g41-links{display:flex;gap:12px;flex-wrap:wrap;margin:17px 0 12px}
+.g41-links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 15px;border-radius:9px;box-sizing:border-box;background:#233452;color:#fff;text-decoration:none;font-weight:700;line-height:1.35}
+.g41-links a:hover,.g41-links a:focus-visible{background:#a5253a;outline-offset:3px}
+.g41-figures .g41-note{font-size:.83rem;color:#58657b;margin-bottom:0}
+@media(max-width:520px){.g41-links{flex-direction:column}.g41-links a{width:100%}.g41-figures{padding:17px}}
