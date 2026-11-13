@@ -21,13 +21,33 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <title>Équations de degré 2</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:hidden}body{margin:0;min-width:0;background:#faf6ee;color:#19253d;font-family:Arial,sans-serif;padding:clamp(14px,3vw,40px)}
+body::before{content:"DESUMATHS · PREMIÈRE TECHNOLOGIQUE";display:block;font-size:.8rem;font-weight:800;letter-spacing:.1em;color:#a92840;margin-bottom:10px}
+body::after{content:"Desumaths · Fonctions de degré 2";display:block;margin:34px 0 0;padding:20px 0;border-top:1px solid #d8dce6;color:#4c5970;font-size:.9rem}
+.container-fluid{max-width:1180px;margin:0 auto 22px;padding:0}
+#enonces.card{width:100%!important;max-width:100%;border:1px solid #d8dce6;border-radius:18px;overflow:hidden;background:#fffefa;box-shadow:0 8px 28px #1725400c}
+#BouleMath{display:none}
+.card-body{padding:clamp(18px,3vw,32px);font-size:1.08rem;line-height:1.85;overflow-x:auto}
+.card-text{margin:0}#enonce,#enonce2{max-width:100%;overflow-x:auto;overflow-wrap:anywhere}
+button.btn{font:700 .95rem/1.4 Arial,sans-serif;border:0;border-radius:11px;background:#1d2b47;color:white;min-height:46px;padding:13px 17px;margin:6px 8px 6px 0;cursor:pointer;white-space:normal;text-align:left}
+button.btn:hover{background:#344867;color:white}#recommencer{background:#aa263f}#recommencer:hover{background:#8b1f33}
+#solution,#correctiond{max-width:1180px;min-width:0;overflow-x:auto;overflow-wrap:anywhere;margin:12px auto;padding:clamp(16px,3vw,28px);border:1px solid #e2d6c5;border-left:4px solid #b02d46;border-radius:12px;background:#fff9ee;line-height:1.85}
+#correctiond{background:#f8faff;border-color:#d8e1ed;border-left-color:#577498}
+canvas{display:block;max-width:100%;height:auto}
+.MathJax_Display{max-width:100%;overflow-x:auto;overflow-y:hidden}
+button:focus-visible{outline:3px solid #b42c48;outline-offset:3px}
+@media(max-width:600px){body{padding:12px}.card-body{padding:16px}button.btn{display:block;width:100%;margin:8px 0}#solution,#correctiond{padding:14px}}
+</style>
 </head>
 
 <body>
     <div class="container-fluid">
-        <div id="enonces" class="card" style="width: 50rem;" >
+        <div id="enonces" class="card" style="width: 100%;" >
             <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
                 class="card-img-top" alt="logo math">
                 
