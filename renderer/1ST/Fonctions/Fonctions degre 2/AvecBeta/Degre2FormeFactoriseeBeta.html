@@ -1,57 +1,85 @@
-<!DOCTYPE html>
-<html lang='fr'>
-
-<script src="Scriptdegre2FormeFactoriseeBeta.js" defer></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-       extensions: ["tex2jax.js"], jax: ["input/TeX", "output/HTML-CSS"],
-       TeX: { extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] },
-       tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          displayMath: [ ['$$','$$'], ["\\[","\\]"] ], processEscapes: true }
-    });
- </script>
-<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
-
-</script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="Styleexos.css">
-
-
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Fonctions de degré 2 (1 seule racine)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Factoriser avec une racine connue — Première technologique · Desumaths</title>
+  <meta name="description" content="Exercice historique Desumaths : vérifier une racine et déterminer la forme factorisée.">
+  <link rel="stylesheet" href="../../../../StylesIndex.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html{overflow-x:hidden}
+    body{margin:0;min-width:0;overflow-x:hidden;background:#faf6ee;color:#19253d;font-family:"IBM Plex Sans",Arial,sans-serif}
+    .dm-nav{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:18px clamp(18px,5vw,72px);border-bottom:1px solid #d9dce5;background:#fffdf9;flex-wrap:wrap}
+    .dm-brand{font:800 1.42rem/1.2 "Bricolage Grotesque",Arial,sans-serif;color:#19253d;text-decoration:none}
+    .dm-nav-links{display:flex;gap:10px;flex-wrap:wrap}
+    .dm-nav-links a,.dm-retours a{color:#19253d;font-size:.92rem;font-weight:700;text-decoration:none;border:1px solid #d5d9e3;border-radius:10px;background:white;padding:12px;display:inline-flex;align-items:center;min-height:44px}
+    .dm-shell{max-width:1180px;margin:auto;padding:clamp(24px,5vw,64px) 18px 68px}
+    .dm-kicker{color:#a92840;font-size:.83rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin:0 0 12px}
+    .dm-shell h1{font:800 clamp(1.9rem,4vw,3rem)/1.14 "Bricolage Grotesque",Arial,sans-serif;letter-spacing:-.025em;margin:0 0 14px}
+    .dm-sub{font-size:1.05rem;color:#4c5970;max-width:760px;line-height:1.6;margin:0 0 30px}
+    .dm-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+    .dm-panel{min-width:0;max-width:100%;padding:clamp(18px,3vw,32px);background:#fffefa;border:1px solid #d8dce6;border-radius:18px;box-shadow:0 8px 28px #1725400c}
+    .dm-panel h2{font:800 clamp(1.2rem,2vw,1.5rem)/1.25 "Bricolage Grotesque",Arial,sans-serif;margin:0 0 16px}
+    .dm-panel p{line-height:1.65;margin:0 0 18px}
+    #enonce{padding:22px 16px;background:white;border-left:5px solid #bf3049;border-radius:9px;font-size:1.08rem;line-height:1.85;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;overflow-wrap:anywhere}
+    #enonce .MathJax,#enonce .MathJax_Display{max-width:100%}
+    .dm-actions{display:grid;gap:12px;align-content:start}
+    button.dm-button{font:700 .95rem/1.35 "IBM Plex Sans",Arial,sans-serif;border-radius:11px;border:0;background:#1d2b47;color:white;padding:13px 17px;text-align:left;min-height:46px;max-width:100%;cursor:pointer}
+    button.dm-button:hover{background:#344867}
+    button.dm-button.dm-primary{background:#aa263f}
+    button.dm-button.dm-primary:hover{background:#8b1f33}
+    #solution,#correctiond{display:none;width:100%;max-width:100%;min-width:0;margin:0;padding:18px;background:#fff9ee;border:1px solid #e2d6c5;border-left:4px solid #b02d46;border-radius:10px;color:#202b3d;line-height:1.9;overflow-x:auto;overflow-y:visible;overflow-wrap:anywhere}
+    #correctiond{background:#f8faff;border-color:#d8e1ed;border-left-color:#577498}
+    #solution .MathJax_Display,#correctiond .MathJax_Display{width:max-content;min-width:0;max-width:100%;margin:.7em 0;overflow-x:auto;overflow-y:hidden}
+    #solution .MathJax,#correctiond .MathJax{max-width:100%}
+    .dm-note{font-size:.91rem;color:#56647a;background:#fff0cb;border-radius:10px;padding:14px;margin-top:19px;line-height:1.5}
+    .dm-retours{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+    a:focus-visible,button:focus-visible{outline:3px solid #b42c48;outline-offset:3px}
+    @media(max-width:800px){.dm-layout{grid-template-columns:minmax(0,1fr)}.dm-shell{padding:24px 14px 45px}.dm-panel{padding:20px 16px}#enonce{padding:18px 10px}}
+  </style>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({extensions:["tex2jax.js"],jax:["input/TeX","output/HTML-CSS"],
+      TeX:{extensions:["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]},
+      tex2jax:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true}});
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js" defer></script>
+  <script src="Scriptdegre2FormeFactoriseeBeta.js" defer></script>
 </head>
-
 <body>
-    <div class="container-fluid">
-        <div id="enonces" class="card" style="width: 30rem;" >
-            <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
-                class="card-img-top" alt="logo math">
-                
-            <div class="card-body">
-                <p class="card-text">
-                    <div id='enonce'></div>
-                </p>
-            </div>
-        </div>
-        
-        <button id='solutions' type="button" class="btn">Cliquer pour voir la solution</button>
-        <div id="solution"></div>
-        <div></div>
-        <button id='correction' type="button" class="btn">Cliquer pour voir une correction détaillée</button>
-        <div id='correctiond'></div>
-        <div></div>
-        <button id="recommencer" class="btn">Recommencer</button>
-        <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
-        <div></div>
-        <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu 1ST</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>
+  <a class="lien-evitement" href="#enonce">Aller directement à l’exercice</a>
+  <header class="dm-nav">
+    <a class="dm-brand" href="../../../../index.html">Desum@ths</a>
+    <nav class="dm-nav-links" aria-label="Navigation">
+      <a href="../../../../Menus/Menu1ST.html">Première technologique</a>
+      <a href="../../../../Menus/Menu1STfonctionsdegre2.html">Fonctions de degré 2</a>
+    </nav>
+  </header>
+  <main class="dm-shell">
+    <p class="dm-kicker">Première technologique · Exercice historique</p>
+    <h1>Factoriser avec une racine connue</h1>
+    <p class="dm-sub">Résous l’exercice sur ton cahier avant d’afficher la réponse. Le générateur et la correction mathématique originaux de Desumaths sont conservés.</p>
+    <div class="dm-layout">
+      <section class="dm-panel" aria-label="Énoncé">
+        <h2>À toi de chercher</h2>
+        <div id="enonce" aria-live="polite"></div>
+        <div class="dm-note">Méthode : vérifie la racine donnée puis détermine la seconde racine.</div>
+      </section>
+      <section class="dm-panel dm-actions" aria-label="Aides et correction">
+        <h2>Vérifier mon travail</h2>
+        <button id="solutions" type="button" class="dm-button">Afficher la solution</button>
+        <div id="solution" aria-label="Solution"></div>
+        <button id="correction" type="button" class="dm-button">Afficher la correction détaillée</button>
+        <div id="correctiond" aria-label="Correction détaillée"></div>
+        <button id="recommencer" type="button" class="dm-button dm-primary">↻ Nouvel exercice</button>
+      </section>
     </div>
-    <script>
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    </script>
+    <nav class="dm-retours" aria-label="Retour">
+      <a href="../../../../index.html" id="accueil" role="button">Accueil Desumaths</a>
+      <a href="../../../../Menus/Menu1ST.html" id="MenuSeconde" role="button">Menu Première</a>
+      <a href="../../../../Menus/Menu1STfonctionsdegre2.html" id="MenuSecondeEquations" role="button">Fonctions de degré 2</a>
+    </nav>
+  </main>
+  <script>window.addEventListener('load',function(){if(window.MathJax&&MathJax.Hub){MathJax.Hub.Queue(["Typeset",MathJax.Hub]);}});</script>
 </body>
-
-
 </html>
