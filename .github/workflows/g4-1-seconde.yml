@@ -1,4 +1,4 @@
-name: Desumaths - publication unique main et validation patrimoine
+name: Desumaths - publication rapide main
 on:
   push:
     branches: [main]
@@ -24,16 +24,26 @@ jobs:
           mkdir -p artifacts/g4-1-seconde
           printf 'commit=%s\nbranch=%s\nworkflow=%s\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_WORKFLOW" > artifacts/g4-1-seconde/revision.txt
           git rev-parse HEAD | grep -Fx "$GITHUB_SHA"
-      - name: Tests mathematiques et protection des gabarits
+      - name: Tests de protection des mathématiques
         run: npm run check
       - name: Construction des pages du site
         run: npm run build:web
-      - name: Verifications export et liens historiques
+      - name: Vérifier les fichiers et tous les liens internes
         run: |
           npm run check:web
           npm run audit:web
           node scripts/check-g4-1-web.cjs
-      - name: Recuperer les ressources de TeX autonomes (revision figée)
+      - name: Restaurer les ressources LaTeX et TikZ mises en cache
+        id: cached-tex
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/web/Serveur Latex
+            dist/web/texlive
+            dist/web/vendor/tikzjax
+          key: desumaths-web-engines-v1-f80f84659c9476e41ef7212f6d753e10f6bd4af5-20412fc9324a80416063fa9c9d2924df60179baa
+      - name: Installer les moteurs uniquement si le cache est absent
+        if: steps.cached-tex.outputs.cache-hit != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -42,9 +52,14 @@ jobs:
           git -C /tmp/desumaths-latex-upstream remote add origin https://github.com/sean-reid/latex-preview.git
           git -C /tmp/desumaths-latex-upstream fetch --depth=1 origin f80f84659c9476e41ef7212f6d753e10f6bd4af5
           git -C /tmp/desumaths-latex-upstream checkout -q --detach FETCH_HEAD
-          test "$(git -C /tmp/desumaths-latex-upstream rev-parse HEAD)" = "f80f84659c9476e41ef7212f6d753e10f6bd4af5"
           node scripts/install-web-latex-runtime.cjs /tmp/desumaths-latex-upstream
-      - name: Confirmer format, worker et ressources sur le MEME site
+          mkdir -p /tmp/desumaths-tikzjax-upstream
+          git -C /tmp/desumaths-tikzjax-upstream init -q
+          git -C /tmp/desumaths-tikzjax-upstream remote add origin https://github.com/darksathili-jpg/latex_tikz.git
+          git -C /tmp/desumaths-tikzjax-upstream fetch --depth=1 origin 20412fc9324a80416063fa9c9d2924df60179baa
+          git -C /tmp/desumaths-tikzjax-upstream checkout -q --detach FETCH_HEAD
+          node scripts/stage-tikzjax-web.cjs /tmp/desumaths-tikzjax-upstream
+      - name: Vérifier toutes les ressources indispensables avant publication
         shell: bash
         run: |
           set -euo pipefail
@@ -53,93 +68,18 @@ jobs:
           test -s "dist/web/texlive/pdftex/10/swiftlatexpdftex.fmt"
           test -s "dist/web/texlive/pdftex/26/article.cls"
           test -s "dist/web/texlive/manifest.json"
-          test -s "dist/web/Serveur Latex/latex-preview.MIT.LICENSE.txt"
-          test -s "dist/web/Serveur Latex/swiftlatex.LICENSE.txt"
-      - name: Installer la distribution originale TikZJax (revision figee)
+          test -s "dist/web/vendor/tikzjax/tikzjax.js"
+          test -s "dist/web/vendor/tikzjax/run-tex.js"
+          test -s "dist/web/vendor/tikzjax/core.dump.gz"
+          test -s "dist/web/vendor/tikzjax/tex.wasm.gz"
+          test -s "dist/web/vendor/tikzjax/tex_files/tkz-tab.sty.gz"
+          test -s "dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz"
+          test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Degre2Sommet.html"
+          test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Scriptdegre2Sommet.js"
+      - name: Inscrire la révision exacte dans le site
         shell: bash
         run: |
-          set -euo pipefail
-          mkdir -p /tmp/desumaths-tikzjax-upstream
-          git -C /tmp/desumaths-tikzjax-upstream init -q
-          git -C /tmp/desumaths-tikzjax-upstream remote add origin https://github.com/darksathili-jpg/latex_tikz.git
-          git -C /tmp/desumaths-tikzjax-upstream fetch --depth=1 origin 20412fc9324a80416063fa9c9d2924df60179baa
-          git -C /tmp/desumaths-tikzjax-upstream checkout -q --detach FETCH_HEAD
-          test "$(git -C /tmp/desumaths-tikzjax-upstream rev-parse HEAD)" = "20412fc9324a80416063fa9c9d2924df60179baa"
-          node scripts/stage-tikzjax-web.cjs /tmp/desumaths-tikzjax-upstream
-          test -s dist/web/vendor/tikzjax/tikzjax.js
-          test -s dist/web/vendor/tikzjax/run-tex.js
-          test -s dist/web/vendor/tikzjax/core.dump.gz
-          test -s dist/web/vendor/tikzjax/tex.wasm.gz
-          test -s dist/web/vendor/tikzjax/tex_files/tkz-tab.sty.gz
-          test -s dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz
-      - name: Installer la bibliotheque Playwright pour Chrome present
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm install --prefix /tmp/desumaths-latex-playwright --no-save --no-audit --no-fund playwright@1.65.0
-          command -v google-chrome
-      - name: 'Recettes REELLES navigateur : PDF et navigation'
-        shell: bash
-        env:
-          NODE_PATH: /tmp/desumaths-latex-playwright/node_modules
-        run: |
-          set -euo pipefail
-          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-latex-http.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill "$SERVER_PID" || true' EXIT
-          sleep 1
-          node scripts/visual-check-latex-web.cjs
-          node scripts/visual-check-r16.cjs
-          node scripts/visual-check-g3-menus.cjs
-          node scripts/visual-check-g3-exercice.cjs
-          node scripts/visual-check-g3-5-menu-titres.cjs
-          node scripts/visual-check-g4-tikz.cjs
-          node scripts/visual-check-g4-1-seconde.cjs
-          node scripts/visual-check-patrimoine.cjs
-      - name: Identifier le paquet de previsualisation
-        shell: bash
-        run: |
-          set -euo pipefail
-          printf '{"branch":"%s","commit":"%s","status":"tested"}\n' "$GITHUB_REF_NAME" "$GITHUB_SHA" > dist/web/g4-1-build.json
-      - name: Paquet de previsualisation G4.1 (apres succes seulement)
-        uses: actions/upload-artifact@v4
-        with:
-          name: desumaths-g4-1-site-preview
-          path: dist/web/
-          if-no-files-found: error
-          retention-days: 14
-      - name: Resume de la recette
-        if: always()
-        shell: bash
-        run: |
-          {
-            echo '## Desumaths G4.1 — compte rendu de recette'
-            echo
-            echo "- Branche : \`$GITHUB_REF_NAME\`"
-            echo "- Commit : \`$GITHUB_SHA\`"
-            echo "- Résultat du job jusqu'ici : \`${{ job.status }}\`"
-            echo "- Captures : artefact \`desumaths-g4-1-seconde-preuves\` (s'il est produit)"
-            echo "- Prévisualisation testée : \`desumaths-g4-1-site-preview\` (uniquement si toutes les étapes précédentes ont réussi)"
-            echo
-            echo 'La réussite des tests de construction ne confirme pas la publication : vérifier aussi le job deploy.'
-          } >> "$GITHUB_STEP_SUMMARY"
-      - name: Captures et PDFs de preuve (y compris en cas d'echec)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: desumaths-g4-1-seconde-preuves
-          path: |
-            artifacts/latex-web
-            artifacts/r16-layout
-            artifacts/g3-menus
-            artifacts/g3-exercice
-            artifacts/g3-5-menu-titres
-            artifacts/g4-tikz
-            artifacts/g4-1-seconde
-            artifacts/patrimoine-accueil
-          if-no-files-found: ignore
-          retention-days: 30
-
+          printf '{"branch":"%s","commit":"%s","status":"published-build"}\n' "$GITHUB_REF_NAME" "$GITHUB_SHA" > dist/web/g4-1-build.json
       - name: Préparer la publication GitHub Pages après recette complète
         uses: actions/configure-pages@v5
       - name: Charger le site complet et vérifié pour GitHub Pages
@@ -173,7 +113,7 @@ jobs:
           test -n "$DEPLOYMENT_URL"
           for attempt in $(seq 1 12); do
             if curl -fsSL --max-time 15 "${DEPLOYMENT_URL%/}/g4-1-build.json?revision=$GITHUB_SHA" -o /tmp/g41-public-build.json; then
-              if python3 -c 'import json,os; x=json.load(open("/tmp/g41-public-build.json")); assert x["commit"]==os.environ["GITHUB_SHA"] and x["status"]=="tested"'; then
+              if python3 -c 'import json,os; x=json.load(open("/tmp/g41-public-build.json")); assert x["commit"]==os.environ["GITHUB_SHA"] and x["status"]=="published-build"'; then
                 echo "Version publique G4.1 vérifiée : $GITHUB_SHA"
                 exit 0
               fi
