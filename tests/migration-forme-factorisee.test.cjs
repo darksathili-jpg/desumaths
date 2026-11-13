@@ -30,7 +30,6 @@ test('migration factorized form: legacy parameters, 500 exact instances and solu
  for(let i=0;i<500;i++){
    const e=window.DesumathsFormeFactorisee.getExercise();
    assert.ok([e.alpha,e.beta,e.x0,e.a,e.image,e.product].every(Number.isInteger));
-   assert.ok([-9,-9].length===2);
    assert.ok(Math.abs(e.alpha)<=9&&Math.abs(e.beta)<=9&&Math.abs(e.x0)<=9);
    assert.ok(e.x0!==e.alpha&&e.x0!==e.beta,'Known sample must differ from roots');
    assert.ok(Math.abs(e.a)>=1&&Math.abs(e.a)<=9);
