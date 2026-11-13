@@ -114,7 +114,12 @@ jobs:
           for attempt in $(seq 1 12); do
             if curl -fsSL --max-time 15 "${DEPLOYMENT_URL%/}/g4-1-build.json?revision=$GITHUB_SHA" -o /tmp/g41-public-build.json; then
               if python3 -c 'import json,os; x=json.load(open("/tmp/g41-public-build.json")); assert x["commit"]==os.environ["GITHUB_SHA"] and x["status"]=="published-build"'; then
-                echo "Version publique G4.1 vérifiée : $GITHUB_SHA"
+                echo "Révision publiée, vérification de la vraie page Sommet…"
+                PAGE_URL="${DEPLOYMENT_URL%/}/1ST/Fonctions/Fonctions%20degre%202/Sommet/Degre2Sommet.html"
+                curl -fsSL --retry 3 --retry-delay 2 --max-time 20 "$PAGE_URL" -o /tmp/desumaths-public-sommet.html
+                grep -Fq 'class="dm-layout"' /tmp/desumaths-public-sommet.html
+                grep -Fq 'Scriptdegre2Sommet.js' /tmp/desumaths-public-sommet.html
+                echo "Version publique et présentation modernisée de Sommet vérifiées : $GITHUB_SHA"
                 exit 0
               fi
             fi
