@@ -161,3 +161,11 @@
 .g41-links a:hover,.g41-links a:focus-visible{background:#a5253a;outline-offset:3px}
 .g41-figures .g41-note{font-size:.83rem;color:#58657b;margin-bottom:0}
 @media(max-width:520px){.g41-links{flex-direction:column}.g41-links a{width:100%}.g41-figures{padding:17px}}
+
+/* Navigation clavier commune aux menus historiques — lot accessibilite. */
+.dm-skip-link{position:absolute;z-index:1000;top:8px;left:8px;transform:translateY(-160%);background:#172239;color:#fff;padding:12px 18px;border-radius:8px;font-weight:700;text-decoration:none}
+.dm-skip-link:focus-visible{transform:translateY(0);outline:3px solid #e8ad31;outline-offset:3px}
+.menu-niveau:focus{outline:none}
+.lien-menu:focus-visible,.onglet:focus-visible,.bouton-retour:focus-visible{outline:3px solid #b4283d;outline-offset:4px;border-radius:6px}
+@media(max-width:600px){.lien-menu{min-height:44px;box-sizing:border-box;overflow-wrap:anywhere}.section-menu{min-width:0}.sous-groupe{min-width:0}.menu-niveau{min-width:0}.liens-retour a{min-height:44px;display:inline-flex;align-items:center;box-sizing:border-box}}
+@media(prefers-reduced-motion:reduce){.lien-menu,.onglet,.bouton-retour{transition:none}}
