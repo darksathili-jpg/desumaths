@@ -118,3 +118,11 @@ La page `Laboratoire/FiguresTikZ/index.html` reste le laboratoire comparatif ave
 Le contrôle du site exporté vérifie les deux destinations réelles. La recette Chrome clique chacun des deux boutons et exige que **la page cible ne contienne qu'un seul exercice graphique** et que son SVG soit réellement rendu, à 375 et 1280 pixels.
 
 Les générateurs et les corrections historiques sont inchangés. La réussite de cette nouvelle recette et la mise en ligne R7 restent à confirmer dans GitHub Actions.
+
+## G4.1-R8 — consolidation pédagogique des destinations distinctes
+
+La page `variations.html` propose désormais une observation du sens de variation et du minimum de `f(x)=x²−4`. La page `parabole.html` interroge sur les deux intersections avec l'axe des abscisses et la position du sommet. Chaque page garde une seule figure TikZ et présente sa propre réponse dans un élément HTML `details`, initialement fermé et accessible au clavier.
+
+Les tests statiques vérifient que les questions sont distinctes et mathématiquement cohérentes. Le scénario Chrome confirme que l'élève peut révéler volontairement la réponse. Les pages historiques, les modèles d'exercice et le laboratoire comparatif à deux figures restent inchangés.
+
+**État de preuve :** modifications enregistrées dans la branche ; réussite GitHub Actions de R8 et publication publique non encore constatées.
