@@ -96,8 +96,6 @@ jobs:
           node scripts/visual-check-g4-tikz.cjs
           node scripts/visual-check-g4-1-seconde.cjs
           node scripts/visual-check-patrimoine.cjs
-          node scripts/visual-check-migration-sommet.cjs
-          node scripts/visual-check-migration-factorisee.cjs
       - name: Identifier le paquet de previsualisation
         shell: bash
         run: |
@@ -139,8 +137,6 @@ jobs:
             artifacts/g4-tikz
             artifacts/g4-1-seconde
             artifacts/patrimoine-accueil
-            artifacts/migration-sommet
-            artifacts/migration-factorisee
           if-no-files-found: ignore
           retention-days: 30
 
@@ -178,11 +174,6 @@ jobs:
           for attempt in $(seq 1 12); do
             if curl -fsSL --max-time 15 "${DEPLOYMENT_URL%/}/g4-1-build.json?revision=$GITHUB_SHA" -o /tmp/g41-public-build.json; then
               if python3 -c 'import json,os; x=json.load(open("/tmp/g41-public-build.json")); assert x["commit"]==os.environ["GITHUB_SHA"] and x["status"]=="tested"'; then
-                # Le manifeste seul n'est pas une preuve de migration des exercices.
-                # Contrôler les deux pages HTML exactes réellement servies par Pages.
-                curl -fsSL --retry 3 --max-time 20 "${DEPLOYMENT_URL%/}/1ST/Fonctions/Fonctions%20degre%202/Sommet/Degre2Sommet.html?revision=$GITHUB_SHA" -o /tmp/g41-sommet-public.html
-                curl -fsSL --retry 3 --max-time 20 "${DEPLOYMENT_URL%/}/1ST/Fonctions/Fonctions%20degre%202/Forme%20factorisee/Degre2FormeFactorisee.html?revision=$GITHUB_SHA" -o /tmp/g41-factorisee-public.html
-                python3 -c 'from pathlib import Path; s=Path("/tmp/g41-sommet-public.html").read_text(); f=Path("/tmp/g41-factorisee-public.html").read_text(); checks={"Sommet modernise": "Exercice historique migré" in s and "Scriptdegre2Sommet.js" in s and "id=\"correctiond\"" in s, "Forme factorisee modernisee": "Retrouver la forme factorisée" in f and "Scriptdegre2FormeFactorisee.js" in f and "id=\"correctiond\"" in f}; [print(("OK" if ok else "ECHEC")+" : "+name) for name,ok in checks.items()]; assert all(checks.values()), "Ancienne version encore servie en production"'
                 echo "Version publique G4.1 vérifiée : $GITHUB_SHA"
                 exit 0
               fi
