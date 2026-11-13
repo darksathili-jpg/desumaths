@@ -21,11 +21,35 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+/* Desumaths — habillage uniquement, sans changement du moteur historique. */
+:root{color-scheme:light;--ink:#192d3a;--accent:#146d78;--line:#c7d9db;--paper:#f5f8f7}
+*{box-sizing:border-box}html{overflow-x:hidden}body{margin:0;background:linear-gradient(150deg,#eaf4f2,#f8f5ed);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;min-height:100vh}
+.dm-layout{width:min(100% - 2rem,900px);margin:0 auto;padding:2rem 0 3rem}
+.dm-heading{padding:1.35rem 1.6rem;margin-bottom:1.4rem;border-radius:1.25rem;background:#173d47;color:#fff}
+.dm-heading p{margin:0 0 .3rem;letter-spacing:.13em;text-transform:uppercase;font-size:.76rem;font-weight:700;color:#a7e5de}
+.dm-heading h1{margin:0;font-size:clamp(1.5rem,4vw,2.25rem);line-height:1.2;font-weight:750}
+.dm-layout #enonces.card{width:100%!important;max-width:100%;overflow:hidden;border:1px solid var(--line);border-radius:1.25rem;box-shadow:0 12px 28px #163d4517;background:#fff}
+.dm-layout #BouleMath{width:100%;height:clamp(110px,20vw,170px);object-fit:cover;object-position:center;display:block}
+.dm-layout .card-body{padding:clamp(1rem,3vw,1.7rem)}
+.dm-layout #enonce{font-size:clamp(1.05rem,2.5vw,1.25rem);overflow-wrap:anywhere}
+.dm-layout .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;max-width:100%;white-space:normal;text-align:center;border-radius:.8rem;padding:.75rem 1.1rem;margin:.8rem .5rem .1rem 0;background:var(--accent);color:white;border:2px solid var(--accent);font-weight:650;line-height:1.3;cursor:pointer}
+.dm-layout #recommencer{background:#fff;color:var(--ink);border-color:var(--line)}
+.dm-layout #accueil,.dm-layout #MenuSeconde,.dm-layout #MenuSecondeEquations{background:#e4efef;color:#153b43;border-color:#c7dcde}
+.dm-layout button:hover{filter:brightness(.92)}
+.dm-layout button:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.dm-layout #solution,.dm-layout #correctiond{display:none;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:.7rem;margin:.7rem 0 1rem;padding:1rem;overflow-x:auto;max-width:100%;overflow-wrap:anywhere}
+.dm-layout .MathJax_Display{max-width:100%;overflow-x:auto;overflow-y:hidden}
+@media(max-width:540px){.dm-layout{width:min(100% - 1rem,900px);padding:1rem 0 2rem}.dm-heading{padding:1.1rem}.dm-layout .btn{display:flex;width:100%;margin:.65rem 0}.dm-layout #enonces.card{border-radius:1rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
     <title>Calcul de terme à partir de u0</title>
 </head>
 
 <body>
-    <div class="container-fluid">
+    <main class="container-fluid dm-layout">
+        <header class="dm-heading"><p>Première technologique · Suites arithmétiques</p><h1>Calcul de terme à partir de u0</h1></header>
         <div id="enonces" class="card" style="width: 30rem;" >
             <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
                 class="card-img-top" alt="logo math">
@@ -47,7 +71,7 @@
         <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
         <div></div>
         <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu 1ST</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>          
-    </div>
+    </main>
     <script>
         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
     </script>
