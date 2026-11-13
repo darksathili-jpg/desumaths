@@ -70,3 +70,17 @@ test('migration factorized form: historical route and new accessible UI preserve
  const syntax=spawnSync(process.execPath,['--check',path.join(base,folder,'Scriptdegre2FormeFactorisee.js')],{encoding:'utf8'});
  assert.equal(syntax.status,0,'Syntaxe du moteur : '+syntax.stderr);
 });
+
+test('factorization Chrome acceptance is syntax checked and gates production',()=>{
+ const {spawnSync}=require('node:child_process');
+ const script='scripts/visual-check-migration-factorisee.cjs';
+ const result=spawnSync(process.execPath,['--check',path.join(base,script)],{encoding:'utf8'});
+ assert.equal(result.status,0,'Syntaxe de recette invalide : '+result.stderr);
+ const workflow=fs.readFileSync(path.join(base,'.github/workflows/g4-1-seconde.yml'),'utf8');
+ assert.match(workflow,/node scripts\/visual-check-migration-factorisee\.cjs/);
+ assert.match(workflow,/artifacts\/migration-factorisee/);
+ const visual=fs.readFileSync(path.join(base,script),'utf8');
+ assert.match(visual,/width of \[375,1280\]/);
+ assert.match(visual,/data-status|renderedMath/);
+ assert.match(visual,/Degre2FormeFactorisee\.html/);
+});
