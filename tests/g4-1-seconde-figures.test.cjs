@@ -148,3 +148,15 @@ test('G4.1-R8 : le script navigateur est syntaxiquement valide avant Playwright'
   const script=read('scripts/visual-check-g4-1-seconde.cjs');
   assert.equal((script.match(/process\.exitCode=1/g)||[]).length,1,'Terminaison dupliquée');
 });
+
+test('G4.1 : each focused page links to the actual complementary HTML file', () => {
+  const folder='renderer/Laboratoire/FiguresTikZ/';
+  for (const [source,destination] of [['variations.html','parabole.html'],['parabole.html','variations.html']]) {
+    const page=read(folder+source);
+    assert.equal((page.match(new RegExp('href="'+destination+'"','g'))||[]).length,2,
+      source+' should link twice to '+destination);
+    assert.ok(fs.existsSync(path.join(root,folder,destination)),
+      'Broken complementary destination '+destination);
+  }
+  assert.doesNotMatch(read(folder+'variations.html'),/href="courbe\.html"/);
+});
