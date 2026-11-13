@@ -21,3 +21,13 @@ Les fichiers enregistrés ont été relus et les liens, l'unicité de la figure,
 Le workflow G4.2 ne publie pas sur GitHub Pages. Avant diffusion, exiger l'artefact de prévisualisation, une vérification visuelle Chrome à 375 et 1280 pixels, le rendu SVG réel et un accord de validation.
 
 Aucun fichier historique d'exercices ou de corrections mathématiques n'est modifié dans ce lot.
+
+## G4.2-R2 — vérifications réelles prévues
+
+Le script `scripts/visual-check-g4-2-premiere.cjs` parcourt le menu Première technologique en Chrome à **375 et 1280 pixels**, exige la présence des huit liens historiques, contrôle le style effectivement appliqué à la passerelle, clique sur la nouvelle activité puis contrôle la page cible.
+
+La recette exige une unique figure TikZ, un SVG géométriquement non vide et accessible, une réponse initialement masquée puis révélable par l'élève, un retour vers le menu d'origine et aucun débordement horizontal. Elle produit des captures, des métriques et des diagnostics en cas d'échec.
+
+Le workflow `.github/workflows/g4-2-premiere.yml` rejoue également la compilation PDF et les contrôles G3/G4/G4.1 déjà présents, et dépose les artefacts `desumaths-g4-2-premiere-preuves` et, **uniquement après les tests**, `desumaths-g4-2-premiere-preview`. Il n'inclut aucun déploiement Pages. `node --check` est également exécuté pour éviter un nouveau blocage dû à une faute de syntaxe dans la recette.
+
+**Statut :** code et workflow présents dans GitHub ; résultats de Chrome et publication non encore confirmés. La branche principale et le site publié sont inchangés par ce lot.
