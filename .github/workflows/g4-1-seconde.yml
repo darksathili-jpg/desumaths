@@ -182,23 +182,7 @@ jobs:
                 # Contrôler les deux pages HTML exactes réellement servies par Pages.
                 curl -fsSL --retry 3 --max-time 20 "${DEPLOYMENT_URL%/}/1ST/Fonctions/Fonctions%20degre%202/Sommet/Degre2Sommet.html?revision=$GITHUB_SHA" -o /tmp/g41-sommet-public.html
                 curl -fsSL --retry 3 --max-time 20 "${DEPLOYMENT_URL%/}/1ST/Fonctions/Fonctions%20degre%202/Forme%20factorisee/Degre2FormeFactorisee.html?revision=$GITHUB_SHA" -o /tmp/g41-factorisee-public.html
-                python3 - <<'PY'
-                from pathlib import Path
-                sommet=Path('/tmp/g41-sommet-public.html').read_text()
-                factorisee=Path('/tmp/g41-factorisee-public.html').read_text()
-                checks=[
-                    ('Sommet : interface migrée', 'Exercice historique migré' in sommet),
-                    ('Sommet : génération conservée', 'Scriptdegre2Sommet.js' in sommet),
-                    ('Sommet : correction masquée', 'id="correctiond"' in sommet and 'hidden' in sommet),
-                    ('Forme factorisée : interface migrée', 'Retrouver la forme factorisée' in factorisee),
-                    ('Forme factorisée : génération conservée', 'Scriptdegre2FormeFactorisee.js' in factorisee),
-                    ('Forme factorisée : correction masquée', 'id="correctiond"' in factorisee and 'hidden' in factorisee),
-                ]
-                for label,ok in checks:
-                    print(('OK' if ok else 'ECHEC')+' : '+label)
-                if not all(ok for _,ok in checks):
-                    raise SystemExit('BLOQUE : une ancienne page est encore servie en production')
-                PY
+                python3 -c 'from pathlib import Path; s=Path("/tmp/g41-sommet-public.html").read_text(); f=Path("/tmp/g41-factorisee-public.html").read_text(); checks={"Sommet modernise": "Exercice historique migré" in s and "Scriptdegre2Sommet.js" in s and "id=\"correctiond\"" in s, "Forme factorisee modernisee": "Retrouver la forme factorisée" in f and "Scriptdegre2FormeFactorisee.js" in f and "id=\"correctiond\"" in f}; [print(("OK" if ok else "ECHEC")+" : "+name) for name,ok in checks.items()]; assert all(checks.values()), "Ancienne version encore servie en production"'
                 echo "Version publique G4.1 vérifiée : $GITHUB_SHA"
                 exit 0
               fi
