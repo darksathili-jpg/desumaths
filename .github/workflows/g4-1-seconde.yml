@@ -119,6 +119,21 @@ jobs:
                 curl -fsSL --retry 3 --retry-delay 2 --max-time 20 "$PAGE_URL" -o /tmp/desumaths-public-sommet.html
                 grep -Fq 'class="dm-layout"' /tmp/desumaths-public-sommet.html
                 grep -Fq 'Scriptdegre2Sommet.js' /tmp/desumaths-public-sommet.html
+                # Contrôler toutes les pages du chapitre réellement livrées, pas seulement Sommet.
+                while IFS='|' read -r relative script marker; do
+                  test -n "$relative" || continue
+                  url="${DEPLOYMENT_URL%/}/$relative"
+                  curl -fsSL --retry 3 --retry-delay 2 --max-time 20 "$url" -o /tmp/desumaths-public-exercice.html
+                  grep -Fq "$script" /tmp/desumaths-public-exercice.html
+                  grep -Fq "$marker" /tmp/desumaths-public-exercice.html
+                  echo "Page publiée contrôlée : $relative"
+                done <<'EXERCICES'
+1ST/Fonctions/Fonctions%20degre%202/Forme%20factorisee/Degre2FormeFactorisee.html|Scriptdegre2FormeFactorisee.js|dm-layout
+1ST/Fonctions/Fonctions%20degre%202/Forme%20developpe/Degre2FormeDeveloppe.html|ScriptDegre2FormeDeveloppe.js|dm-layout
+1ST/Fonctions/Fonctions%20degre%202/AvecBeta/Degre2FormeFactoriseeBeta.html|Scriptdegre2FormeFactoriseeBeta.js|dm-layout
+1ST/Fonctions/Fonctions%20degre%202/Questions%20diverses/ExoDegre2Questions.html|ScriptDegre2Questions.js|DESUMATHS
+1ST/Fonctions/Fonctions%20degre%202/Equations/axplusbcarreagalc/EqsDegre2.html|ScriptEqsDegre2.js|DESUMATHS
+EXERCICES
                 echo "Version publique et présentation modernisée de Sommet vérifiées : $GITHUB_SHA"
                 exit 0
               fi
