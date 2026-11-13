@@ -39,3 +39,20 @@ test('G4.2: exported website includes both old lesson and new lesson',()=>{
  const page=fs.readFileSync(path.join(root,'Laboratoire/FiguresTikZ/premiere-degre2.html'),'utf8');
  assert.match(page,/Relier graphique et calcul/);
 });
+
+test('G4.2: Chromium script syntax is valid and publication stays isolated',()=>{
+ const {spawnSync}=require('node:child_process');
+ const scriptPath=path.join(base,'scripts/visual-check-g4-2-premiere.cjs');
+ const status=spawnSync(process.execPath,['--check',scriptPath],{encoding:'utf8'});
+ assert.equal(status.status,0,'Syntaxe Chromium invalide: '+status.stderr);
+ const script=read('scripts/visual-check-g4-2-premiere.cjs');
+ const workflow=read('.github/workflows/g4-2-premiere.yml');
+ assert.match(script,/premiere-degre2\.html/);
+ assert.match(script,/getBBox\(\)/);
+ assert.match(script,/g41-activity-answer/);
+ assert.match(workflow,/node scripts\/visual-check-g4-2-premiere\.cjs/);
+ assert.match(workflow,/node scripts\/visual-check-g4-1-seconde\.cjs/);
+ assert.match(workflow,/node scripts\/visual-check-g4-tikz\.cjs/);
+ assert.match(workflow,/desumaths-g4-2-premiere-preuves/);
+ assert.doesNotMatch(workflow,/actions\/deploy-pages|pages: write|actions\/upload-pages-artifact/);
+});
