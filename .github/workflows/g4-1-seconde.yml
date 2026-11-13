@@ -1,7 +1,7 @@
-name: Desumaths G4.1 - recette Seconde et figures TikZ
+name: Desumaths - publication unique main et validation patrimoine
 on:
   push:
-    branches: [feature/g4-1-seconde-figures]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
