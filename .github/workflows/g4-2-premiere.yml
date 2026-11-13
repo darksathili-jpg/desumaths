@@ -1,0 +1,33 @@
+name: Desumaths G4.2 - pilote Premiere fonctions du second degre
+on:
+  push:
+    branches: [feature/g4-2-premiere-degre2-pilote]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Suite mathématique et contrôles de structure
+        run: npm run check
+      - name: Export complet Web
+        run: npm run build:web
+      - name: Tests des liens et pages exportées
+        run: |
+          npm run check:web
+          npm run audit:web
+          node scripts/check-g4-1-web.cjs
+          node --test tests/g4-2-premiere-degre2.test.cjs
+      - name: Paquet de contrôle sans déploiement
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-g4-2-premiere-preview
+          path: dist/web/
+          if-no-files-found: error
+          retention-days: 14
