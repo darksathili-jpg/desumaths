@@ -57,3 +57,12 @@
 .g41-single-next{margin:25px 0 0;display:flex;flex-wrap:wrap;gap:9px 18px;font-size:.92rem;line-height:1.6}
 .g41-single-next a{color:#a5253a;font-weight:700;text-underline-offset:3px}
 .g41-single-next a:focus-visible{outline:3px solid #a5253a;outline-offset:4px}
+
+/* G4.1-R8 : observation autonome avant consultation du corrigé. */
+.g41-activity{max-width:920px;margin:0 0 22px;padding:clamp(16px,2.5vw,24px);background:#fffdfa;border:1px solid #d6dce6;border-radius:12px;box-sizing:border-box}
+.g41-activity h2{font:800 clamp(1.1rem,2vw,1.45rem)/1.25 var(--police-affichage),sans-serif;margin:0 0 8px;color:var(--encre)}
+.g41-activity p{margin:0 0 12px;line-height:1.6;color:var(--encre)}
+.g41-activity-answer{border-top:1px solid #d6dce6;margin-top:13px;padding-top:10px}
+.g41-activity-answer summary{cursor:pointer;font-weight:700;color:#a5253a;min-height:36px}
+.g41-activity-answer[open] p{margin:10px 0 0}
+.g41-activity-answer summary:focus-visible{outline:3px solid #a5253a;outline-offset:3px}
