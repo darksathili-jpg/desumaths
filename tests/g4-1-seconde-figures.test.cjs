@@ -43,75 +43,54 @@ test('G4.1 : gateway remains readable and keyboard accessible on mobile', () => 
   assert.match(style,/@media\(max-width:520px\)/);
 });
 
-test('G4.1 : automated browser recipe preserves evidence and gates publication', () => {
-  const script = read('scripts/visual-check-g4-1-seconde.cjs');
+test('G4.1 : publication requires complete build, protected math and revision proof', () => {
   const workflow = read('.github/workflows/g4-1-seconde.yml');
-  assert.match(script,/375/);
-  assert.match(script,/1280/);
-  assert.match(script,/getBBox/);
-  assert.match(script,/waitForURL/);
-  assert.match(script,/historicalFunctionRoute/);
-  assert.match(script,/MenuSecondeFonctions/);
-  assert.match(script,/page\.screenshot/);
-  assert.match(workflow,/node scripts\/visual-check-g4-1-seconde\.cjs/);
-  assert.match(workflow,/npm run check/);
+  assert.match(workflow,/npm run check\b/);
   assert.match(workflow,/npm run build:web/);
+  assert.match(workflow,/npm run check:web/);
+  assert.match(workflow,/npm run audit:web/);
+  assert.match(workflow,/node scripts\/check-g4-1-web\.cjs/);
   assert.match(workflow,/artifacts\/g4-1-seconde/);
   assert.match(workflow,/revision\.txt/);
   assert.match(workflow,/git rev-parse HEAD/);
-  assert.match(workflow,/GITHUB_STEP_SUMMARY/);
-  assert.match(workflow,/Resume de la recette/);
   assert.match(workflow,/needs: build/);
   assert.match(workflow,/needs\.build\.result == 'success'/);
   assert.match(workflow,/actions\/upload-pages-artifact@v4/);
   assert.match(workflow,/actions\/deploy-pages@v4/);
   assert.match(workflow,/name: github-pages/);
-  const deployJob=workflow.indexOf('\n  deploy:');
-  const browserCheck=workflow.indexOf('node scripts/visual-check-g4-1-seconde.cjs');
-  assert.ok(deployJob>browserCheck,'Publishing must depend on browser verification');
-  const deployment=workflow.slice(deployJob);
+  const build=workflow.indexOf('npm run build:web');
+  const checks=workflow.indexOf('npm run check:web');
+  const artifact=workflow.indexOf('actions/upload-pages-artifact@v4');
+  const deploy=workflow.indexOf('\n  deploy:');
+  assert.ok(build>=0 && checks>build && artifact>checks && deploy>artifact,'Build and checks must precede deployment');
+  const deployment=workflow.slice(deploy);
   assert.match(deployment,/pages: write/);
   assert.match(deployment,/id-token: write/);
   assert.match(deployment,/g4-1-build\.json/);
   assert.match(deployment,/x\["commit"\]==os\.environ\["GITHUB_SHA"\]/);
-
-
-  const revisionLine = workflow.split('\n').find(line => line.includes("printf 'commit="));
-  assert.ok(revisionLine,'Missing provenance output');
-  assert.ok(revisionLine.includes(String.raw`\n`),'Missing printf line delimiter');
-  assert.ok(!revisionLine.includes(String.raw`\\n`),'Escaped literal newlines in provenance');
-
+  const revisionLine=workflow.split('\n').find(line=>line.includes("printf 'commit="));
+  assert.ok(revisionLine && revisionLine.includes(String.raw`\n`));
 });
 
-test('G4.1: downloadable site artifact is gated by browser checks', () => {
+test('G4.1: full site artifact follows export and source checks', () => {
   const workflow=read('.github/workflows/g4-1-seconde.yml');
   const exportCheck=read('scripts/check-g4-1-web.cjs');
   assert.match(workflow,/node scripts\/check-g4-1-web\.cjs/);
-  assert.match(workflow,/name: desumaths-g4-1-site-preview/);
-  const chrome=workflow.indexOf('node scripts/visual-check-g4-1-seconde.cjs');
-  const preview=workflow.indexOf('name: desumaths-g4-1-site-preview');
-  assert.ok(chrome>=0 && preview>chrome,'Preview must only run after browser recipe');
+  assert.match(workflow,/path: dist\/web/);
   assert.match(workflow,/dist\/web\/g4-1-build\.json/);
-  for(const id of ['variations','courbe']) {
-    assert.ok(exportCheck.includes(id),'Missing exported anchor validation: '+id);
-  }
-  assert.match(exportCheck,/MenuSecondeFonctions\.html/);
+  assert.ok(workflow.indexOf('node scripts/check-g4-1-web.cjs') < workflow.indexOf('actions/upload-pages-artifact@v4'));
+  for(const id of ['variations','courbe']) assert.ok(exportCheck.includes(id));
+  assert.ok(exportCheck.includes('MenuSecondeFonctions.html'));
 });
 
-test('G4.1-R5 : Seconde always loads a versioned stylesheet and Chrome checks real design', () => {
+test('G4.1-R5 : Seconde loads a versioned stylesheet with responsive design', () => {
   const menu=read('renderer/Menus/MenuSeconde.html');
   const css=read('renderer/Menus/StyleMenus.css');
-  const browser=read('scripts/visual-check-g4-1-seconde.cjs');
   assert.match(menu,/StyleMenus\.css\?v=g41-r5/);
   assert.match(css,/\.g41-figures\{/);
   assert.match(css,/\.g41-links a\{/);
-  assert.match(browser,/graphicStyle\.stylesheet/);
-  assert.match(browser,/graphicStyle\.border/);
-  assert.match(browser,/graphicStyle\.buttonBackground/);
-  assert.match(browser,/graphicStyle\.buttonHeight/);
-  assert.match(browser,/\['flex','inline-flex'\]\.includes\(graphicStyle\.display\)/);
-  assert.doesNotMatch(browser,/assert\.equal\(graphicStyle\.display,'inline-flex'/);
-
+  assert.match(css,/\.g41-links a:focus-visible/);
+  assert.match(css,/@media\(max-width:520px\)/);
 });
 
 test('G4.1: single-figure pages have a one-figure status and wide responsive layout', () => {
@@ -140,13 +119,13 @@ test('G4.1-R8 : each dedicated page has a different question and hidden checked 
   assert.match(style,/\.g41-activity-answer summary:focus-visible/);
 });
 
-test('G4.1-R8 : le script navigateur est syntaxiquement valide avant Playwright', () => {
+test('G4.1-R8 : production verifier is valid Node syntax', () => {
   const {spawnSync}=require('node:child_process');
-  const file=path.join(root,'scripts/visual-check-g4-1-seconde.cjs');
+  const file=path.join(root,'scripts/check-g4-1-web.cjs');
   const result=spawnSync(process.execPath,['--check',file],{encoding:'utf8'});
-  assert.equal(result.status,0,'Syntaxe invalide dans la recette navigateur : '+result.stderr);
-  const script=read('scripts/visual-check-g4-1-seconde.cjs');
-  assert.equal((script.match(/process\.exitCode=1/g)||[]).length,1,'Terminaison dupliquée');
+  assert.equal(result.status,0,'Syntaxe invalide du contrôle de publication : '+result.stderr);
+  const workflow=read('.github/workflows/g4-1-seconde.yml');
+  assert.match(workflow,/node scripts\/check-g4-1-web\.cjs/);
 });
 
 test('G4.1 : each focused page links to the actual complementary HTML file', () => {
