@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Étudier une fonction du second degré : racines, factorisation et sommet de f(x) = x² − 4.">
+  <title>Fonction du second degré — Desumaths Première</title>
+  <link rel="stylesheet" href="../../StylesIndex.css">
+  <link rel="stylesheet" href="figures-tikz.css">
+  <link rel="stylesheet" href="../../vendor/tikzjax/fonts.css">
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},startup:{typeset:true}};</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+  <script src="figures-tikz.js" defer></script>
+  <script src="../../vendor/tikzjax/tikzjax.js" defer></script>
+</head>
+<body>
+  <a class="lien-evitement" href="#experiences">Accéder à la figure</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete">
+    <a class="marque" href="../../index.html">Desum@ths</a>
+    <nav class="nav-principale" aria-label="Navigation">
+      <a href="../../Menus/Menu1STfonctionsdegre2.html">Première · Degré 2</a>
+      <a href="index.html">Laboratoire complet</a>
+      <a href="index.html">Voir le laboratoire complet</a>
+    </nav>
+  </header>
+  <main class="g4-main g41-single">
+    <section class="g4-intro">
+      <p class="g4-eyebrow">DESUMATHS <span aria-hidden="true">/</span> PREMIÈRE · DEGRÉ 2</p>
+      <h1>Racines et sommet d’une parabole</h1>
+      <p class="g4-lead">Étudier une fonction du second degré : racines, factorisation et sommet de f(x) = x² − 4.</p>
+      <div class="g4-statusline" role="status" aria-live="polite"><span class="g4-status-dot" aria-hidden="true"></span><span id="g4-global-status">Chargement de la figure…</span></div>
+    </section>
+    <section class="g41-activity" aria-label="Consigne d’observation">
+      <h2>Relier graphique et calcul</h2>
+      <p>À partir de la courbe, conjecturer les deux racines, puis factoriser f(x) = x² − 4 pour les confirmer. Donner également les coordonnées du sommet.</p>
+      <details class="g41-activity-answer">
+        <summary>Vérifier ma réponse</summary>
+        <p>Les racines sont −2 et 2 car f(x) = (x − 2)(x + 2). Le sommet est S(0 ; −4) : la parabole est tournée vers le haut.</p>
+      </details>
+    </section>
+    <section class="g4-gallery" id="experiences" aria-label="Courbe d’une parabole">
+      <article class="g4-card" id="courbe" data-tikz-example="courbe">
+        <div class="g4-card-top">
+          <span class="g4-index">02 / PGFPLOTS</span>
+          <h2>Tracer une courbe</h2>
+          <p>La parabole \(y=x^2-4\) coupe l'axe des abscisses en \(-2\) et \(2\).</p>
+        </div>
+        <div class="g4-figure-shell">
+          <div class="g4-figure" tabindex="0" aria-label="Zone de rendu de la courbe de x au carré moins quatre ; faire défiler horizontalement si nécessaire">
+            <script type="text/tikz" data-tex-packages='{"pgfplots":""}'
+              data-aria-label="Courbe de la fonction x au carré moins quatre entre moins trois et trois">
+\begin{tikzpicture}
+  \begin{axis}[
+    width=7cm, height=5cm,
+    xmin=-3, xmax=3, ymin=-5, ymax=5,
+    axis lines=middle,
+    xlabel={$x$}, ylabel={$y$},
+    grid=major, grid style={dashed,gray!25},
+    xtick={-2,0,2}, ytick={-4,0,4}
+  ]
+    \addplot[blue,very thick,domain=-3:3,samples=80] {x*x-4};
+  \end{axis}
+\end{tikzpicture}
+            </script>
+          </div>
+        </div>
+        <p class="g4-figure-status" data-figure-status role="status">Calcul de la figure…</p>
+        <details class="g4-source">
+          <summary>Afficher le code LaTeX</summary>
+          <div class="g4-source-header">
+            <span>Source compilée côté navigateur</span>
+            <button type="button" data-copy-source>Copier le code</button>
+          </div>
+          <pre tabindex="0"><code data-source-code></code></pre>
+        </details>
+      </article>
+    </section>
+    <p class="g41-single-next"><a href="variations.html">Découvrir le tableau de variations</a> · <a href="../../Menus/Menu1STfonctionsdegre2.html">Retour au menu Première</a></p>
+  </main>
+  <footer class="pied-de-page">Desum@ths · Fonction du second degré</footer>
+</body>
+</html>
