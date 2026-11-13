@@ -126,3 +126,11 @@ La page `variations.html` propose désormais une observation du sens de variatio
 Les tests statiques vérifient que les questions sont distinctes et mathématiquement cohérentes. Le scénario Chrome confirme que l'élève peut révéler volontairement la réponse. Les pages historiques, les modèles d'exercice et le laboratoire comparatif à deux figures restent inchangés.
 
 **État de preuve :** modifications enregistrées dans la branche ; réussite GitHub Actions de R8 et publication publique non encore constatées.
+
+## G4.1-R8 — correctif de syntaxe de la recette Chromium
+
+Le journal transmis indique `SyntaxError: Unexpected token ')'` lors de l'exécution de `scripts/visual-check-g4-1-seconde.cjs`. L'inspection du fichier a identifié 2 649 caractères de code recopié après la terminaison normale du programme, en commençant par `),{timeout:30000});`. Le bloc parasite a été supprimé.
+
+Un test de non-régression exécute désormais `node --check scripts/visual-check-g4-1-seconde.cjs` indirectement via `npm run check` (suite Node intégrant `tests/g4-1-seconde-figures.test.cjs`) et vérifie qu'un unique gestionnaire terminal subsiste. Cela doit empêcher que le contrôle Chrome et la publication échouent à nouveau pour ce défaut de syntaxe.
+
+**Limites :** l'absence du bloc dupliqué et la présence du garde-fou ont été confirmées dans les sources GitHub. La commande Node distante et le déploiement doivent encore réussir pour considérer la correction validée.
