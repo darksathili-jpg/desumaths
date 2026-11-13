@@ -1,63 +1,57 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang='fr'>
+
+<script src="Scriptdegre2FormeFactorisee.js" defer></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+       extensions: ["tex2jax.js"], jax: ["input/TeX", "output/HTML-CSS"],
+       TeX: { extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] },
+       tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ], processEscapes: true }
+    });
+ </script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="Styleexos.css">
+
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Forme factorisée d’une fonction du second degré — Desumaths Première technologique</title>
-  <meta name="description" content="Exercice historique : trouver la forme factorisée d'une fonction du second degré à partir de ses racines et d'une image connue.">
-  <link rel="stylesheet" href="../../../../StylesIndex.css">
-  <link rel="stylesheet" href="Styleexos-desumaths.css">
-  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" defer></script>
-  <script src="Scriptdegre2FormeFactorisee.js" defer></script>
+    <meta charset="UTF-8">
+    <title>Fonctions de degré 2 (forme factorisée)</title>
 </head>
+
 <body>
-  <a class="lien-evitement" href="#exercice">Aller à l'exercice</a>
-  <div class="marge-rouge" aria-hidden="true"></div>
-  <header class="entete">
-    <a href="../../../../index.html" class="marque">Desum<span class="marque-accent">@</span>ths</a>
-    <nav class="nav-principale" aria-label="Navigation">
-      <a href="../../../../Menus/Menu1ST.html">Première technologique</a>
-      <a href="../../../../Menus/Menu1STfonctionsdegre2.html">Fonctions de degré 2</a>
-      <a href="../../../../index.html">Accueil</a>
-    </nav>
-  </header>
-  <main id="exercice" class="exercice-layout">
-    <p class="fil-ariane">Première technologique / Fonctions de degré 2 / Forme factorisée</p>
-    <header class="exercice-intro">
-      <p class="sur-titre">Exercice historique migré · Première technologique</p>
-      <h1>Retrouver la forme factorisée</h1>
-      <p>Les racines et une image de la fonction sont données. Détermine le coefficient, puis écris sa forme factorisée.</p>
-    </header>
-    <div class="exercice-colonnes">
-      <section class="exercice-feuille" aria-labelledby="titre-enonce">
-        <div class="feuille-titre"><span class="num-exercice">01</span><h2 id="titre-enonce">À toi de chercher</h2></div>
-        <p class="consigne">Détermine la forme factorisée de la fonction à partir de ses deux racines et d’une valeur connue.</p>
-        <div id="enonce" class="formule-enonce" aria-live="polite"></div>
-        <p class="conseil"><strong>Indice de méthode :</strong> écris f(x) = a(x − α)(x − β), puis utilise la valeur de f(x₀) pour calculer a.</p>
-        <button type="button" id="recommencer" class="action-principale">↻ Nouvel exercice</button>
-      </section>
-      <section class="exercice-aides" aria-label="Auto-correction">
-        <article class="panneau-reponse">
-          <h2>Vérifier ma réponse</h2>
-          <p>Compare ta forme factorisée à la solution seulement après ta recherche.</p>
-          <button type="button" id="solutions" class="action-secondaire" aria-controls="solution" aria-expanded="false">Afficher la solution</button>
-          <div id="solution" class="reponse-cachee" role="region" aria-label="Solution" hidden></div>
-        </article>
-        <article class="panneau-reponse">
-          <h2>Comprendre chaque étape</h2>
-          <p>Retrouve la forme générale, le calcul du coefficient et la conclusion.</p>
-          <button type="button" id="correction" class="action-secondaire" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button>
-          <div id="correctiond" class="reponse-cachee" role="region" aria-label="Correction détaillée" hidden></div>
-        </article>
-      </section>
+    <div class="container-fluid">
+        <div id="enonces" class="card" style="width: 30rem;" >
+            <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
+                class="card-img-top" alt="logo math">
+                
+            <div class="card-body">
+                <p class="card-text">
+                    <div id='enonce'></div>
+                </p>
+            </div>
+        </div>
+        
+        <button id='solutions' type="button" class="btn">Cliquer pour voir la solution</button>
+        <div id="solution"></div>
+        <div></div>
+        <button id='correction' type="button" class="btn">Cliquer pour voir une correction détaillée</button>
+        <div id='correctiond'></div>
+        <div></div>
+        <button id="recommencer" class="btn">Recommencer</button>
+        <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
+        <div></div>
+        <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu 1ST</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>
     </div>
-    <nav class="retour-exercice" aria-label="Retour aux exercices">
-      <a href="../../../../index.html">Accueil</a>
-      <a href="../../../../Menus/Menu1ST.html">Première technologique</a>
-      <a href="../../../../Menus/Menu1STfonctionsdegre2.html">Autres exercices du second degré</a>
-    </nav>
-  </main>
-  <footer class="pied-de-page">Desum@ths — Exercices historiques préservés</footer>
+    <script>
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    </script>
 </body>
+
+
 </html>
