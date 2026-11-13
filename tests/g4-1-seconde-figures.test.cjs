@@ -139,3 +139,12 @@ test('G4.1-R8 : each dedicated page has a different question and hidden checked 
   assert.match(parabole,/sommet est S\(0 ; −4\)/);
   assert.match(style,/\.g41-activity-answer summary:focus-visible/);
 });
+
+test('G4.1-R8 : le script navigateur est syntaxiquement valide avant Playwright', () => {
+  const {spawnSync}=require('node:child_process');
+  const file=path.join(root,'scripts/visual-check-g4-1-seconde.cjs');
+  const result=spawnSync(process.execPath,['--check',file],{encoding:'utf8'});
+  assert.equal(result.status,0,'Syntaxe invalide dans la recette navigateur : '+result.stderr);
+  const script=read('scripts/visual-check-g4-1-seconde.cjs');
+  assert.equal((script.match(/process\.exitCode=1/g)||[]).length,1,'Terminaison dupliquée');
+});
