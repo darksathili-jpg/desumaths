@@ -206,3 +206,13 @@ test('Migration : exercice historique Sommet réutilise le parcours et masque le
  assert.match(chrome,/mathjax>=5/);
  assert.match(workflow,/node scripts\/visual-check-migration-sommet\.cjs/);
 });
+
+test('Publication : verifier les deux vrais exercices migrants sur GitHub Pages', () => {
+ const workflow=read('.github/workflows/g4-1-seconde.yml');
+ assert.match(workflow,/g4-1-build\.json\?revision=\$GITHUB_SHA/);
+ assert.match(workflow,/\/Sommet\/Degre2Sommet\.html\?revision=/);
+ assert.match(workflow,/\/Forme%20factorisee\/Degre2FormeFactorisee\.html\?revision=/);
+ assert.match(workflow,/Ancienne version encore servie en production/);
+ const index=read('renderer/index.html');
+ assert.match(index,/patrimoine-acces-titre/);
+});
