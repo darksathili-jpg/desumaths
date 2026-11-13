@@ -160,3 +160,21 @@ test('G4.1 : each focused page links to the actual complementary HTML file', () 
   }
   assert.doesNotMatch(read(folder+'variations.html'),/href="courbe\.html"/);
 });
+
+test('Production : les accès directs aux exercices historiques existent tous', () => {
+ const index=read('renderer/index.html');
+ const css=read('renderer/StylesIndex.css');
+ const links=[
+ 'MenuSecondeEquations.html','MenuSecondeFonctions.html','MenuSecondeProbabilites.html','MenuSeconde.html',
+ 'Menu1STfonctionsdegre2.html','Menu1STsuitesarithmetiques.html','Menu1STprobabilitesproportions.html','Menu1ST.html',
+ 'MenuTaleSuites.html','MenuTaleProbabilites.html','MenuTaleLimites.html','MenuTaleSpe.html'
+ ];
+ assert.match(index,/id="patrimoine-acces-titre"/);
+ for(const file of links){
+  assert.ok(index.includes('href="Menus/'+file+'"'),'Lien accueil absent : '+file);
+  assert.ok(fs.existsSync(path.join(root,'renderer/Menus',file)),'Destination historique absente : '+file);
+ }
+ assert.match(css,/\.patrimoine-grille/);
+ assert.match(css,/@media\(max-width:900px\)/);
+ assert.match(css,/\.patrimoine-cahier a:focus-visible/);
+});
