@@ -1,0 +1,10 @@
+/* R15 : le contenu mathématique historique est conservé, hormis la résolution supprimée sur décision de l’auteur. */
+.formule-enonce{display:block;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;text-align:center;line-height:1.6}
+.formule-enonce mjx-container{max-width:100%;margin:.5em auto!important}
+.exercice-colonnes>.exercice-aides{display:contents}
+.exercice-colonnes>.exercice-aides>.panneau-reponse:first-child{grid-column:2}
+.exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1/-1}
+.correction-carres{max-height:none;min-width:0;max-width:100%;overflow:visible;padding:clamp(14px,2vw,24px)}
+.correction-carres mjx-container{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0;text-align:center}
+@media(max-width:900px){.exercice-colonnes>.exercice-aides>.panneau-reponse:first-child,.exercice-colonnes>.exercice-aides>.panneau-reponse:last-child{grid-column:1}}
+@media(max-width:520px){.correction-carres{font-size:.88rem;padding:10px 6px}}

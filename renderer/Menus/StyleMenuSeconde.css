@@ -1,0 +1,63 @@
+@charset "UTF-8";
+/* Style pour l'en-tête */
+header {text-align: center;padding:20px;}
+/*Style pour la zone de navigation */
+nav {background:rgb(103, 184, 216);float:left;padding-top: 0px;padding-bottom: 2px;width:550px;border-top-right-radius: 20px;border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;margin-right: 25px;margin-top:25px;text-align: center;}
+nav ul {padding-left:60px;}
+nav li {padding-left:10px;text-align: left;}
+nav a {text-decoration:underline;text-decoration-color: black;color:black;}
+nav a:hover {color: rgba(81, 36, 155, 0.774);}
+/* Style pour la zone d'information */
+aside {float: right;color:green;font-size:1.2em;width: 150px;border: solid;}
+/* style pour le div */
+body div {background:rgb(103, 184, 216);border:solid;text-align:center;width:1040px;padding:20px;float:center;border-top-right-radius: 20px;border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;}
+/* Style pour le pied de page */
+footer {clear: both;padding-top: 2em;color: white;}
+footer div {float: right;}
+footer a {text-decoration: none;color:gainsboro;}
+footer a:hover {color: white;}
+/* Style pour aside */
+aside {float: right; color: green; font-size: 2.4em; width: 550px; border: solid}
+
+body b {float:center;padding-left: 50px;}
+
+#accueil {
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    margin-right: 1vw;
+
+}
+
+button{
+    margin-bottom: 10px; 
+ }
+
+ .btn {
+    background-color: cadetblue;
+    color: white;
+    box-shadow: 0.2vw 0.2vw 0.3vw grey;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    text-shadow: 0.2vw 0.2vw 0.3vw red;
+    line-height: 30px;
+    text-align: center;
+}
+
+.btn::before {
+    display: block;
+    content: "";
+    width: 30px;
+    height: 30px;
+    background-image: url(https://images.assetsdelivery.com/compings_v2/senoldo/senoldo1506/senoldo150600009.jpg);
+    float: left;
+    background-size: cover;
+    margin-right: 5px;
+}
+
+.image {display:block;   margin-bottom: 50px;margin-top: 10px;margin-left: 20px; float:left;background-image: url(https://cdn.pixabay.com/photo/2015/09/13/10/06/pay-937884_1280.jpg); width: 90vw; background-repeat: no-repeat; background-size: cover; height:300px;}

@@ -1,0 +1,80 @@
+name: Desumaths G3.1 - Christophe anime (previsualisation)
+on:
+  push:
+    branches: [feature/g3-1-hero-accueil]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: desumaths-g3-hero-preview
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test equations, historical LaTeX and mascot integrity
+        run: npm run check
+      - name: Build website
+        run: npm run build:web
+      - name: Verify web export
+        run: npm run check:web
+      - name: Audit internal links
+        run: npm run audit:web
+      - name: Check mascot and canonical equations in export
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/web/index.html
+          test -s dist/web/assets/mascotte/hero-front.webp
+          test -s dist/web/components/hero/hero.js
+          test -s dist/web/components/hero/hero.css
+          test -s 'dist/web/2nde/Equations/Equations avec factorisation/EqsFacteurcommun.html'
+          grep -q 'id="hero-compagnon"' dist/web/index.html
+          grep -q 'StylesIndex.css' dist/web/index.html
+      - name: Install Playwright library (Chrome already on runner)
+        shell: bash
+        run: |
+          npm install --prefix /tmp/desumaths-g3-pw --no-save --no-audit --no-fund playwright@1.65.0
+          command -v google-chrome
+      - name: Real-browser checks for R16 and G3 hero
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-g3-pw/node_modules
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-g3-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 1
+          node scripts/visual-check-r16.cjs
+          node scripts/visual-check-g3.cjs
+      - name: Save responsive screenshots and measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-g3-hero-captures
+          path: |
+            artifacts/g3-hero
+            artifacts/r16-layout
+          if-no-files-found: ignore
+          retention-days: 30
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: desumaths-preview-g3
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

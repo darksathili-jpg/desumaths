@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Équations produits — Desumaths</title>
+  <link rel="stylesheet" href="../../../StylesIndex.css">
+  <link rel="stylesheet" href="../Equationsdegre1/Styleexos-desumaths.css">
+  <link rel="stylesheet" href="Styleexos-r14.css">
+  <script defer src="Scriptequationsproduits.js"></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <a class="lien-evitement" href="#exercice">Aller à l'exercice</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete">
+    <a class="marque" href="../../../index.html">Desum<span class="marque-accent">@</span>ths</a>
+    <nav class="nav-principale" aria-label="Navigation"><a href="../../../Menus/MenuSeconde.html">Seconde</a><a href="../../../Menus/MenuSecondeEquations.html">Équations</a><a href="../../../index.html">Accueil</a></nav>
+  </header>
+  <main id="exercice" class="exercice-layout">
+    <div class="fil-ariane">Seconde / Calcul littéral / Équations</div>
+    <header class="exercice-intro"><p class="sur-titre">Entraînement interactif · Seconde</p><h1>Équations produits</h1><p>Utiliser la propriété du produit nul et retrouver les solutions de l'équation.</p></header>
+    <div class="exercice-colonnes">
+      <section class="exercice-feuille" aria-labelledby="titre-enonce">
+        <div class="feuille-titre"><span class="num-exercice">02</span><h2 id="titre-enonce">À toi de jouer</h2></div>
+        <p class="consigne">Résous l'équation proposée sur ton cahier avant de dévoiler la correction.</p>
+        <div id="enonce" class="formule-enonce" aria-live="polite"></div>
+        <div class="separateur-note"></div>
+        <p class="conseil"><strong>Indice :</strong> un produit est nul si au moins l'un de ses facteurs est nul.</p>
+        <div class="actions-exercice"><button id="recommencer" type="button" class="action-principale">↻ Nouvel exercice</button></div>
+      </section>
+      <section class="exercice-aides" aria-label="Solution et correction">
+        <article class="panneau-reponse"><h2>Solution</h2><p>Compare l'ensemble des solutions à celui que tu as trouvé.</p>
+          <button type="button" id="solutions" class="action-secondaire" data-afficher="Afficher les solutions" data-masquer="Masquer les solutions" aria-controls="solution" aria-expanded="false">Afficher les solutions</button>
+          <div id="solution" class="reponse-cachee" role="region" aria-label="Solutions" hidden></div>
+        </article>
+        <article class="panneau-reponse"><h2>Correction détaillée</h2><p>Retrouve les transformations et les deux équations obtenues par la propriété du produit nul.</p>
+          <button type="button" id="correction" class="action-secondaire" data-afficher="Afficher la correction détaillée" data-masquer="Masquer la correction détaillée" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button>
+          <div id="correctiond" class="reponse-cachee correction-produits" role="region" aria-label="Correction détaillée" hidden></div>
+        </article>
+      </section>
+    </div>
+    <nav class="retour-exercice" aria-label="Retours"><button id="accueil" type="button">Accueil Desumaths</button><button id="MenuSeconde" type="button">Menu Seconde</button><button id="MenuSecondeEquations" type="button">Menu Équations</button></nav>
+  </main>
+  <footer class="pied-de-page">Desum@ths — le cahier de maths interactif</footer>
+</body>
+</html>

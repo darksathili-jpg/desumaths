@@ -1,0 +1,126 @@
+
+    #solution {
+        display: none;
+        margin-top: 1vw;
+        margin-bottom: 2vw;
+        width: 40vw;
+        padding: 1vw;
+        /** margin-left: auto;
+        margin-right: auto;*/
+        border: solid;
+        border-style: groove;
+        background-color: rgba(188, 200, 230, 0.4);
+        color: crimson;
+    }
+
+    #correctiond {
+        display: none;
+        margin-top: 1vw;
+        margin-bottom: 2vw;
+        width: 100vw;
+        padding: 1vw;
+        /** margin-left: auto;
+        margin-right: auto;*/
+        border: solid;
+        border-style: groove;
+        background-color: rgba(22, 120, 211, 0.4);
+        color: rgb(71, 23, 32);
+        line-height: 30px;
+    }
+
+    button{
+       margin-bottom: 10px; 
+    }
+
+    #recommencer {
+        display: block;
+    }
+
+    #solutions {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+
+    }
+
+    #correction {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+
+    }
+
+    #recommencer {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        
+    }
+    
+    #accueil {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        margin-right: 1vw;
+
+    }
+
+    #MenuSeconde {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        margin-right: 1vw;
+
+    }
+
+    #MenuSecondeEquations {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        margin-right: 1vw;
+
+    }
+
+    button{
+       margin-bottom: 10px; 
+    }
+
+    @media screen and (max-width: 400px) {
+        #solution {
+            color: aqua;
+            width: 80vw;
+        }
+
+    }
+
+    #lienAccueil {
+        text-decoration: none;
+        color: black;
+    }
+
+    .btn {
+        background-color: cadetblue;
+        color: white;
+        box-shadow: 0.2vw 0.2vw 0.3vw grey;
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        text-shadow: 0.2vw 0.2vw 0.3vw red;
+        line-height: 30px;
+        text-align: center;
+    }
+
+    .btn::before {
+        display: block;
+        content: "";
+        width: 30px;
+        height: 30px;
+        background-image: url(https://images.assetsdelivery.com/compings_v2/senoldo/senoldo1506/senoldo150600009.jpg);
+        float: left;
+        background-size: cover;
+        margin-right: 5px;
+    }
+
+    #enonces {
+        margin-bottom: 2vw;
+    }
+
+    #résultat_tirage {
+        display : none;
+    }
+

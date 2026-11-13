@@ -1,0 +1,30 @@
+# Dependencies and caches
+node_modules/
+.npm/
+.cache/
+coverage/
+playwright-report/
+test-results/
+# Build outputs
+dist/
+out/
+release/
+build/
+*.exe
+*.msi
+*.dmg
+*.AppImage
+# Secrets, configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# System
+.DS_Store
+Thumbs.db
+__MACOSX/
+# Legacy source archives kept outside Git pending audit
+*.zip
+# Local user data
+userdata/

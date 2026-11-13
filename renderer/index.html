@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desum@ths — s'entraîner à l'infini, niveau lycée</title>
+    <meta name="description" content="Site amateur d'entraînement en mathématiques pour le lycée : exercices générés à volonté, avec solution et correction détaillée, du niveau Seconde à Terminale Spécialité.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        },
+        svg: { fontCache: 'global' },
+        startup: { typeset: false },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+
+    <link rel="stylesheet" href="StylesIndex.css">
+    <link rel="stylesheet" href="components/hero/hero.css">
+    <script src="script-index.js" defer></script>
+    <script src="components/hero/hero.js" defer></script>
+</head>
+
+<body>
+    <a class="lien-evitement" href="#niveaux">Aller directement aux niveaux</a>
+
+    <div class="marge-rouge" aria-hidden="true"></div>
+
+    <header class="entete">
+        <a href="#" class="marque">Desum@ths</a>
+        <nav class="nav-principale" aria-label="Niveaux">
+            <a href="Menus/MenuSeconde.html">Seconde</a>
+            <a href="Menus/Menu1ST.html">Première technologique</a>
+            <a href="Menus/MenuTaleSpe.html">Terminale spécialité</a>
+          <a href="Serveur%20Latex/latex_javascript.html" title="Compilateur LaTeX historique">Atelier LaTeX ↗</a>
+          <a href="Laboratoire/FiguresTikZ/index.html" title="Figures mathématiques TikZ générées dans le navigateur">Figures TikZ ↗</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-texte">
+                <h1 class="hero-titre">
+                    <span>Penser.</span> <span>Rechercher.</span> <span>Enseigner.</span>
+                    <span>Évoluer.</span> <span>S'améliorer.</span> <span>Progresser.</span>
+                </h1>
+                <p class="hero-soustitre">
+                    Un site amateur, entièrement dédié à l'entraînement en mathématiques, niveau lycée.
+                    Pas de cours ici : juste des exercices générés <strong>à volonté</strong>, corrigés en détail,
+                    pour progresser sur ce qui pose problème — autant de fois que nécessaire.
+                </p>
+                <a href="#niveaux" class="bouton-principal">Choisir mon niveau</a>
+            </div>
+
+            <div class="hero-scene">
+            <div class="carte-demo" aria-live="polite">
+                <p class="carte-demo-etiquette">un exercice, à l'instant</p>
+                <div class="carte-demo-enonce" id="demo-enonce"></div>
+                <div class="carte-demo-solution" id="demo-solution">
+                    <svg class="tampon-correction" viewBox="0 0 60 60" aria-hidden="true">
+                        <path d="M14 32 L26 44 L48 16" />
+                    </svg>
+                    <span id="demo-reponse"></span>
+                </div>
+            </div>
+              <aside class="hero-compagnon" id="hero-compagnon"
+                     data-pose="idle" data-motion="on"
+                     aria-label="Christophe, professeur de mathématiques et compagnon d'entraînement">
+                <div class="hero-plateau">
+                  <div class="hero-plateau-marque" aria-hidden="true">
+                    <span>CHRISTOPHE</span><span class="hero-plateau-separation"></span><span>π</span>
+                  </div>
+                  <div class="hero-compagnon-visuel" aria-hidden="true">
+                    <span class="hero-compagnon-sprite" data-frame="1"></span>
+                    <span class="hero-ombre" aria-hidden="true"></span>
+                  </div>
+                  <p class="hero-plateau-legende">12 poses originales · animation 2D</p>
+                </div>
+                <div class="hero-bulle">
+                  <span class="hero-bulle-kicker">Ton prof compagnon</span>
+                  <p class="hero-bulle-texte" data-hero-message aria-live="polite">
+                    Bonjour ! Prêt à progresser en maths ?
+                  </p>
+                  <div class="hero-bulle-actions">
+                    <button type="button" data-hero-walk>Me voir marcher</button>
+                    <button type="button" data-hero-turn>Changer de vue</button>
+                    <button type="button" data-hero-motion aria-pressed="false">Réduire l'animation</button>
+                    <button type="button" data-hero-hide>Masquer</button>
+                  </div>
+                </div>
+              </aside>
+              <button type="button" class="hero-retour" data-hero-return hidden>
+                Afficher Christophe, mon guide
+              </button>
+            </div>
+        </section>
+
+        <section class="niveaux" id="niveaux">
+            <h2 class="titre-section">Trois cahiers, trois niveaux</h2>
+            <div class="grille-niveaux">
+                <a class="cahier" href="Menus/MenuSeconde.html">
+                    <span class="cahier-etiquette">Seconde</span>
+                    <span class="cahier-legende">Les fondamentaux : fonctions, équations, géométrie repérée.</span>
+                </a>
+                <a class="cahier" href="Menus/Menu1ST.html">
+                    <span class="cahier-etiquette">Première technologique</span>
+                    <span class="cahier-legende">Dérivation, suites, statistiques — au rythme de la filière STI2D/STMG.</span>
+                </a>
+                <a class="cahier" href="Menus/MenuTaleSpe.html">
+                    <span class="cahier-etiquette">Terminale spécialité</span>
+                    <span class="cahier-legende">Vers le Bac : analyse, probabilités, exercices type épreuves.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="patrimoine-acces" aria-labelledby="patrimoine-acces-titre">
+            <div class="patrimoine-en-tete">
+                <p class="patrimoine-kicker">EXERCICES HISTORIQUES · ACCÈS DIRECT</p>
+                <h2 id="patrimoine-acces-titre">Retrouver les exercices et leurs corrections</h2>
+                <p>Les parcours de l'ancien site restent accessibles dans la nouvelle interface.
+                   Choisis un chapitre pour rejoindre les exercices existants, sans passer par le laboratoire graphique.</p>
+            </div>
+            <div class="patrimoine-grille">
+                <section class="patrimoine-cahier" aria-label="Chapitres de Seconde">
+                    <h3>Seconde</h3>
+                    <a href="Menus/MenuSecondeEquations.html">Équations <span aria-hidden="true">→</span></a>
+                    <a href="Menus/MenuSecondeFonctions.html">Fonctions <span aria-hidden="true">→</span></a>
+                    <a href="Menus/MenuSecondeProbabilites.html">Probabilités <span aria-hidden="true">→</span></a>
+                    <a class="patrimoine-tout" href="Menus/MenuSeconde.html">Tous les chapitres de Seconde</a>
+                </section>
+                <section class="patrimoine-cahier" aria-label="Chapitres de Première technologique">
+                    <h3>Première technologique</h3>
+                    <a href="Menus/Menu1STfonctionsdegre2.html">Fonctions du second degré <span aria-hidden="true">→</span></a>
+                    <a href="Menus/Menu1STsuitesarithmetiques.html">Suites arithmétiques <span aria-hidden="true">→</span></a>
+                    <a href="Menus/Menu1STprobabilitesproportions.html">Probabilités et proportions <span aria-hidden="true">→</span></a>
+                    <a class="patrimoine-tout" href="Menus/Menu1ST.html">Tous les chapitres de Première</a>
+                </section>
+                <section class="patrimoine-cahier" aria-label="Chapitres de Terminale spécialité">
+                    <h3>Terminale spécialité</h3>
+                    <a href="Menus/MenuTaleSuites.html">Suites <span aria-hidden="true">→</span></a>
+                    <a href="Menus/MenuTaleProbabilites.html">Probabilités <span aria-hidden="true">→</span></a>
+                    <a href="Menus/MenuTaleLimites.html">Limites <span aria-hidden="true">→</span></a>
+                    <a class="patrimoine-tout" href="Menus/MenuTaleSpe.html">Tous les chapitres de Terminale</a>
+                </section>
+            </div>
+        </section>
+
+        <section class="apropos">
+            <div class="post-it">
+                <p class="post-it-titre">Pourquoi ce site&nbsp;?</p>
+                <p>
+                    Comme son nom l'indique, ce site (optimisé pour le navigateur Chrome) est uniquement dédié à
+                    l'entraînement en mathématiques, niveau lycée. Site amateur, interface volontairement minimaliste :
+                    l'idée est que chacun puisse s'entraîner « à volonté » sur les notions qui posent problème, autant
+                    de fois que nécessaire pour progresser.
+                </p>
+                <p>
+                    Étant enseignant en mathématiques au lycée, certains niveaux sont moins fournis que d'autres :
+                    ce site s'adresse en priorité à mes élèves, et je ne suis pas en charge de tous les niveaux dans
+                    mon établissement. Je reste ouvert à toute demande ou suggestion d'amélioration.
+                </p>
+                <p>
+                    Un immense merci à Darksathi, sans qui ce site n'existerait tout simplement pas : tout ce qui
+                    fonctionne ici lui doit son aide et ses explications ; tout ce qui fonctionne mal m'est
+                    entièrement imputable.
+                </p>
+                <a href="mailto:entrainmaths@free.fr" class="lien-contact">Contactez-moi →</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pied-de-page">
+        <p>Desum@ths — site amateur d'entraînement, niveau lycée.</p>
+    </footer>
+<div style="font-size:.8rem;text-align:center;padding:1rem;color:#536078">Application Electron · Certaines fonctions LaTeX et polices utilisent une connexion Internet.</div>
+</body>
+
+</html>

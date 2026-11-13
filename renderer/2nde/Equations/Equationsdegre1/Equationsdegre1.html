@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Équations du premier degré — Desumaths</title>
+  <link rel="stylesheet" href="../../../StylesIndex.css">
+  <link rel="stylesheet" href="Styleexos-desumaths.css">
+  <!-- Moteur exact partage avec les tests ; aucune donnee utilisateur n’est interpretee en HTML. -->
+  <script src="equation-core.js" defer></script>
+  <script src="correction-historique.js" defer></script>
+  <script src="Scriptequationsdegre1.js" defer></script>
+  <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <a class="lien-evitement" href="#exercice">Aller à l'exercice</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete">
+    <a class="marque" href="../../../index.html">Desum<span class="marque-accent">@</span>ths</a>
+    <nav class="nav-principale" aria-label="Navigation"><a href="../../../Menus/MenuSeconde.html">Seconde</a><a href="../../../Menus/MenuSecondeEquations.html">Équations</a><a href="../../../index.html">Accueil</a></nav>
+  </header>
+  <main id="exercice" class="exercice-layout">
+    <div class="fil-ariane">Seconde <span aria-hidden="true">/</span> Calcul littéral <span aria-hidden="true">/</span> Équations</div>
+    <header class="exercice-intro">
+      <p class="sur-titre">Entraînement interactif · Seconde</p>
+      <h1>Équations du premier degré</h1>
+      <p>Résoudre une équation, comparer sa réponse et comprendre chaque transformation.</p>
+    </header>
+    <div class="exercice-colonnes">
+      <section class="exercice-feuille" aria-labelledby="titre-enonce">
+        <div class="feuille-titre"><span class="num-exercice">01</span><h2 id="titre-enonce">À toi de jouer</h2></div>
+        <p class="consigne">Résous l'équation suivante dans l'ensemble des nombres réels.</p>
+        <div class="formule-intro">Résoudre dans l’ensemble \(\mathbb{R}\) l’équation :</div>
+        <div id="enonce" class="formule-enonce" aria-live="polite"></div>
+        <div class="separateur-note"></div>
+        <p class="conseil"><strong>Conseil :</strong> regroupe les termes en <em>x</em> d'un côté et les nombres de l'autre.</p>
+        <div class="actions-exercice"><button type="button" id="recommencer" class="action-principale">↻ Nouvel exercice</button></div>
+      </section>
+      <section class="exercice-aides" aria-label="Solution et correction">
+        <article class="panneau-reponse">
+          <h2>Vérifier ma réponse</h2>
+          <p>Résous d’abord l’équation sur ton cahier, puis saisis ta solution.</p>
+          <label class="libelle-reponse" for="reponse-eleve">Ma solution pour <em>x</em></label>
+          <div class="saisie-reponse">
+            <input id="reponse-eleve" type="text" autocomplete="off" inputmode="decimal" maxlength="120" placeholder="Ex. : -7/9 ou 0,5" aria-describedby="aide-saisie">
+            <button id="verifier-reponse" type="button" class="action-principale">Vérifier</button>
+          </div>
+          <p id="aide-saisie" class="aide-saisie">Fractions acceptées : 7/9, -14/18, x=7/9. Une valeur décimale n’est validée que si elle est exacte.</p>
+          <p id="retour-reponse" class="retour-verification" role="status" aria-live="polite"></p>
+          <button type="button" id="solutions" class="action-secondaire" aria-controls="solution" aria-expanded="false" data-afficher="Afficher la solution" data-masquer="Masquer la solution">Afficher la solution</button>
+          <div id="solution" class="reponse-cachee" role="region" aria-label="Solution" hidden></div>
+        </article>
+        <article class="panneau-reponse">
+          <h2>Comprendre la méthode</h2>
+          <p>Deux démarches expliquées pour progresser pas à pas.</p>
+          <button type="button" id="correction" class="action-secondaire" aria-controls="correctiond" aria-expanded="false" data-afficher="Afficher la correction détaillée" data-masquer="Masquer la correction détaillée">Afficher la correction détaillée</button>
+          <div id="correctiond" class="reponse-cachee" role="region" aria-label="Correction détaillée" hidden></div>
+        </article>
+      </section>
+    </div>
+    <nav class="retour-exercice" aria-label="Retours"><button id="accueil" type="button">Accueil Desumaths</button><button id="MenuSeconde" type="button">Menu Seconde</button><button id="MenuSecondeEquations" type="button">Menu Équations</button></nav>
+  </main>
+  <footer class="pied-de-page">Desum@ths — le cahier de maths interactif</footer>
+</body>
+</html>

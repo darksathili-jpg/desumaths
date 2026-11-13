@@ -1,0 +1,43 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+test('G3.4: three progressive optional hints, no solution or static response leak',()=>{
+ const helper=read('renderer/components/hero/hero-exercice.js');
+ assert.match(helper,/const hints = \[/);
+ assert.match(helper,/propriété du produit nul/);
+ assert.match(helper,/les signes du second groupe/);
+ assert.match(helper,/data-hero-tip/);
+ assert.match(helper,/hero\.say/);
+ assert.doesNotMatch(helper,/innerHTML|setTimeout/);
+ assert.doesNotMatch(helper,/correctiond|solution\.hidden/);
+});
+test('G3.4: original correction generator and mathematical notation untouched',()=>{
+ const page=read('renderer/2nde/Equations/Equations avec factorisation/EqsFacteurcommun.html');
+ assert.match(page,/ScriptEqsfacteurcommun\.js/);
+ assert.match(page,/Styleexos-r16\.css/);
+ assert.match(page,/id="correctiond"/);
+ assert.match(page,/id="enonce"/);
+ assert.match(page,/id="solutions"/);
+ assert.match(page,/id="correction"/);
+ assert.match(page,/data-hero-tip/);
+ assert.match(page,/data-mode="exercise"/);
+ assert.match(page,/hero-exercice\.js/);
+ assert.match(page,/hero-exercice\.css/);
+ const generator=read('renderer/2nde/Equations/Equations avec factorisation/ScriptEqsfacteurcommun.js');
+ assert.match(generator,/underbrace/);
+ assert.match(generator,/DemanderMathJax|demanderMathJax/);
+ assert.doesNotMatch(generator,/hero-exercice|Christophe/);
+});
+test('G3.4: same hero engine used without looping walk or overlay',()=>{
+ const core=read('renderer/components/hero/hero.js');
+ assert.match(core,/\['menu','exercise'\]/);
+ assert.match(core,/christophe|FRAMES/);
+ const css=read('renderer/components/hero/hero-exercice.css');
+ assert.match(css,/\.compagnon-exercice/);
+ assert.doesNotMatch(css,/position:\s*fixed/);
+ assert.match(css,/@media\(max-width:570px\)/);
+});

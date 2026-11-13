@@ -1,0 +1,71 @@
+/* Desumaths G3.3 — mascotte dans les menus, sans modifier les cartes existantes. */
+.menu-niveau > .menu-compagnon{
+  display:grid;
+  grid-template-columns:minmax(160px,195px) minmax(0,1fr);
+  align-items:stretch;
+  gap:0;
+  max-width:790px;
+  margin:0 0 clamp(24px,4vw,34px);
+}
+.menu-compagnon .hero-plateau{
+  --hero-frame:172px;
+  height:205px;
+  width:100%;
+  min-width:0;
+  border:1px solid var(--grille);
+  border-right:0;
+  border-radius:17px 0 0 17px;
+}
+.menu-compagnon .hero-plateau:before{bottom:12px}
+.menu-compagnon .hero-compagnon-visuel{
+  bottom:8px;
+  width:var(--hero-frame);
+  height:var(--hero-frame);
+}
+.menu-compagnon .hero-plateau-marque{
+  top:12px;left:13px;right:13px;
+  font-size:.63rem;
+}
+.menu-compagnon .hero-plateau-marque span:last-child{font-size:1.15rem}
+.menu-compagnon .hero-bulle{
+  display:flex;flex-direction:column;justify-content:center;
+  min-width:0;
+  padding:16px 20px;
+  border:1px solid var(--grille);
+  border-left:4px solid var(--rouge);
+  border-top:1px solid var(--grille);
+  border-radius:0 17px 17px 0;
+  background:#fffdf8;
+}
+.menu-compagnon .hero-bulle-actions{
+  display:flex;gap:7px;flex-wrap:wrap;
+}
+.menu-compagnon .hero-bulle-actions button{
+  min-height:38px;
+}
+.menu-niveau > .menu-compagnon-retour{
+  margin:0 0 25px;
+  font:600 .9rem var(--police-texte),sans-serif;
+}
+.menu-compagnon .hero-compagnon-sprite{animation:none}
+@media(max-width:620px){
+  .menu-niveau > .menu-compagnon{grid-template-columns:1fr;max-width:100%}
+  .menu-compagnon .hero-plateau{
+    --hero-frame:186px;
+    height:208px;
+    border-right:1px solid var(--grille);
+    border-bottom:0;
+    border-radius:17px 17px 0 0;
+  }
+  .menu-compagnon .hero-plateau-marque{font-size:.71rem}
+  .menu-compagnon .hero-bulle{
+    border-top:3px solid var(--rouge);
+    border-left:1px solid var(--grille);
+    border-radius:0 0 17px 17px;
+    padding:14px 15px 16px;
+  }
+  .menu-compagnon .hero-bulle-actions button{font-size:.78rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .menu-compagnon .hero-compagnon-visuel{transition:none!important}
+}

@@ -1,0 +1,22 @@
+/* Surcouche atelier : conserve l’identité papier/encre du premier ZIP. */
+.atelier{max-width:1360px;margin:0 auto;padding:2rem 2.5rem 4rem;position:relative}
+.atelier-heading h1{color:#16223e;font-size:clamp(1.8rem,3vw,3rem);margin:0 0 .5rem}
+.atelier-heading p{color:#374761;line-height:1.5}
+.atelier-grille{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.25rem;margin-top:1.5rem}
+.panneau{background:#fff;border:1px solid #d7dce6;border-radius:18px;padding:1.2rem;min-width:0;box-shadow:0 8px 24px #16223e0e}
+.panneau h2{font-size:1.25rem;margin:0 0 1rem}
+#latex-source{width:100%;height:min(60vh,700px);min-height:320px;resize:vertical;border:1px solid #b5c0d3;border-radius:10px;padding:1rem;background:#faf6ee;color:#16223e;font:13px/1.55 Consolas,'Courier New',monospace;box-sizing:border-box}
+#pdfbox{width:100%;height:min(66vh,760px);min-height:370px;border:1px solid #d7dce6;border-radius:10px;background:#faf6ee}
+.actions{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.actions button,.actions a{font:inherit;padding:.65rem 1rem;border-radius:8px;border:1px solid #16223e;background:#16223e;color:#fff;cursor:pointer;text-decoration:none}
+.actions button:nth-child(2){color:#16223e;background:#faf6ee}.actions button:disabled{opacity:.55;cursor:wait}
+#etat{font-size:.9rem;color:#374761}#console{white-space:pre-wrap;overflow-wrap:anywhere;max-height:200px;overflow:auto;font:12px/1.4 monospace}
+@media(max-width:980px){.atelier-grille{grid-template-columns:1fr}.atelier{padding:1rem}#pdfbox{min-height:440px}}
+
+/* G3.4 — modèles explicites et diagnostic du moteur Web. */
+.atelier-compatibilite{max-width:920px;padding:12px 15px;border-left:4px solid #bf3144;border-radius:7px;background:#fffdf8;color:#334361!important;font-size:.9rem}
+.exemples-latex{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:12px}
+.exemples-latex button{border:1px solid #aab7cb;border-radius:8px;color:#16223e;background:#fffdf8;padding:8px 12px;cursor:pointer;font:600 .87rem/1.3 var(--police-texte),system-ui,sans-serif}
+.exemples-latex button:hover{background:#fff0d3;border-color:#bf3144}
+.exemples-latex button:focus-visible,.actions button:focus-visible,.actions a:focus-visible{outline:3px solid #bf3144;outline-offset:3px}
+@media(max-width:540px){.atelier-grille{gap:14px}.panneau{padding:13px}.exemples-latex button{width:100%}}

@@ -1,0 +1,117 @@
+name: Desumaths G4 - TikZJax SVG dans le navigateur
+on:
+  push:
+    branches: [feature/g4-tikzjax-laboratoire]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: desumaths-g4-tikzjax-pilot
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Tests mathematiques et protection des gabarits
+        run: npm run check
+      - name: Construction des pages du site
+        run: npm run build:web
+      - name: Verifications export et liens historiques
+        run: |
+          npm run check:web
+          npm run audit:web
+      - name: Recuperer les ressources de TeX autonomes (revision figée)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/desumaths-latex-upstream
+          git -C /tmp/desumaths-latex-upstream init -q
+          git -C /tmp/desumaths-latex-upstream remote add origin https://github.com/sean-reid/latex-preview.git
+          git -C /tmp/desumaths-latex-upstream fetch --depth=1 origin f80f84659c9476e41ef7212f6d753e10f6bd4af5
+          git -C /tmp/desumaths-latex-upstream checkout -q --detach FETCH_HEAD
+          test "$(git -C /tmp/desumaths-latex-upstream rev-parse HEAD)" = "f80f84659c9476e41ef7212f6d753e10f6bd4af5"
+          node scripts/install-web-latex-runtime.cjs /tmp/desumaths-latex-upstream
+      - name: Confirmer format, worker et ressources sur le MEME site
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "dist/web/Serveur Latex/swiftlatexpdftex.wasm"
+          test -s "dist/web/Serveur Latex/swiftlatexpdftex.js"
+          test -s "dist/web/texlive/pdftex/10/swiftlatexpdftex.fmt"
+          test -s "dist/web/texlive/pdftex/26/article.cls"
+          test -s "dist/web/texlive/manifest.json"
+          test -s "dist/web/Serveur Latex/latex-preview.MIT.LICENSE.txt"
+          test -s "dist/web/Serveur Latex/swiftlatex.LICENSE.txt"
+      - name: Installer la distribution originale TikZJax (revision figee)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/desumaths-tikzjax-upstream
+          git -C /tmp/desumaths-tikzjax-upstream init -q
+          git -C /tmp/desumaths-tikzjax-upstream remote add origin https://github.com/darksathili-jpg/latex_tikz.git
+          git -C /tmp/desumaths-tikzjax-upstream fetch --depth=1 origin 20412fc9324a80416063fa9c9d2924df60179baa
+          git -C /tmp/desumaths-tikzjax-upstream checkout -q --detach FETCH_HEAD
+          test "$(git -C /tmp/desumaths-tikzjax-upstream rev-parse HEAD)" = "20412fc9324a80416063fa9c9d2924df60179baa"
+          node scripts/stage-tikzjax-web.cjs /tmp/desumaths-tikzjax-upstream
+          test -s dist/web/vendor/tikzjax/tikzjax.js
+          test -s dist/web/vendor/tikzjax/run-tex.js
+          test -s dist/web/vendor/tikzjax/core.dump.gz
+          test -s dist/web/vendor/tikzjax/tex.wasm.gz
+          test -s dist/web/vendor/tikzjax/tex_files/tkz-tab.sty.gz
+          test -s dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz
+      - name: Installer la bibliotheque Playwright pour Chrome present
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix /tmp/desumaths-latex-playwright --no-save --no-audit --no-fund playwright@1.65.0
+          command -v google-chrome
+      - name: 'Recettes REELLES navigateur : PDF et navigation'
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-latex-playwright/node_modules
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-latex-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 1
+          node scripts/visual-check-latex-web.cjs
+          node scripts/visual-check-r16.cjs
+          node scripts/visual-check-g3-menus.cjs
+          node scripts/visual-check-g3-exercice.cjs
+          node scripts/visual-check-g3-5-menu-titres.cjs
+          node scripts/visual-check-g4-tikz.cjs
+      - name: Captures et PDFs de preuve (y compris en cas d'echec)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-g4-tikzjax-preuves
+          path: |
+            artifacts/latex-web
+            artifacts/r16-layout
+            artifacts/g3-menus
+            artifacts/g3-exercice
+            artifacts/g3-5-menu-titres
+            artifacts/g4-tikz
+          if-no-files-found: ignore
+          retention-days: 30
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: desumaths-preview-g4-tikzjax
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

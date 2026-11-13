@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Texlive --> serveur de compilation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- La variable latex contient la chaîne de caractères du script Latex. -->
+    <script type="module" src="latex.js" async></script>
+    <!-- Le source pour la compilation. -->
+    <script type="module" src="compilateur.js" async></script>
+  </head>
+  <body>
+    <pre>
+    <div id="pdfscript"></div>
+  </pre>
+    <div id="pdfbox"></div>
+    <!-- Bouton de compilation. -->
+    <button type="button" id="compilebtn" disabled>Initialisation</button>
+    <pre id="console">Console de compilation</pre>
+  </body>
+  <!-- Le module pour la liaison avec le serveur texLive. -->
+  <script src="PdfTeXEngine.js"></script>
+</html>

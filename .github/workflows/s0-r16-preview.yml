@@ -1,0 +1,127 @@
+name: Desumaths - parcours Seconde S0
+on:
+  push:
+    branches: [feature/s0-r16-responsive]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: desumaths-preview-r16
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Restaurer une seule fois les sources S0 aux URL historiques
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, base64, zlib, json
+          marker = Path('scripts/s0-parts/RESTORED.txt')
+          if marker.exists():
+              print('S0 deja integre - respect des evolutions ulterieures.')
+          else:
+              blocks = [Path(f'scripts/s0-parts/{i:02}.txt').read_text(encoding='ascii') for i in range(1,5)]
+              encoded = ''.join(blocks)
+              assert len(encoded) == 23808, 'Archive incompletement transmise'
+              assert hashlib.sha256(encoded.encode('ascii')).hexdigest() == '742086768174bd8996e9c27d9ce86025a204fbf0c583fe931f3124ad89ec5e3a', 'Archive modifiee'
+              data = zlib.decompress(base64.b64decode(encoded))
+              assert hashlib.sha256(data).hexdigest() == '9ddd0508bced301b6087c583a36e55b13ef65bf4544e70f26dca103c0dc21d81', 'Source non conforme'
+              entries = json.loads(data.decode('utf-8'))
+              assert len(entries) == 24, 'Nombre de fichiers inattendu'
+              restored = set()
+              for rel, contents in entries:
+                  p = Path(rel)
+                  assert not p.is_absolute() and '..' not in p.parts
+                  assert str(p).startswith('renderer/2nde/Equations/') or str(p).startswith('tests/g2-r')
+                  assert p.suffix in ('.html', '.css', '.js', '.cjs')
+                  assert str(p) not in restored
+                  restored.add(str(p))
+                  p.parent.mkdir(parents=True, exist_ok=True)
+                  p.write_text(contents, encoding='utf-8')
+              marker.write_text('Sources S0 restaurees depuis les archives de correction (R10-R16).\nConserver les textes et gabarits pedagogiques historiques.\n', encoding='utf-8')
+              print('Fichiers S0 restaures:', len(restored))
+          PY
+      - name: Tests complets des corrections et de la navigation
+        run: npm run check
+      - name: Construire le site
+        run: npm run build:web
+      - name: Tester la construction Web
+        run: npm run check:web
+      - name: Auditer les liens
+        run: npm run audit:web
+      - name: Verifier les destinations du menu
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in \
+            'Equationsdegre1/Equationsdegre1.html' \
+            'Equations produits/Equationsproduits.html' \
+            'Difference de carres/Differencedecarres.html' \
+            'Equations avec factorisation/EqsFacteurcommun.html'
+          do
+            test -s "dist/web/2nde/Equations/$name"
+          done
+          grep -q 'Styleexos-r16.css' 'dist/web/2nde/Equations/Equations avec factorisation/EqsFacteurcommun.html'
+          grep -q 'Styleexos-r14.css' 'dist/web/2nde/Equations/Equations produits/Equationsproduits.html'
+          grep -q 'Styleexos-r15.css' 'dist/web/2nde/Equations/Difference de carres/Differencedecarres.html'
+      - name: Installer Chromium pour la recette visuelle
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix /tmp/desumaths-r16-pw --no-save --no-audit --no-fund playwright@1.65.0
+          command -v google-chrome  # navigateur deja installe sur l'image Ubuntu GitHub
+      - name: Recette MathJax reelle, de 375 a 1600 pixels
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-r16-pw/node_modules
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-r16-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 1
+          node scripts/visual-check-r16.cjs
+      - name: Captures de validation R16
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-r16-captures
+          path: artifacts/r16-layout
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Conserver les sources testees dans GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'renderer/2nde/Equations' 'tests' 'scripts/s0-parts/RESTORED.txt'
+          if ! git diff --cached --quiet; then
+            git commit -m 'restore(s0): reconnect four corrected equation exercises to existing menus'
+            git push origin HEAD:feature/s0-r16-responsive
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: desumaths-preview-r16
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

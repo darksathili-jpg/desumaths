@@ -1,0 +1,124 @@
+/* Desumaths G3.2 — personnage de premier plan, 12 poses fideles a la planche.
+   La grille, la marge rouge et les exercices historiques restent inchanges. */
+.hero-scene{display:flex;flex-direction:column;gap:clamp(18px,2.4vw,28px);min-width:0}
+.hero-scene .hero-compagnon{order:0}
+.hero-scene .carte-demo{order:1;min-width:0}
+.hero-compagnon{
+ display:flex;flex-direction:column;gap:0;
+ min-width:0;max-width:100%;
+ position:relative;
+}
+.hero-plateau{
+ --hero-frame:clamp(255px,25vw,305px);
+ position:relative;
+ height:clamp(272px,27vw,324px);
+ min-width:0;
+ overflow:hidden;
+ border:1px solid color-mix(in srgb,var(--encre) 8%,transparent);
+ border-bottom:0;
+ border-radius:22px 22px 0 0;
+ background:
+  radial-gradient(ellipse 58% 34% at 50% 93%,rgba(217,191,132,.28) 0%,transparent 100%),
+  linear-gradient(180deg,#fff9eb 0%,#fbefdc 100%);
+}
+.hero-plateau:before{
+ content:"";position:absolute;left:12%;right:12%;bottom:22px;
+ border-bottom:1px dashed color-mix(in srgb,var(--encre) 18%,transparent);
+}
+.hero-plateau-marque{
+ position:absolute;top:17px;left:21px;right:21px;
+ display:flex;align-items:center;gap:12px;z-index:1;
+ font:700 .74rem/1.2 var(--police-mono),monospace;letter-spacing:.12em;
+ color:var(--encre-douce);
+}
+.hero-plateau-separation{flex:1;height:1px;background:color-mix(in srgb,var(--encre) 18%,transparent)}
+.hero-plateau-marque span:last-child{font:700 1.45rem/1 var(--police-affichage),sans-serif;color:var(--rouge)}
+.hero-compagnon-visuel{
+ position:absolute;
+ bottom:21px;left:50%;
+ height:var(--hero-frame);width:var(--hero-frame);
+ transform:translateX(calc(-50% + var(--hero-dx,0px)));
+ transition:transform 145ms linear;
+ will-change:transform;
+ pointer-events:none;
+}
+.hero-compagnon-sprite{
+ display:block;
+ width:100%;height:100%;
+ background-image:url("../../assets/mascotte/christophe-12-poses.avif");
+ background-size:300% 400%;
+ background-position:50% 0%;
+ background-repeat:no-repeat;
+ image-rendering:auto;
+ position:relative;z-index:2;
+ filter:drop-shadow(0 8px 5px rgba(22,34,62,.12));
+ transform-origin:50% 85%;
+ animation:hero-souffle 3.3s ease-in-out infinite;
+}
+.hero-ombre{
+ position:absolute;left:20%;right:20%;bottom:2px;height:14px;z-index:1;
+ border-radius:50%;
+ background:radial-gradient(ellipse,rgba(22,34,62,.20),transparent 70%);
+ filter:blur(3px);
+}
+.hero-plateau-legende{
+ position:absolute;bottom:10px;left:18px;z-index:1;
+ margin:0;font:600 .63rem/1.2 var(--police-mono),monospace;
+ color:color-mix(in srgb,var(--encre) 68%,transparent);
+}
+.hero-bulle{
+ min-width:0;
+ background:#fffdf8;
+ border:1px solid var(--grille);
+ border-top:3px solid var(--rouge);
+ border-radius:0 0 17px 17px;
+ padding:15px clamp(14px,2vw,23px) 16px;
+ box-shadow:0 14px 25px -18px rgba(22,34,62,.34);
+}
+.hero-bulle-kicker{
+ font:700 .75rem/1.3 var(--police-mono),monospace;
+ color:var(--rouge);letter-spacing:.08em;text-transform:uppercase;
+}
+.hero-bulle-texte{
+ min-height:1.5em;
+ margin:7px 0 12px;
+ font:500 clamp(.93rem,1.3vw,1.03rem)/1.5 var(--police-texte),sans-serif;
+ color:var(--encre);
+}
+.hero-bulle-actions{display:flex;flex-wrap:wrap;gap:7px}
+.hero-bulle button,.hero-retour{
+ appearance:none;min-height:37px;
+ border:1px solid var(--grille);border-radius:9px;
+ padding:8px 11px;background:#faf6ee;
+ font:600 .8rem/1.2 var(--police-texte),sans-serif;color:var(--encre);
+ cursor:pointer;transition:background-color .15s ease,border-color .15s ease;
+}
+.hero-bulle button:hover,.hero-retour:hover{background:var(--jaune-note);border-color:var(--rouge)}
+.hero-bulle button:focus-visible,.hero-retour:focus-visible{outline:3px solid var(--rouge);outline-offset:2px}
+.hero-bulle button:disabled{opacity:.52;cursor:default}
+.hero-retour{order:0;align-self:center;max-width:100%}
+.hero-retour[hidden],.hero-compagnon[hidden]{display:none!important}
+@keyframes hero-souffle {
+  0%,100%{transform:translateY(0) scaleY(1)}
+  50%{transform:translateY(-2px) scaleY(1.007)}
+}
+/* Pas d'animation continue lorsque la personne reduit les mouvements. */
+@media(prefers-reduced-motion:reduce){
+ .hero-compagnon-visuel{transition:none!important}
+ .hero-compagnon-sprite{animation:none!important;transform:none!important}
+}
+.hero-compagnon[data-motion="off"] .hero-compagnon-visuel{transition:none!important}
+.hero-compagnon[data-motion="off"] .hero-compagnon-sprite{animation:none!important}
+@media(max-width:1100px){
+ .hero-plateau{--hero-frame:clamp(232px,26vw,282px);height:clamp(260px,29vw,300px)}
+}
+@media(max-width:860px){
+ .hero-scene{width:100%;max-width:590px;margin-inline:auto}
+ .hero-plateau{--hero-frame:clamp(250px,38vw,320px);height:clamp(285px,44vw,340px)}
+}
+@media(max-width:440px){
+ .hero-plateau{--hero-frame:clamp(245px,67vw,286px);height:clamp(265px,75vw,305px)}
+ .hero-bulle{padding:13px 14px 15px}
+ .hero-bulle-actions{gap:6px}
+ .hero-bulle button{font-size:.76rem;min-height:36px;padding:7px 9px}
+}
