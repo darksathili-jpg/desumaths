@@ -95,6 +95,7 @@ jobs:
           node scripts/visual-check-g3-5-menu-titres.cjs
           node scripts/visual-check-g4-tikz.cjs
           node scripts/visual-check-g4-1-seconde.cjs
+          node scripts/visual-check-patrimoine.cjs
       - name: Identifier le paquet de previsualisation
         shell: bash
         run: |
@@ -120,7 +121,7 @@ jobs:
             echo "- Captures : artefact \`desumaths-g4-1-seconde-preuves\` (s'il est produit)"
             echo "- Prévisualisation testée : \`desumaths-g4-1-site-preview\` (uniquement si toutes les étapes précédentes ont réussi)"
             echo
-            echo 'Une publication ne doit pas être déduite de ce test : déploiement absent.'
+            echo 'La réussite des tests de construction ne confirme pas la publication : vérifier aussi le job deploy.'
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Captures et PDFs de preuve (y compris en cas d'echec)
         if: always()
@@ -135,6 +136,7 @@ jobs:
             artifacts/g3-5-menu-titres
             artifacts/g4-tikz
             artifacts/g4-1-seconde
+            artifacts/patrimoine-accueil
           if-no-files-found: ignore
           retention-days: 30
 
