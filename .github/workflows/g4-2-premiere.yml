@@ -1,30 +1,119 @@
-name: Desumaths G4.2 - pilote Premiere fonctions du second degre
+name: Desumaths G4.2 - recette Chrome Premiere degre 2
 on:
   push:
     branches: [feature/g4-2-premiere-degre2-pilote]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: desumaths-g4-2-premiere
+  cancel-in-progress: true
 jobs:
-  verify:
+  build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Suite mathématique et contrôles de structure
+      - name: Identifier exactement la revision testee
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/g4-2-premiere
+          printf 'commit=%s\nbranch=%s\nworkflow=%s\n' "$GITHUB_SHA" "$GITHUB_REF_NAME" "$GITHUB_WORKFLOW" > artifacts/g4-1-seconde/revision.txt
+          git rev-parse HEAD | grep -Fx "$GITHUB_SHA"
+      - name: Tests mathematiques et protection des gabarits
         run: npm run check
-      - name: Export complet Web
+      - name: Construction des pages du site
         run: npm run build:web
-      - name: Tests des liens et pages exportées
+      - name: Verifications export et liens historiques
         run: |
           npm run check:web
           npm run audit:web
           node scripts/check-g4-1-web.cjs
           node --test tests/g4-2-premiere-degre2.test.cjs
-      - name: Paquet de contrôle sans déploiement
+      - name: Recuperer les ressources de TeX autonomes (revision figée)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/desumaths-latex-upstream
+          git -C /tmp/desumaths-latex-upstream init -q
+          git -C /tmp/desumaths-latex-upstream remote add origin https://github.com/sean-reid/latex-preview.git
+          git -C /tmp/desumaths-latex-upstream fetch --depth=1 origin f80f84659c9476e41ef7212f6d753e10f6bd4af5
+          git -C /tmp/desumaths-latex-upstream checkout -q --detach FETCH_HEAD
+          test "$(git -C /tmp/desumaths-latex-upstream rev-parse HEAD)" = "f80f84659c9476e41ef7212f6d753e10f6bd4af5"
+          node scripts/install-web-latex-runtime.cjs /tmp/desumaths-latex-upstream
+      - name: Confirmer format, worker et ressources sur le MEME site
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "dist/web/Serveur Latex/swiftlatexpdftex.wasm"
+          test -s "dist/web/Serveur Latex/swiftlatexpdftex.js"
+          test -s "dist/web/texlive/pdftex/10/swiftlatexpdftex.fmt"
+          test -s "dist/web/texlive/pdftex/26/article.cls"
+          test -s "dist/web/texlive/manifest.json"
+          test -s "dist/web/Serveur Latex/latex-preview.MIT.LICENSE.txt"
+          test -s "dist/web/Serveur Latex/swiftlatex.LICENSE.txt"
+      - name: Installer la distribution originale TikZJax (revision figee)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/desumaths-tikzjax-upstream
+          git -C /tmp/desumaths-tikzjax-upstream init -q
+          git -C /tmp/desumaths-tikzjax-upstream remote add origin https://github.com/darksathili-jpg/latex_tikz.git
+          git -C /tmp/desumaths-tikzjax-upstream fetch --depth=1 origin 20412fc9324a80416063fa9c9d2924df60179baa
+          git -C /tmp/desumaths-tikzjax-upstream checkout -q --detach FETCH_HEAD
+          test "$(git -C /tmp/desumaths-tikzjax-upstream rev-parse HEAD)" = "20412fc9324a80416063fa9c9d2924df60179baa"
+          node scripts/stage-tikzjax-web.cjs /tmp/desumaths-tikzjax-upstream
+          test -s dist/web/vendor/tikzjax/tikzjax.js
+          test -s dist/web/vendor/tikzjax/run-tex.js
+          test -s dist/web/vendor/tikzjax/core.dump.gz
+          test -s dist/web/vendor/tikzjax/tex.wasm.gz
+          test -s dist/web/vendor/tikzjax/tex_files/tkz-tab.sty.gz
+          test -s dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz
+      - name: Installer la bibliotheque Playwright pour Chrome present
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix /tmp/desumaths-latex-playwright --no-save --no-audit --no-fund playwright@1.65.0
+          command -v google-chrome
+      - name: 'Recettes REELLES navigateur : PDF et navigation'
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-latex-playwright/node_modules
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-latex-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          sleep 1
+          node scripts/visual-check-latex-web.cjs
+          node scripts/visual-check-r16.cjs
+          node scripts/visual-check-g3-menus.cjs
+          node scripts/visual-check-g3-exercice.cjs
+          node scripts/visual-check-g3-5-menu-titres.cjs
+          node scripts/visual-check-g4-tikz.cjs
+          node scripts/visual-check-g4-1-seconde.cjs
+          node scripts/visual-check-g4-2-premiere.cjs
+      - name: Captures de recette y compris en cas d'echec
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desumaths-g4-2-premiere-preuves
+          path: |
+            artifacts/latex-web
+            artifacts/r16-layout
+            artifacts/g3-menus
+            artifacts/g3-exercice
+            artifacts/g3-5-menu-titres
+            artifacts/g4-tikz
+            artifacts/g4-1-seconde
+            artifacts/g4-2-premiere
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Paquet de previsualisation apres tests reussis
         uses: actions/upload-artifact@v4
         with:
           name: desumaths-g4-2-premiere-preview
