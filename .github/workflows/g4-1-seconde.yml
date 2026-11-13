@@ -96,6 +96,7 @@ jobs:
           node scripts/visual-check-g4-tikz.cjs
           node scripts/visual-check-g4-1-seconde.cjs
           node scripts/visual-check-patrimoine.cjs
+          node scripts/visual-check-migration-sommet.cjs
       - name: Identifier le paquet de previsualisation
         shell: bash
         run: |
@@ -137,6 +138,7 @@ jobs:
             artifacts/g4-tikz
             artifacts/g4-1-seconde
             artifacts/patrimoine-accueil
+            artifacts/migration-sommet
           if-no-files-found: ignore
           retention-days: 30
 
