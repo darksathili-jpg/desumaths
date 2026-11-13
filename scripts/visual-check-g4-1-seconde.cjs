@@ -75,6 +75,13 @@ async function inspect(browser,width){
       await page.waitForURL(url => url.pathname.endsWith('/Laboratoire/FiguresTikZ/'+scenario.file),{timeout:30000});
       assert.equal(await page.locator('[data-tikz-example]').count(),1,'La page doit montrer une seule figure');
       assert.equal(await page.locator('a[href="'+(scenario.id==='variations'?'parabole.html':'variations.html')+'"]').count(),2,'Lien vers la figure complémentaire manquant');
+      const activity=page.locator('.g41-activity');
+      assert.equal(await activity.count(),1,'Consigne pédagogique absente');
+      const answer=activity.locator('details.g41-activity-answer');
+      assert.equal(await answer.count(),1,'Corrigé interactif absent');
+      assert.ok(!(await answer.evaluate(el=>el.open)),'Corrigé dévoilé avant la réponse de l’élève');
+      await answer.locator('summary').click();
+      assert.ok(await answer.evaluate(el=>el.open),'Corrigé inaccessible');
       const card=page.locator('#'+scenario.id);
       await card.waitFor({state:'visible'});
       await page.waitForFunction(id=>{
