@@ -123,3 +123,19 @@ test('G4.1: single-figure pages have a one-figure status and wide responsive lay
   assert.match(css,/\.g41-single \.g4-gallery/);
   assert.match(css,/grid-template-columns:minmax\(0,1fr\)/);
 });
+
+test('G4.1-R8 : each dedicated page has a different question and hidden checked answer', () => {
+  const variations=read('renderer/Laboratoire/FiguresTikZ/variations.html');
+  const parabole=read('renderer/Laboratoire/FiguresTikZ/parabole.html');
+  const style=read('renderer/Laboratoire/FiguresTikZ/figures-tikz.css');
+  for (const page of [variations,parabole]) {
+    assert.equal((page.match(/class="g41-activity-answer"/g)||[]).length,1);
+    assert.match(page,/<summary>Vérifier ma réponse<\/summary>/);
+    assert.match(page,/<details class="g41-activity-answer">/);
+  }
+  assert.match(variations,/décroissante/);
+  assert.match(variations,/minimum est −4/);
+  assert.match(parabole,/abscisses −2 et 2/);
+  assert.match(parabole,/sommet est S\(0 ; −4\)/);
+  assert.match(style,/\.g41-activity-answer summary:focus-visible/);
+});
