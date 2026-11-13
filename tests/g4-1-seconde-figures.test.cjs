@@ -178,3 +178,31 @@ test('Production : les accès directs aux exercices historiques existent tous', 
  assert.match(css,/@media\(max-width:900px\)/);
  assert.match(css,/\.patrimoine-cahier a:focus-visible/);
 });
+
+test('Migration : exercice historique Sommet réutilise le parcours et masque les réponses', () => {
+ const folder='renderer/1ST/Fonctions/Fonctions degre 2/Sommet/';
+ const html=read(folder+'Degre2Sommet.html');
+ const js=read(folder+'Scriptdegre2Sommet.js');
+ const css=read(folder+'Styleexos-desumaths.css');
+ const data=read('renderer/Menus/data-Menu1STfonctionsdegre2.js');
+ const chrome=read('scripts/visual-check-migration-sommet.cjs');
+ const workflow=read('.github/workflows/g4-1-seconde.yml');
+ const {spawnSync}=require('node:child_process');
+ const syntax=spawnSync(process.execPath,['--check',path.join(root,folder,'Scriptdegre2Sommet.js')],{encoding:'utf8'});
+ assert.equal(syntax.status,0,'Syntaxe moteur Sommet: '+syntax.stderr);
+ const syntaxTest=spawnSync(process.execPath,['--check',path.join(root,'scripts/visual-check-migration-sommet.cjs')],{encoding:'utf8'});
+ assert.equal(syntaxTest.status,0,'Syntaxe recette Sommet: '+syntaxTest.stderr);
+ assert.match(data,/Degre2Sommet\.html/);
+ assert.match(html,/id="solution"[^>]*hidden/);
+ assert.match(html,/id="correctiond"[^>]*hidden/);
+ assert.match(html,/mathjax@3\.2\.2/);
+ assert.doesNotMatch(html,/polyfill\.io|mathjax\/2\.7\.1|assetsdelivery/);
+ assert.match(js,/alpha\+beta/);
+ assert.match(js,/a\*\(xS-alpha\)\*\(xS-beta\)/);
+ assert.match(js,/setVisible\(solutions,solution,false\)/);
+ assert.match(js,/setVisible\(correction,correctiond,false\)/);
+ assert.match(css,/\.reponse-cachee\[hidden\]/);
+ assert.match(chrome,/i<12/);
+ assert.match(chrome,/mathjax>=5/);
+ assert.match(workflow,/node scripts\/visual-check-migration-sommet\.cjs/);
+});
