@@ -107,3 +107,12 @@ test('legacy build generates real newlines, not literal backslash-n characters',
     assert.ok(!html.includes('\\n</body>'),'literal backslash-n leaked into HTML: '+file);
   }
 });
+
+test('Primitives enonce keeps the original inline sentence and inline MathJax flow',()=>{
+  const name='Tale Spe/Primitives/Primitives/Primitives.html';
+  const doc=fs.readFileSync(path.join(output,name),'utf8');
+  assert.match(doc,/#enonce\.formule-enonce\{display:block;text-align:left;white-space:normal/);
+  assert.match(doc,/#enonce mjx-container:not\(\[display="true"\]\)\{display:inline-block!important/);
+  assert.match(doc,/id="enonce" class="formule-enonce"/);
+  assert.match(doc,/<script defer src="ScriptPrimitives\.js"><\/script>/);
+});

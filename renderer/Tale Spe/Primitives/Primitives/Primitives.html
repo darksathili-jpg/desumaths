@@ -13,7 +13,10 @@
     #solution,#correctiond{display:none}
     #solution,#correctiond{overflow-x:auto;max-width:100%;color:var(--encre);border-left:3px solid var(--rouge)}
     #correctiond{border-left-color:var(--encre);font-size:1rem}
-    #enonce{min-height:110px;line-height:1.9;overflow-x:auto;max-width:100%}
+    /* Les fragments de la phrase sont des noeuds texte : display:flex (gabarit produits)
+       les separait en colonnes. Utiliser le flux normal pour le texte et les maths inline. */
+    #enonce.formule-enonce{display:block;text-align:left;white-space:normal;min-height:110px;line-height:1.9;overflow-x:auto;max-width:100%}
+    #enonce mjx-container:not([display="true"]){display:inline-block!important;vertical-align:middle;max-width:100%;overflow:visible}
     .formule-enonce{font-size:clamp(1rem,1.6vw,1.16rem)}
     .formule-enonce mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
     #correctiond mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
