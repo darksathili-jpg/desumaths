@@ -10,6 +10,7 @@ fs.rmSync(dest,{recursive:true,force:true});
 fs.mkdirSync(dest,{recursive:true});
 fs.cpSync(src,dest,{recursive:true,force:true});
 fs.copyFileSync(path.resolve(__dirname,'../web/manifest.webmanifest'),path.join(dest,'manifest.webmanifest'));
+require('./modernize-legacy-web.cjs');
 const index=path.join(dest,'index.html');
 let html=fs.readFileSync(index,'utf8');
 if (!html.includes('rel="manifest"')) html=html.replace('</head>', '    <link rel="manifest" href="manifest.webmanifest">\n    <meta name="theme-color" content="#FAF6EE">\n    <meta name="apple-mobile-web-app-capable" content="yes">\n</head>');
