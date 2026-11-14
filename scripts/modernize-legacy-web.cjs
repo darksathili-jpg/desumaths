@@ -72,7 +72,7 @@ function visit(directory) {
   });
 }());
 </script>`;
-    html=html.replace(/<\/body\s*>/i,typesetPatch+"\\n</body>");
+    html=html.replace(/<\/body\s*>/i,typesetPatch+"\n</body>");
     fs.writeFileSync(absolute, html, "utf8");
     changed.push(path.relative(root, absolute).split(path.sep).join("/"));
   }

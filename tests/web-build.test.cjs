@@ -82,3 +82,28 @@ test('MathJax fallback distinguishes inline and display delimiters',()=>{
   const page=fs.readFileSync(path.join(output,report.files[0]),'utf8');
   assert.match(page,/displayMath:\[\[String\.fromCharCode\(36,36\)/);
 });
+
+test('Primitives uses the approved Équations produits visual system without historical CSS',()=>{
+  const name='Tale Spe/Primitives/Primitives/Primitives.html';
+  const document=fs.readFileSync(path.join(output,name),'utf8');
+  assert.equal(document,fs.readFileSync(path.join(source,name),'utf8'),'native Primitives must be exported unchanged');
+  assert.match(document,/Styleexos-desumaths\.css/);
+  assert.match(document,/Styleexos-r14\.css/);
+  assert.doesNotMatch(document,/href="Styleexos\.css"/);
+  assert.match(document,/class="exercice-colonnes"/);
+  assert.match(document,/id="correctiond"/);
+  assert.match(document,/MathJax\.typesetPromise/);
+  assert.match(document,/ScriptPrimitives\.js/);
+  assert.doesNotMatch(document,/id="BouleMath"/);
+  assert.doesNotMatch(document,/class="btn"/);
+  for (const name of ['StylesIndex.css','2nde/Equations/Equationsdegre1/Styleexos-desumaths.css','2nde/Equations/Equations produits/Styleexos-r14.css']){
+    assert.ok(fs.existsSync(path.join(output,name)),name);
+  }
+});
+test('legacy build generates real newlines, not literal backslash-n characters',()=>{
+  const report=JSON.parse(fs.readFileSync(path.join(output,'legacy-modernization-report.json'),'utf8'));
+  for(const file of report.files){
+    const html=fs.readFileSync(path.join(output,file),'utf8');
+    assert.ok(!html.includes('\\n</body>'),'literal backslash-n leaked into HTML: '+file);
+  }
+});
