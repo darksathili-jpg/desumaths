@@ -88,7 +88,12 @@
       const button = document.getElementById(buttonId);
       const output = document.getElementById(outputId);
       button.addEventListener('click', function () {
-        button.setAttribute('aria-expanded','true');
+        // Le générateur historique affiche la réponse via style.display.
+        // Lire l'état réel après son gestionnaire, sans modifier ce générateur.
+        requestAnimationFrame(function () {
+          const visible = getComputedStyle(output).display !== 'none';
+          button.setAttribute('aria-expanded', String(visible));
+        });
         requestAnimationFrame(function () {
           if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
             MathJax.typesetPromise([output]).catch(function (error) { console.warn('MathJax',error); });
