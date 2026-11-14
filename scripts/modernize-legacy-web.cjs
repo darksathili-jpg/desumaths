@@ -38,4 +38,29 @@ for (const family of families) {const directory = path.join(root, family); if (f
 if (changed.length < 20) throw new Error("Legacy styling did not reach expected number of pages: "+changed.length);
 fs.writeFileSync(path.join(root, "legacy-modernization-report.json"),
   JSON.stringify({styled_exercises:changed.length, files:changed, source_files_untouched:true}, null, 2)+"\n");
+// A single clickable review of the actual pages emitted by this build.
+const escapeHtml = value => value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const sections = families.map(family => {
+  const paths = changed.filter(file => file.startsWith(family+"/"));
+  if (!paths.length) return "";
+  const links = paths.map(file => {
+    const url = file.split("/").map(encodeURIComponent).join("/");
+    const label = file.slice(family.length+1);
+    return '<li><a class="review-link" href="'+url+'">'+escapeHtml(label)+'</a></li>';
+  }).join("\n");
+  return '<section><h2>'+escapeHtml(family)+' — '+paths.length+' exercices</h2><ol>'+links+'</ol></section>';
+}).join("\n");
+const reportHtml = '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+  + '<title>Vérification de la refonte — Desumaths</title>'
+  + '<style>*{box-sizing:border-box}body{margin:0;background:#faf6ee;color:#19253d;font:16px/1.6 system-ui,Arial,sans-serif}'
+  + 'header{padding:26px max(18px,calc((100vw - 1100px)/2));background:#fff;border-bottom:1px solid #d9dce5}'
+  + 'header a{color:#a92840;font-weight:800;text-decoration:none}h1{font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.15;margin:10px 0}'
+  + 'main{max-width:1100px;margin:auto;padding:22px 18px 64px}section{margin:22px 0;padding:20px;border:1px solid #d8dce6;border-radius:14px;background:#fff}'
+  + 'ol{columns:2;column-gap:30px;padding-left:24px}li{break-inside:avoid;margin:0 0 10px;overflow-wrap:anywhere}'
+  + 'a{color:#174c7a}a:focus-visible{outline:3px solid #b42c48;outline-offset:3px}@media(max-width:700px){ol{columns:1}}</style></head><body>'
+  + '<header><a href="index.html">← Accueil Desumaths</a><h1>Vérification de la refonte</h1>'
+  + '<p>'+changed.length+' exercices historiques présentés avec le nouvel habillage. Les générateurs et corrigés mathématiques restent inchangés.</p>'
+  + '<p>Ouvrir chaque exercice permet de contrôler l’énoncé, la solution, la correction et le rendu mobile.</p></header>'
+  + '<main>'+sections+'</main></body></html>';
+fs.writeFileSync(path.join(root,"verification-refonte.html"),reportHtml,"utf8");
 console.log("StylesLegacy: "+changed.length+" historical exercises restyled in the web export; original generators and source HTML untouched.");

@@ -45,3 +45,14 @@ test('legacy exercises gain common responsive styling without modifying historic
       'Modern native page should not be restyled: '+name);
   }
 });
+
+test('review page links to every restyled historical exercise',()=>{
+  const report=JSON.parse(fs.readFileSync(path.join(output,'legacy-modernization-report.json'),'utf8'));
+  const page=fs.readFileSync(path.join(output,'verification-refonte.html'),'utf8');
+  assert.match(page,/Vérification de la refonte/);
+  assert.equal((page.match(/class="review-link"/g)||[]).length,report.styled_exercises);
+  for(const original of report.files) {
+    const url=original.split('/').map(encodeURIComponent).join('/');
+    assert.ok(page.includes('href="'+url+'"'),'Missing review link for '+original);
+  }
+});
