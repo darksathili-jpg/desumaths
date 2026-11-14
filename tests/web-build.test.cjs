@@ -32,8 +32,8 @@ test('legacy exercises gain common responsive styling without modifying historic
     const modern=fs.readFileSync(path.join(output,relative),'utf8');
     const original=fs.readFileSync(path.join(source,relative),'utf8');
     assert.match(modern,/<body class="dm-vintage">/);
-    assert.match(modern,/href="[^"]*StylesLegacy\.css"/);
-    const cssLink=modern.match(/href="([^"]*StylesLegacy\.css)"/)[1];
+    assert.match(modern,/href="[^"]*StylesLegacy\.css\?v=20261114-fix3"/);
+    const cssLink=modern.match(/href="([^"]*StylesLegacy\.css)\?v=20261114-fix3"/)[1];
     assert.ok(fs.existsSync(path.resolve(path.dirname(path.join(output,relative)),cssLink)),relative);
     const scripts=txt=>Array.from(txt.matchAll(/<script[^>]+src=["']([^"']+)["']/g),m=>m[1]);
     assert.deepEqual(scripts(modern),scripts(original),'script references changed: '+relative);
@@ -73,4 +73,12 @@ test('legacy template removes image badges and typesets LaTeX after deferred gen
   assert.match(built,/ScriptEquasDiffs\.js/);
   const section=sourceHtml.match(/<div id='enonce'><\/div>/);
   assert.ok(section,'original mathematical exercise container must be retained');
+});
+
+test('MathJax fallback distinguishes inline and display delimiters',()=>{
+  const code=fs.readFileSync(path.join(root,'scripts/modernize-legacy-web.cjs'),'utf8');
+  assert.match(code,/String\.fromCharCode\(36,36\)/);
+  const report=JSON.parse(fs.readFileSync(path.join(output,'legacy-modernization-report.json'),'utf8'));
+  const page=fs.readFileSync(path.join(output,report.files[0]),'utf8');
+  assert.match(page,/displayMath:\[\[String\.fromCharCode\(36,36\)/);
 });

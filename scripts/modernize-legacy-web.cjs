@@ -25,7 +25,7 @@ function visit(directory) {
     const titleMatch = html.match(/<title\s*>([^<]*)<\/title\s*>/i);
     const heading = (titleMatch ? titleMatch[1] : "Exercice de mathématiques").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const viewport = /<meta\s+name\s*=\s*["']viewport["']/i.test(html) ? "" : '    <meta name="viewport" content="width=device-width, initial-scale=1">\n';
-    html = html.replace(/<\/head\s*>/i, viewport + '    <link rel="stylesheet" href="' + relativeCss + '">\n</head>');
+    html = html.replace(/<\/head\s*>/i, viewport + '    <link rel="stylesheet" href="' + relativeCss + '?v=20261114-fix3">\n</head>');
     const header = '<a class="dm-vintage-skip" href="#enonces">Aller directement à l’exercice</a>\n'
       + '<header class="dm-vintage-header"><a class="dm-vintage-brand" href="' + relativeHome + '">Desum<span>@</span>ths</a>'
       + '<div class="dm-vintage-heading"><span>Exercices à volonté</span><h1>' + heading + '</h1></div></header>\n';
@@ -50,7 +50,7 @@ function visit(directory) {
       typeset(document.body);return;
     }
     window.MathJax={
-      tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$","$"],["\\\\[","\\\\]"]]},
+      tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[[String.fromCharCode(36,36),String.fromCharCode(36,36)],["\\\\[","\\\\]"]]},
       startup:{typeset:true}
     };
     var loader=document.createElement("script");
