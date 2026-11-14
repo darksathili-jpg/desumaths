@@ -30,6 +30,49 @@ function visit(directory) {
       + '<header class="dm-vintage-header"><a class="dm-vintage-brand" href="' + relativeHome + '">Desum<span>@</span>ths</a>'
       + '<div class="dm-vintage-heading"><span>Exercices à volonté</span><h1>' + heading + '</h1></div></header>\n';
     html = html.replace(/<body\s*>/i, '<body class="dm-vintage">\n' + header);
+    // MathJax 2 may scan the DOM before a deferred exercise generator fills it.
+    // Queue typesetting after ALL scripts have loaded and again after revealing answers.
+    // If the legacy CDN is unavailable, try the existing MathJax 3 CDN.
+    const typesetPatch = `<script>
+(function(){
+  "use strict";
+  function typeset(node) {
+    var math=window.MathJax;
+    if(math && math.Hub && typeof math.Hub.Queue==="function"){
+      math.Hub.Queue(["Typeset",math.Hub,node||document.body]);
+    }else if(math && typeof math.typesetPromise==="function"){
+      math.typesetPromise([node||document.body]).catch(function(error){console.warn("MathJax:",error);});
+    }
+  }
+  function fallback() {
+    var math=window.MathJax;
+    if(math && ((math.Hub && typeof math.Hub.Queue==="function") || typeof math.typesetPromise==="function")) {
+      typeset(document.body);return;
+    }
+    window.MathJax={
+      tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$","$"],["\\\\[","\\\\]"]]},
+      startup:{typeset:true}
+    };
+    var loader=document.createElement("script");
+    loader.src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js";
+    loader.async=true;
+    loader.addEventListener("load",function(){typeset(document.body);});
+    document.head.appendChild(loader);
+  }
+  window.addEventListener("load",function(){
+    typeset(document.body);
+    ["solutions","correction"].forEach(function(id){
+      var button=document.getElementById(id);
+      if(button)button.addEventListener("click",function(){
+        var target=document.getElementById(id==="solutions"?"solution":"correctiond");
+        if(target)typeset(target);
+      });
+    });
+    window.setTimeout(fallback,400);
+  });
+}());
+</script>`;
+    html=html.replace(/<\/body\s*>/i,typesetPatch+"\\n</body>");
     fs.writeFileSync(absolute, html, "utf8");
     changed.push(path.relative(root, absolute).split(path.sep).join("/"));
   }

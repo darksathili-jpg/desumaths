@@ -56,3 +56,21 @@ test('review page links to every restyled historical exercise',()=>{
     assert.ok(page.includes('href="'+url+'"'),'Missing review link for '+original);
   }
 });
+
+test('legacy template removes image badges and typesets LaTeX after deferred generators',()=>{
+  const css=fs.readFileSync(path.join(output,'StylesLegacy.css'),'utf8');
+  assert.match(css,/button\.btn::before/);
+  assert.match(css,/text-shadow:none!important/);
+  assert.match(css,/content:none!important/);
+  const pageName='Tale Spe/Equations differentielles/EquasDiffs/EquasDiffs.html';
+  const built=fs.readFileSync(path.join(output,pageName),'utf8');
+  const sourceHtml=fs.readFileSync(path.join(source,pageName),'utf8');
+  assert.match(built,/window\.addEventListener\("load"/);
+  assert.match(built,/math\.Hub\.Queue\(\["Typeset"/);
+  assert.match(built,/id==="solutions"\?"solution":"correctiond"/);
+  assert.match(built,/mathjax@3\.2\.2\/es5\/tex-chtml\.js/);
+  assert.doesNotMatch(sourceHtml,/typesetPatch|dm-vintage/);
+  assert.match(built,/ScriptEquasDiffs\.js/);
+  const section=sourceHtml.match(/<div id='enonce'><\/div>/);
+  assert.ok(section,'original mathematical exercise container must be retained');
+});

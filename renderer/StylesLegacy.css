@@ -33,6 +33,44 @@ body.dm-vintage #enonce,body.dm-vintage #enonce2 {min-width:0;max-width:100%;ove
 body.dm-vintage .btn {display:inline-block;max-width:100%;min-height:46px;padding:11px 18px;margin:5px 6px 9px 0;
   font:700 .96rem/1.4 "Segoe UI",Arial,sans-serif;color:white;background:#1d2b47;
   border:1px solid #1d2b47;border-radius:10px;cursor:pointer;text-align:left;white-space:normal}
+/* Override the historic photographic ::before badge and red text glow.
+   These were the visible defects on the differential-equations screenshot. */
+body.dm-vintage button.btn {
+  box-shadow:none!important;
+  text-shadow:none!important;
+  background-image:none!important;
+  text-decoration:none;
+  line-height:1.35!important;
+  min-height:48px;
+  align-items:center;
+  justify-content:center;
+}
+body.dm-vintage button.btn::before,
+body.dm-vintage button.btn::after {
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+body.dm-vintage #solutions,
+body.dm-vintage #correction {
+  display:flex;
+  width:fit-content;
+  min-width:min(100%,310px);
+  max-width:100%;
+  padding:13px 20px;
+  margin:7px 0 9px!important;
+}
+body.dm-vintage #recommencer {
+  display:flex;
+  width:fit-content;
+  min-width:min(100%,175px);
+  margin:7px 0 20px!important;
+}
+body.dm-vintage #accueil,
+body.dm-vintage #MenuSeconde,
+body.dm-vintage #MenuSecondeEquations {
+  margin:4px 6px 4px 0!important;
+}
 body.dm-vintage .btn:hover {background:#304866;border-color:#304866;color:#fff}
 body.dm-vintage #recommencer {background:#aa263f;border-color:#aa263f}
 body.dm-vintage #recommencer:hover {background:#8b1f33;border-color:#8b1f33}
@@ -50,7 +88,10 @@ body.dm-vintage .MathJax_Display {max-width:100%;overflow-x:auto;overflow-y:hidd
   body.dm-vintage .dm-vintage-heading {margin-top:6px}
   body.dm-vintage #enonces.card {margin-bottom:12px}
   body.dm-vintage .card-body {padding:16px!important}
-  body.dm-vintage .btn {display:block;width:100%;margin:7px 0;text-align:center}
+  body.dm-vintage .btn,
+  body.dm-vintage #solutions,
+  body.dm-vintage #correction,
+  body.dm-vintage #recommencer {display:flex;width:100%;min-width:0;margin:7px 0!important;text-align:center}
   body.dm-vintage #solution,body.dm-vintage #correctiond {padding:12px}
 }
 @media(prefers-reduced-motion:reduce){body.dm-vintage *,body.dm-vintage *::before,body.dm-vintage *::after{animation:none!important;transition:none!important}}
