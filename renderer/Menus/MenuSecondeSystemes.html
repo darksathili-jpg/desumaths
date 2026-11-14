@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Seconde · Systemes — Desumaths</title>
+    <title>Seconde · Systèmes — Desumaths</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,7 @@
 </head>
 
 <body>
+    <a class="dm-skip-link" href="#contenu-principal">Aller au contenu principal</a>
     <div class="marge-rouge" aria-hidden="true"></div>
 
     <header class="entete">
@@ -35,10 +36,10 @@
         </div>
     </header>
 
-    <main class="menu-niveau">
+    <main class="menu-niveau" id="contenu-principal" tabindex="-1">
         <h1 class="titre-niveau" id="titre-menu"></h1>
         <p class="sous-titre-niveau">Choisir un thème pour s'entraîner à volonté.</p>
-        <div id="sections"></div>
+        <div id="sections" aria-live="polite"></div>
     </main>
 
     <footer class="pied-de-page">
