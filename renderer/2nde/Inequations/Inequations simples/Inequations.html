@@ -21,11 +21,13 @@
 
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../vendor/tikzjax/fonts.css">
     <meta charset="UTF-8">
     <title>Inéquations</title>
 </head>
 
-<body>
+<body class="desumaths-exercice">
     <div class="container-fluid">
         <div id="enonces" class="card" style="width: 30rem;">
             <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg
@@ -44,7 +46,7 @@
         <button id='correction' type="button" class="btn">Cliquer pour voir une correction détaillée</button>
         <div id='correctiond'>
         <div id='correction1'></div>
-        <canvas id="canvasS" width="800" height="100"></canvas>
+        <div id="canvasS" class="figure-tikz" role="img" aria-label="Droite graduée représentant les solutions de l’inéquation"></div>
         <div id='correction2'></div>
         </div>
         <div></div>
@@ -52,6 +54,7 @@
         <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
         <div></div>
         <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu Seconde</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>
+<script src="../../vendor/tikzjax/tikzjax.js" defer></script>
 </body>
 
 
