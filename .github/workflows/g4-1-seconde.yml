@@ -76,6 +76,21 @@ jobs:
           test -s "dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz"
           test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Degre2Sommet.html"
           test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Scriptdegre2Sommet.js"
+      - name: Tester les inéquations dans Chrome avant publication
+        shell: bash
+        env:
+          NODE_PATH: /tmp/desumaths-playwright/node_modules
+        run: |
+          set -euo pipefail
+          npm install --prefix /tmp/desumaths-playwright --no-save --no-audit --no-fund playwright@1.56.1
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist/web > /tmp/desumaths-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server"' EXIT
+          for attempt in $(seq 1 10); do
+            if curl -fsS http://127.0.0.1:8765/ -o /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/visual-check-inequations.cjs
       - name: Inscrire la révision exacte dans le site
         shell: bash
         run: |

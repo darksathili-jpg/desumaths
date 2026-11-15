@@ -157,8 +157,6 @@ let infsup = supinf(choix,a);
 let sol = solutions(choix,a,d);
 let simpfrac = simplifierfraction(d,a);
 let repsimp = solutionssimplifiees(choix,a,d,simpfrac);
-let fracabs = fracsimp(simpfrac[0],simpfrac[1]);
-let sfrac = rienmoins(d/a);
 let mots = aplusmoins(a);
 let ajso = ajoutsoust(b);
 
@@ -187,178 +185,50 @@ let listeCorrections = [`$\\begin{array}{lrcll} & ${a}x ${sig} ${b} & < & ${c} &
  \\iff & x & ${infsup} & \\dfrac{${d}}{${a}} & \\text{(on ${mots[0]} change ${mots[1]} le sens de l'inéquation car on divise par}~${a} ${mots[2]} 0) \\end{array}$  </br><br>`];
 
 
-function droitereelle(canvas) {
-    var canvas = document.getElementById(canvas); 
-    var context = canvas.getContext("2d");
-    context.save();
-    context.beginPath();
-    context.lineWidth=3;
-    context.strokeStyle = 'black'; 
-    context.font = '20px serif';
-    context.moveTo(50,50);
-    context.lineTo(650,50);
-    context.moveTo(650,50);
-    context.lineTo(640,40);
-    context.moveTo(650,50);
-    context.lineTo(640,60);
-    context.fillText(`- ∞`,50,80);
-    context.fillText(`+ ∞`,630,80);
-    context.fillText(`${sfrac} ${fracabs[0]}/${fracabs[1]}`,330,90);
-    context.stroke();
-    if (a>0 && choix==0) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(50,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(360,30);
-        context.moveTo(350,70);
-        context.lineTo(360,70);
-        context.stroke();}
-    if (a>0 && choix==1) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(50,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(340,30);
-        context.moveTo(350,70);
-        context.lineTo(340,70);
-        context.stroke();}
-    if (a>0 && choix==2) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(650,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(340,30);
-        context.moveTo(350,70);
-        context.lineTo(340,70);
-        context.stroke();}
-    if (a>0 && choix==3) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(650,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(360,30);
-        context.moveTo(350,70);
-        context.lineTo(360,70);
-        context.stroke();}
-    if (a<0 && choix==0) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(650,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(340,30);
-        context.moveTo(350,70);
-        context.lineTo(340,70);
-        context.stroke();}
-    if (a<0 && choix==1) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(650,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(360,30);
-        context.moveTo(350,70);
-        context.lineTo(360,70);
-        context.stroke();}
-    if (a<0 && choix==2) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(50,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(360,30);
-        context.moveTo(350,70);
-        context.lineTo(360,70);
-        context.stroke();}
-    if (a<0 && choix==3) 
-    {   context.beginPath();
-        context.lineWidth=3;
-        context.strokeStyle = 'red'; 
-        context.font = '20px serif';
-        context.moveTo(50,50);
-        context.lineTo(350,50);
-        context.moveTo(350,30);
-        context.lineTo(350,70);
-        context.moveTo(350,30);
-        context.lineTo(340,30);
-        context.moveTo(350,70);
-        context.lineTo(340,70);
-        context.stroke();}
+function afficherDroiteReelle() {
+    const figure = document.getElementById('figure-intervalle');
+    const versGauche = (choix < 2) === (a > 0);
+    const borneIncluse = choix % 2 === 1;
+    const [numerateur, denominateur] = fracsimp(simpfrac[0], simpfrac[1]);
+    const signeBorne = rienmoins(d / a);
+    const borne = denominateur === 1
+        ? signeBorne + numerateur
+        : String.raw`${signeBorne}\frac{${numerateur}}{${denominateur}}`;
+    const extremite = versGauche ? -3.7 : 3.7;
+    const crochet = versGauche === borneIncluse ? -0.17 : 0.17;
+    const sens = versGauche ? 'à gauche' : 'à droite';
+    const valeur = denominateur === 1 ? signeBorne + numerateur : signeBorne + numerateur + '/' + denominateur;
+    figure.setAttribute('aria-label', `Solutions ${sens} de ${valeur}, borne ${borneIncluse ? 'incluse' : 'exclue'}`);
+
+    const tikz = document.createElement('script');
+    tikz.type = 'text/tikz';
+    tikz.textContent = String.raw`\begin{tikzpicture}[x=8mm,y=8mm]
+  \draw[<->,thick] (-4,0) -- (4,0);
+  \draw[red!75!black,very thick,->] (0,0) -- (${extremite},0);
+  \draw[red!75!black,very thick] (${crochet},0.18) -- (0,0.18)
+     -- (0,-0.18) -- (${crochet},-0.18);
+  \node[below] at (-3.55,-0.2) {$-\infty$};
+  \node[below] at (3.55,-0.2) {$+\infty$};
+  \node[below] at (0,-0.2) {$${borne}$};
+\end{tikzpicture}`;
+    figure.append(tikz);
 }
 
-droitereelle("canvasS");
+document.getElementById('enonce').textContent = listeenonces[choix];
+document.getElementById('solution').textContent = `$S=${sol} ${repsimp}$`;
+document.getElementById('correction1').innerHTML = listeCorrections[choix];
+document.getElementById('correction2').textContent = `$S=${sol} ${repsimp}$`;
+afficherDroiteReelle();
 
-let enonce = document.getElementById('enonce');
-let correctiond = document.getElementById('correctiond');
-let correction1 = document.getElementById('correction1');
-let correction2 = document.getElementById('correction2');
-var correction = document.getElementById('correction');
-var solutions = document.getElementById('solutions');
-let solution = document.getElementById('solution');
+for (const id of ['solutions', 'correction']) {
+    const bouton = document.getElementById(id);
+    const panneau = document.getElementById(bouton.getAttribute('aria-controls'));
+    const libelle = bouton.textContent;
+    bouton.addEventListener('click', () => {
+        panneau.hidden = !panneau.hidden;
+        bouton.setAttribute('aria-expanded', String(!panneau.hidden));
+        bouton.textContent = panneau.hidden ? libelle : libelle.replace('Afficher', 'Masquer');
+    });
+}
 
-
-enonce.innerHTML = listeenonces[choix];
-solution.innerHTML = `$S=${sol} ${repsimp}$`;
-correction1.innerHTML = listeCorrections[choix];
-correction2.innerHTML = `$S=${sol} ${repsimp}$`;
-
-enonce.addEventListener("load", function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-})
-
-correction.addEventListener('click', () => {
-    correctiond.style.display = "block";
-})
-
-recommencer.addEventListener('click', () => {
-    location.reload(true);
-})
-
-solutions.addEventListener('click', () => {
-    solution.style.display = "block";
-})
-
-accueil.addEventListener('click', () => {
-    location.href = "../../../index.html";
-})
-
-MenuSeconde.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSeconde.html";
-})
-
-MenuSecondeEquations.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSecondeInequations.html";
-})
+document.getElementById('recommencer').addEventListener('click', () => location.reload());
