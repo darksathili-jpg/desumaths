@@ -170,43 +170,15 @@ let listeSolutions = [`1) $I\\cap J =~\\varnothing$<br>
 `1) $I\\cap J =~${crochets2[0]}${c2}~;~${d2}${crochets2[1]} $<br>
 2) $I\\cup J =~${crochets1[0]}${a2}~;~+\\infty[$`];
 
-let listeCorrections = [];
-                                
-let enonce = document.getElementById('enonce');
-let correctiond = document.getElementById('correctiond');
-var correction = document.getElementById('correction');
-var solutions = document.getElementById('solutions');
-let solution = document.getElementById('solution');
-
-
-enonce.innerHTML = listeenonces[k];
+document.getElementById('enonce').innerHTML = listeenonces[k];
+const solution = document.getElementById('solution');
 solution.innerHTML = listeSolutions[k];
-correctiond.innerHTML = ``;
 
-enonce.addEventListener("load", function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-})
+const bouton = document.getElementById('solutions');
+bouton.addEventListener('click', () => {
+    solution.hidden = !solution.hidden;
+    bouton.setAttribute('aria-expanded', String(!solution.hidden));
+    bouton.textContent = solution.hidden ? 'Afficher la solution' : 'Masquer la solution';
+});
 
-correction.addEventListener('click', () => {
-    correctiond.style.display = "block";
-})
-
-recommencer.addEventListener('click', () => {
-    location.reload(true);
-})
-
-solutions.addEventListener('click', () => {
-    solution.style.display = "block";
-})
-
-accueil.addEventListener('click', () => {
-    location.href = "../../../index.html";
-})
-
-MenuSeconde.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSeconde.html";
-})
-
-MenuSecondeEquations.addEventListener('click', () => {
-    location.href = "../../../Menus/MenuSecondeInequations.html";
-})
+document.getElementById('recommencer').addEventListener('click', () => location.reload());

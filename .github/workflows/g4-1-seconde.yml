@@ -92,6 +92,7 @@ jobs:
             sleep 1
           done
           node scripts/visual-check-inequations.cjs
+          node scripts/visual-check-intervalles.cjs
       - name: Inscrire la révision exacte dans le site
         shell: bash
         run: |
