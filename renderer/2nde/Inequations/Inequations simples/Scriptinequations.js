@@ -189,29 +189,47 @@ function afficherDroiteReelle() {
     const figure = document.getElementById('figure-intervalle');
     const versGauche = (choix < 2) === (a > 0);
     const borneIncluse = choix % 2 === 1;
-    const [numerateur, denominateur] = fracsimp(simpfrac[0], simpfrac[1]);
-    const signeBorne = rienmoins(d / a);
-    const borne = denominateur === 1
-        ? signeBorne + numerateur
-        : String.raw`${signeBorne}\frac{${numerateur}}{${denominateur}}`;
-    const extremite = versGauche ? -3.7 : 3.7;
-    const crochet = versGauche === borneIncluse ? -0.17 : 0.17;
+    const valeur = d / a;
     const sens = versGauche ? 'à gauche' : 'à droite';
-    const valeur = denominateur === 1 ? signeBorne + numerateur : signeBorne + numerateur + '/' + denominateur;
     figure.setAttribute('aria-label', `Solutions ${sens} de ${valeur}, borne ${borneIncluse ? 'incluse' : 'exclue'}`);
 
-    const tikz = document.createElement('script');
-    tikz.type = 'text/tikz';
-    tikz.textContent = String.raw`\begin{tikzpicture}[x=8mm,y=8mm]
-  \draw[<->,thick] (-4,0) -- (4,0);
-  \draw[red!75!black,very thick,->] (0,0) -- (${extremite},0);
-  \draw[red!75!black,very thick] (${crochet},0.18) -- (0,0.18)
-     -- (0,-0.18) -- (${crochet},-0.18);
-  \node[below] at (-3.55,-0.2) {$-\infty$};
-  \node[below] at (3.55,-0.2) {$+\infty$};
-  \node[below] at (0,-0.2) {$${borne}$};
-\end{tikzpicture}`;
-    figure.append(tikz);
+    // SVG natif : aucun moteur TikZ externe requis pour afficher la droite.
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 640 120');
+    svg.setAttribute('width', '640');
+    svg.setAttribute('height', '120');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', figure.getAttribute('aria-label'));
+
+    function element(nom, attributs, texte) {
+        const noeud = document.createElementNS(ns, nom);
+        for (const [cle, valeur] of Object.entries(attributs)) noeud.setAttribute(cle, String(valeur));
+        if (texte !== undefined) noeud.textContent = texte;
+        svg.appendChild(noeud);
+        return noeud;
+    }
+
+    const couleur = '#b42332';
+    element('line', {x1: 35, y1: 52, x2: 605, y2: 52, stroke: 'currentColor', 'stroke-width': 2});
+    element('path', {d: 'M 45 45 L 35 52 L 45 59 M 595 45 L 605 52 L 595 59',
+        fill: 'none', stroke: 'currentColor', 'stroke-width': 2});
+    element('line', {x1: 320, y1: 52, x2: versGauche ? 45 : 595, y2: 52,
+        stroke: couleur, 'stroke-width': 5, 'stroke-linecap': 'round'});
+    // Le crochet se tourne vers la partie coloriée si la borne est incluse.
+    // Borne exclue : parenthèse ouverte, sans point plein.
+    if (borneIncluse) {
+        element('circle', {cx: 320, cy: 52, r: 7, fill: couleur});
+    } else {
+        element('circle', {cx: 320, cy: 52, r: 7, fill: 'white', stroke: couleur, 'stroke-width': 3});
+    }
+    element('text', {x: 320, y: 93, 'text-anchor': 'middle', 'font-size': 19,
+        fill: 'currentColor'}, String(valeur));
+    element('text', {x: 35, y: 93, 'text-anchor': 'middle', 'font-size': 16,
+        fill: 'currentColor'}, '−∞');
+    element('text', {x: 605, y: 93, 'text-anchor': 'middle', 'font-size': 16,
+        fill: 'currentColor'}, '+∞');
+    figure.replaceChildren(svg);
 }
 
 document.getElementById('enonce').textContent = listeenonces[choix];
