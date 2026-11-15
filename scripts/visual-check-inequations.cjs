@@ -33,14 +33,15 @@ async function check(browser, width, positive, choice, direction) {
     await page.locator('#correction').click();
     await page.locator('#correction1 mjx-container').first().waitFor({state: 'visible'});
     const figure = page.locator('#figure-intervalle');
-    const value = positive ? '1/2' : '-1/2';
+    const value = positive ? '0.5' : '-0.5';
     assert.equal(await figure.getAttribute('aria-label'), 'Solutions à ' + direction + ' de ' + value + ', borne ' + (choice % 2 ? 'incluse' : 'exclue'));
     assert.equal(await page.locator('mjx-merror').count(), 0);
-    const svg = figure.locator('svg.tikzjax');
+    const svg = figure.locator('svg');
     await svg.waitFor({state: 'visible', timeout: 24000});
     const bounds = await svg.evaluate(node => node.getBBox().width);
-    assert.ok(bounds > 100, 'Le moteur TikZ doit produire le dessin');
-    assert.ok(await svg.locator('path').count() >= 4, 'La droite et le crochet doivent être tracés');
+    assert.ok(bounds > 100, 'Le SVG natif doit produire le dessin');
+    assert.ok(await svg.locator('line').count() >= 2, 'La droite et la demi-droite doivent être tracées');
+    assert.ok(await svg.locator('circle').count() === 1, 'La borne doit être tracée');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     if (choice === 0 && positive) {
       await page.locator('#correction').click();
