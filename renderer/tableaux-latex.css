@@ -1,0 +1,10 @@
+.tableau-latex {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.tableau-latex mjx-container[display="true"] {
+  margin: 0;
+  text-align: left;
+}

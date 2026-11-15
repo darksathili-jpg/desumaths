@@ -110,122 +110,14 @@ let fborneinf = a[0]*borneinf**2+b1*borneinf+c1;
 let fbornesup = a[0]*bornesup**2+b1*bornesup+c1;
 
 
-function tabvar(x,y,L,l,canvas,a) {
-    var canvas = document.getElementById(canvas); 
-    var context = canvas.getContext("2d");
-    context.save();
-    context.beginPath();
-    context.strokeRect(x,y,L,l);
-    context.beginPath();
-    context.moveTo(x,x+70);
-    context.lineTo(L+x,x+70);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+70,y);
-    context.lineTo(x+70,l+30);
-    context.strokeStyle="black";
-    context.stroke();
-    context.font = '30px serif';
-    context.fillText(`x`,47,70);
-    context.fillText(`f '(x)`,25,120);
-    context.fillText(`f(x)`,35,200);
-    context.font = '20px serif';
-    context.fillText(`${x1}`,x+200,70);
-    context.fillText(`${borneinf}`,x+80,70);
-    context.fillText(`${bornesup}`,L+x-40,70);
-    context.beginPath();
-    context.moveTo(x,x+120);
-    context.lineTo(L+x,x+120);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+210,x+70);
-    context.lineTo(x+210,x+120);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.arc(x+210, x+95, 5, 0, 2 * Math.PI);
-    context.strokeStyle="black";
-    context.stroke();
-    if (a<0) {
-    context.fillText(`${fx1}`,x+200,x+140);
-    context.fillText(`${fborneinf}`,x+80,x+200);
-    context.fillText(`${fbornesup}`,L+x-40,x+200);
-    context.fillText(`+`,150,x+95);
-    context.fillText(`-`,300,x+95);
-    context.beginPath();
-    context.moveTo(x+100,l);
-    context.lineTo(x+180,160);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+240,160);
-    context.lineTo(L+x-40,x+180);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+180,160);
-    context.lineTo(x+160,160);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+180,160);
-    context.lineTo(x+180,180);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(L+x-40,x+180);
-    context.lineTo(L+x-50,x+160);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(L+x-40,x+180);
-    context.lineTo(L+x-60,x+180);
-    context.strokeStyle="black";
-    context.stroke();
-    }
-    if (a>0) {
-    context.fillText(`${fx1}`,x+200,220);
-    context.fillText(`${fborneinf}`,x+80,160);
-    context.fillText(`${fbornesup}`,L+x-40,160);
-    context.fillText(`+`,300,x+95);
-    context.fillText(`-`,150,x+95);
-    context.beginPath();
-    context.moveTo(x+100,l-30);
-    context.lineTo(x+200,200);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+240,200);
-    context.lineTo(L+x-40,l-30);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+200,200);
-    context.lineTo(x+185,180);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(x+200,200);
-    context.lineTo(x+180,200);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(L+x-40,l-30);
-    context.lineTo(L+x-50,l-40);
-    context.strokeStyle="black";
-    context.stroke();
-    context.beginPath();
-    context.moveTo(L+x-40,l-30);
-    context.lineTo(L+x-45,l-15);
-    context.strokeStyle="black";
-    context.stroke();
-    }
-  }
-  
-tabvar(20,30,400,200,"canvasC",a[0]);
-tabvar(20,30,400,200,"canvasS",a[0]);
+const tableauVariations = DesumathsTableauxLatex.variationsDegreDeux({
+  bornes: [borneinf, x1, bornesup],
+  images: [fborneinf, fx1, fbornesup],
+  coefficient: a[0],
+});
+for (const id of ["tableauSolution", "tableauCorrection"]) {
+  DesumathsTableauxLatex.afficher(document.getElementById(id), tableauVariations);
+}
 
 let enonce = document.getElementById('enonce');
 let correctiond = document.getElementById('correctiond');
@@ -260,10 +152,6 @@ correction2.innerHTML = `$\\bullet$<br1></br1> $\\begin{array}{rrcl}  & ${aprime
 $\\bullet\\hspace{5mm} f(${borneinf})=${a[0]}\\times (${borneinf})^2${sb1}${b1}\\times ${pgdborneinf[0]}${borneinf}${pgdborneinf[1]} ${sc1}${c1}=${fborneinf}$<br>
 $\\bullet\\hspace{5mm} f(${x1})=${a[0]}\\times (${x1})^2${sb1}${b1}\\times ${pgdx1[0]}${x1}${pgdx1[1]} ${sc1}${c1}=${fx1} $<br>
 $\\bullet\\hspace{5mm} f(${bornesup})=${a[0]}\\times (${bornesup})^2${sb1}${b1}\\times ${pgdbornesup[0]}${bornesup}${pgdbornesup[1]} ${sc1}${c1}=${fbornesup} $`;
-
-enonce.addEventListener("load", function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-})
 
 solutions.addEventListener('click', () => {
     solution.style.display = "block";

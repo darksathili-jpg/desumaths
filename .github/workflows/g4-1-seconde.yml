@@ -93,6 +93,7 @@ jobs:
           done
           node scripts/visual-check-inequations.cjs
           node scripts/visual-check-intervalles.cjs
+          node scripts/visual-check-tableaux-latex.cjs
       - name: Inscrire la révision exacte dans le site
         shell: bash
         run: |
