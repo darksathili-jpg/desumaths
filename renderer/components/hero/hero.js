@@ -131,7 +131,7 @@
       const steps=[
         {direction:'face',frame:1,ms:420},
         {direction:'gauche',frame:4,ms:470},
-        {direction:'dos',frame:10,ms:490},
+        {direction:'dos',frame:10,ms:1800},
         {direction:'droite',frame:7,ms:470},
         {direction:'face',frame:1,ms:400}
       ];

@@ -16,6 +16,10 @@ test('G3.2 : les 12 poses viennent de la planche fournie, image conforme',()=>{
  assert.equal(crypto.createHash('sha256').update(img).digest('hex'),'7de0b49916b6a8cb69f0929ec6f08f7fe2b6a3a2a20b559a1274165099e6ed53');
  assert.ok(img.length<200000);
  assert.match(css,/background-size:300% 400%/);
+ assert.match(css,/christophe-12-poses\.avif\?v=tonsure-1/);
+ assert.match(html,/components\/hero\/hero\.css\?v=tonsure-1/);
+ assert.match(html,/components\/hero\/hero\.js\?v=tonsure-1/);
+ assert.match(js,/direction:'dos',frame:10,ms:1800/);
 });
 test('G3.2 : les quatre directions ont chacune trois poses originales',()=>{
  for(const s of ['face: [0,1,2,1]','gauche: [3,4,5,4]','droite: [6,7,8,7]','dos: [9,10,11,10]'])assert.ok(js.includes(s),s);

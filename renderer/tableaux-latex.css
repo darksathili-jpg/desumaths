@@ -8,3 +8,22 @@
   margin: 0;
   text-align: left;
 }
+
+/* Les colonnes 4 et 6 sont celles des racines dans le tableau TeX.
+   Le trait est interrompu autour du zéro pour préserver sa lisibilité. */
+.tableau-latex--signes mjx-mtr:not(:first-child) > mjx-mtd:is(:nth-child(4), :nth-child(6)) {
+  position: relative;
+}
+
+.tableau-latex--signes mjx-mtr:not(:first-child) > mjx-mtd:is(:nth-child(4), :nth-child(6))::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  border-inline-start: 1px solid currentColor;
+  pointer-events: none;
+}
+
+.tableau-latex--signes mjx-mtr:not(:first-child) > mjx-mtd:is(:nth-child(4), :nth-child(6)):has(mjx-c.mjx-c30)::before {
+  clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%, 0 75%, 100% 75%, 100% 100%, 0 100%);
+}

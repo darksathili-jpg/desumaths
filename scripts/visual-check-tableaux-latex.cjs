@@ -31,6 +31,21 @@ async function verifier(browser, relative, variations, width) {
     assert.equal(await page.locator('#correctiond canvas').count(), 0);
     if (variations) {
       assert.equal(await figure.locator('mjx-c.MJXc-2197, mjx-c.MJXc-2198, mjx-c.mjx-c2197, mjx-c.mjx-c2198').count(), 2);
+    } else {
+      const rules = await figure.locator('mjx-mtr > mjx-mtd').evaluateAll(cells =>
+        cells.map(cell => {
+          const style = getComputedStyle(cell, '::before');
+          return [style.content === '""', style.borderInlineStartWidth, style.clipPath];
+        }));
+      const expectedColumns = new Set([3, 5]);
+      for (const [index, [visible, border, clip]] of rules.entries()) {
+        const hasRule = index >= 8 && expectedColumns.has(index % 8);
+        assert.equal(visible, hasRule, `Trait vertical, cellule ${index + 1}`);
+        if (hasRule) {
+          assert.equal(border, '1px');
+          if (index >= 24) assert.notEqual(clip, 'none', 'Les zéros du produit restent lisibles');
+        }
+      }
     }
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     assert.deepEqual(errors, []);
