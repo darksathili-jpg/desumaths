@@ -28,10 +28,9 @@ jobs:
         run: npm run check
       - name: Construction des pages du site
         run: npm run build:web
-      - name: Vérifier les fichiers et tous les liens internes
+      - name: Vérifier les fichiers exportés
         run: |
           npm run check:web
-          npm run audit:web
           node scripts/check-g4-1-web.cjs
       - name: Restaurer les ressources LaTeX et TikZ mises en cache
         id: cached-tex
@@ -76,6 +75,8 @@ jobs:
           test -s "dist/web/vendor/tikzjax/tex_files/pgfplots.sty.gz"
           test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Degre2Sommet.html"
           test -s "dist/web/1ST/Fonctions/Fonctions degre 2/Sommet/Scriptdegre2Sommet.js"
+      - name: Vérifier les liens avec les ressources TeX installées
+        run: npm run audit:web
       - name: Tester les inéquations dans Chrome avant publication
         shell: bash
         env:
