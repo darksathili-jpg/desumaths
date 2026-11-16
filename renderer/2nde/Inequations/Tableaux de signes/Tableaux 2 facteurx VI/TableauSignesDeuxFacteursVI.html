@@ -1,63 +1,94 @@
-<!DOCTYPE html>
-<html lang='fr'>
-
-<script src="ScriptTableauSignesDeuxFacteursVI.js" defer></script>
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-       extensions: ["tex2jax.js"], jax: ["input/TeX", "output/HTML-CSS"],
-       TeX: { extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"] },
-       tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          displayMath: [ ['$$','$$'], ["\\[","\\]"] ], processEscapes: true }
-    });
- </script>
-<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
-
-</script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="Styleexos.css">
-
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    
-    <title>Tableaux de signes (2 facteurs avec valeur interdite)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inéquations avec valeur interdite — Desumaths</title>
+  <link rel="stylesheet" href="../../../../StylesIndex.css">
+  <link rel="stylesheet" href="../../../Equations/Equationsdegre1/Styleexos-desumaths.css">
+  <link rel="stylesheet" href="../../../Equations/Equations produits/Styleexos-r14.css">
+  <link rel="stylesheet" href="../../../../tableaux-latex.css?v=quotient-1">
+  <style>
+    #enonce.formule-enonce {
+      display: block;
+      text-align: left;
+      overflow-x: auto;
+    }
+
+    #correction1 {
+      overflow-x: auto;
+    }
+
+    @media (max-width: 720px) {
+      .entete {
+        position: static;
+      }
+    }
+
+    .retour-exercice .action-secondaire {
+      width: auto;
+      text-decoration: none;
+    }
+  </style>
+  <script defer src="../../../../tableaux-latex.js?v=quotient-1"></script>
+  <script defer src="ScriptTableauSignesDeuxFacteursVI.js?v=tableaux-1"></script>
+  <script>
+    window.MathJax = {
+      tex: {inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']]}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
 </head>
-
 <body>
-    <div class="container-fluid">
-        <div id="enonces" class="card" style="width: 50rem;" >
-            <img src=https://images.assetsdelivery.com/compings_v2/peshkov/peshkov2110/peshkov211000257.jpg id="BouleMath" 
-                class="card-img-top" alt="logo math">
-                
-            <div class="card-body">
-                <p class="card-text">
-                    <div id='enonce'></div>
-                    
-                    <div id='enonce2'></div>  
-                </p>
-            </div>
-            
+  <a class="lien-evitement" href="#exercice">Aller à l’exercice</a>
+  <div class="marge-rouge" aria-hidden="true"></div>
+  <header class="entete">
+    <a class="marque" href="../../../../index.html">Desum<span class="marque-accent">@</span>ths</a>
+    <nav class="nav-principale" aria-label="Navigation principale">
+      <a href="../../../../Menus/MenuSeconde.html">Seconde</a>
+      <a href="../../../../Menus/MenuSecondeInequations.html">Inéquations</a>
+      <a href="../../../../index.html">Accueil</a>
+    </nav>
+  </header>
+  <main id="exercice" class="exercice-layout">
+    <div class="fil-ariane">Seconde / Inéquations / Tableaux de signes</div>
+    <header class="exercice-intro">
+      <h1>Inéquations avec valeur interdite</h1>
+    </header>
+    <div class="exercice-colonnes">
+      <section class="exercice-feuille" aria-labelledby="titre-enonce">
+        <div class="feuille-titre"><h2 id="titre-enonce">À toi de jouer</h2></div>
+        <div id="enonce" class="formule-enonce"></div>
+        <div class="separateur-note"></div>
+        <div class="actions-exercice">
+          <button id="recommencer" type="button" class="action-principale">↻ Nouvel exercice</button>
         </div>
+      </section>
+      <div class="exercice-aides">
+        <section class="panneau-reponse" aria-labelledby="titre-solution">
+          <h2 id="titre-solution">Solution</h2>
+          <p>Compare l’intervalle de solutions à celui que tu as trouvé.</p>
+          <button id="solutions" type="button" class="action-secondaire" aria-controls="solution" aria-expanded="false">Afficher la solution</button>
+          <div id="solution" class="reponse-cachee" aria-labelledby="titre-solution" hidden></div>
+        </section>
+        <section class="panneau-reponse" aria-labelledby="titre-correction">
+          <h2 id="titre-correction">Correction détaillée</h2>
+          <p>Repère le zéro du numérateur et la valeur interdite, puis lis les signes du quotient.</p>
+          <button id="correction" type="button" class="action-secondaire" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button>
+          <div id="correctiond" class="reponse-cachee" aria-labelledby="titre-correction" hidden>
+            <div id="correction1" role="region" aria-label="Calcul des valeurs à placer dans le tableau" tabindex="0"></div>
+            <div id="tableauCorrection" class="tableau-latex tableau-latex--signes" role="region" aria-label="Tableau de signes, défilement horizontal si nécessaire" tabindex="0"></div>
+            <div id="valeurInterdite"></div>
+            <div id="correction2"></div>
+          </div>
+        </section>
+      </div>
     </div>
-        <button id='solutions' type="button" class="btn">Cliquer pour voir la solution</button>
-        <div id="solution">
-        </div>
-        <div></div>
-        <button id='correction' type="button" class="btn">Cliquer pour voir une correction détaillée</button>
-        <div id='correctiond'>
-        <div id="correction1"></div>
-        <canvas id="canvasC" width="800" height="260"></canvas>
-        <div id="correction2"></div>
-        </div>
-        <div></div>
-        <button id="recommencer" class="btn">Recommencer</button>
-        <!-- <button id="accueil"><a id="lienAccueil" href="index.html">Accueil</a></button> -->
-        <div></div>
-        <a><button id="accueil" class="btn">Accueil</button></a>  <a><button id="MenuSeconde" class="btn">Retour Menu Seconde</button></a> <a><button id="MenuSecondeEquations" class="btn">Retour Menu Précédent</button></a>
-
+    <nav class="retour-exercice" aria-label="Retours">
+      <a id="accueil" class="action-secondaire" href="../../../../index.html">Accueil Desumaths</a>
+      <a id="MenuSeconde" class="action-secondaire" href="../../../../Menus/MenuSeconde.html">Menu Seconde</a>
+      <a id="MenuSecondeEquations" class="action-secondaire" href="../../../../Menus/MenuSecondeInequations.html">Menu Inéquations</a>
+    </nav>
+  </main>
 </body>
-
-
 </html>

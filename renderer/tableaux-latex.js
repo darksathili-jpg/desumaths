@@ -14,21 +14,28 @@
     return value === 0 ? "0" : value > 0 ? "+" : "-";
   }
 
-  function signesDeuxFacteurs(facteurs) {
+  function signesDeuxFacteurs(facteurs, { quotient = false } = {}) {
     const racines = facteurs.map(facteur => facteur.racine).sort((a, b) => a - b);
     const signes = facteurs.map(({ pente, racine }) => {
       const avant = -Math.sign(pente);
       const apres = -avant;
       return racine === racines[0] ? [avant, 0, apres, apres, apres] : [avant, avant, avant, 0, apres];
     });
-    const produit = signes[0].map((valeur, indice) => signe(valeur * signes[1][indice]));
+    const signesResultat = signes[0].map((valeur, indice) => {
+      if (quotient && signes[1][indice] === 0) return String.raw`\Vert`;
+      return signe(valeur * signes[1][indice]);
+    });
+    const [numerateur, denominateur] = facteurs.map(({ expression }) => expression);
+    const resultat = quotient
+      ? "A(x)"
+      : `(${numerateur})(${denominateur})`;
     return array([
       ["x", String.raw`-\infty`, "", racines[0], "", racines[1], "", String.raw`+\infty`],
       ...facteurs.map(({ expression }, indice) => [
         expression, "", ...signes[indice].map((valeur, colonne) =>
           colonne % 2 === 1 && valeur !== 0 ? "" : signe(valeur)), "",
       ]),
-      [facteurs.map(({ expression }) => "(" + expression + ")").join(""), "", ...produit, ""],
+      [resultat, "", ...signesResultat, ""],
     ]);
   }
 

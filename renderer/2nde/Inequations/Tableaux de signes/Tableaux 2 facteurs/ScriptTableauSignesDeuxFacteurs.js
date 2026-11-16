@@ -171,52 +171,25 @@ const tableauSignes = DesumathsTableauxLatex.signesDeuxFacteurs([
 ]);
 DesumathsTableauxLatex.afficher(document.getElementById("tableauCorrection"), tableauSignes);
 
-let enonce = document.getElementById('enonce');
-let enonce2 = document.getElementById('enonce2');
-let correctiond = document.getElementById('correctiond');
-let correction1 = document.getElementById('correction1');
-let correction2 = document.getElementById('correction2');
-let correction3 = document.getElementById('correction3');
-var correction = document.getElementById('correction');
-var solutions = document.getElementById('solutions');
-let solution = document.getElementById('solution');
-let solutionRB = document.getElementById('solutionRB');
-let solutionRH = document.getElementById('solutionRH');
-
 let listeenonces = [`Résoudre dans $\\mathbb{R}$ l'inéquation : $(${a1}x${sb1}${b1})(${a2}x${sb2}${b2})${signe}0$`];
 
-let listecorrection = [``];
+document.getElementById('enonce').innerHTML = listeenonces[0];
 
-enonce.innerHTML = listeenonces[0];
-enonce2.innerHTML = ``;
+document.getElementById('solution').textContent = `$S=${sol}$`;
 
-solution.innerHTML = `$S=${sol}$`;
-
-correction1.innerHTML = `On cherche d'abord les nombres qui seront inscrits sur la première ligne :<br>
+document.getElementById('correction1').innerHTML = `On cherche d'abord les nombres qui seront inscrits sur la première ligne :<br>
 $\\dfrac{${opb1}}{${coeff1[0]}}=${x1}$ et $\\dfrac{${opb2}}{${coeff2[0]}}=${x2} $`;
-correction2.innerHTML = `$S=${sol}$`;
+document.getElementById('correction2').textContent = `$S=${sol}$`;
 
-solutions.addEventListener('click', () => {
-    solution.style.display = "block";
-    })
+for (const id of ['solutions', 'correction']) {
+    const bouton = document.getElementById(id);
+    const panneau = document.getElementById(bouton.getAttribute('aria-controls'));
+    const libelle = bouton.textContent;
+    bouton.addEventListener('click', () => {
+        panneau.hidden = !panneau.hidden;
+        bouton.setAttribute('aria-expanded', String(!panneau.hidden));
+        bouton.textContent = panneau.hidden ? libelle : libelle.replace('Afficher', 'Masquer');
+    });
+}
 
-correction.addEventListener('click', () => {
-    correctiond.style.display = "block";
-    correctiond.innerHTML ;
-})
-
-recommencer.addEventListener('click', () => {
-    location.reload(true);
-})
-
-accueil.addEventListener('click', () => {
-    location.href = "../../../../index.html";
-})
-
-MenuSeconde.addEventListener('click', () => {
-    location.href = "../../../../Menus/MenuSeconde.html";
-})
-
-MenuSecondeEquations.addEventListener('click', () => {
-    location.href = "../../../../Menus/MenuSecondeInequations.html";
-})
+document.getElementById('recommencer').addEventListener('click', () => location.reload());

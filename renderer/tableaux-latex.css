@@ -27,3 +27,8 @@
 .tableau-latex--signes mjx-mtr:not(:first-child) > mjx-mtd:is(:nth-child(4), :nth-child(6)):has(mjx-c.mjx-c30)::before {
   clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%, 0 75%, 100% 75%, 100% 100%, 0 100%);
 }
+
+.tableau-latex--signes[data-borne-interdite="gauche"] mjx-mtr:last-child > mjx-mtd:nth-child(4)::before,
+.tableau-latex--signes[data-borne-interdite="droite"] mjx-mtr:last-child > mjx-mtd:nth-child(6)::before {
+  content: none;
+}
