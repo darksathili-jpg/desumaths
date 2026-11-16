@@ -15,10 +15,6 @@
       overflow-x: auto;
     }
 
-    #correction1 {
-      overflow-x: auto;
-    }
-
     @media (max-width: 720px) {
       .entete {
         position: static;
@@ -76,7 +72,7 @@
           <p>Repère le zéro du numérateur et la valeur interdite, puis lis les signes du quotient.</p>
           <button id="correction" type="button" class="action-secondaire" aria-controls="correctiond" aria-expanded="false">Afficher la correction détaillée</button>
           <div id="correctiond" class="reponse-cachee" aria-labelledby="titre-correction" hidden>
-            <div id="correction1" role="region" aria-label="Calcul des valeurs à placer dans le tableau" tabindex="0"></div>
+            <div id="correction1"></div>
             <div id="tableauCorrection" class="tableau-latex tableau-latex--signes" role="region" aria-label="Tableau de signes, défilement horizontal si nécessaire" tabindex="0"></div>
             <div id="valeurInterdite"></div>
             <div id="correction2"></div>

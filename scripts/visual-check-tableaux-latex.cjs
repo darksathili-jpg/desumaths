@@ -34,6 +34,11 @@ async function verifier(browser, relative, variations, quotient, width) {
       assert.equal(await figure.locator('mjx-c.MJXc-2197, mjx-c.MJXc-2198, mjx-c.mjx-c2197, mjx-c.mjx-c2198').count(), 2);
     } else {
       assert.equal(await page.locator('main.exercice-layout').count(), 1);
+      const calculs = page.locator('#correction1');
+      await calculs.locator('mjx-container').first().waitFor({ state: 'visible' });
+      assert.equal(await calculs.evaluate(el => getComputedStyle(el).overflowY), 'visible');
+      assert.ok(await calculs.evaluate(el => el.scrollWidth <= el.clientWidth + 1));
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       const bornes = await page.evaluate(() => [x1, x2]);
       const interdite = !quotient ? -1 : bornes[1] < bornes[0] ? 27 : 29;
       const rules = await figure.locator('mjx-mtr > mjx-mtd').evaluateAll(cells => cells.map(cell => {
